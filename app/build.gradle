@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "com.ztc1997.fingerprint2sleep"
+        minSdkVersion 23
+        targetSdkVersion 24
+        versionCode 1
+        versionName "0.1.0"
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    // Android support library
+    compile "com.android.support:appcompat-v7:$supportLibVersion"
+
+    // DSL
+    compile "org.jetbrains.anko:anko-sdk23:$ankoVersion"
+    compile "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
+
+    // Firebase
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.google.firebase:firebase-ads:9.4.0'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
+    }
+}
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
