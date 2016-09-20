@@ -16,4 +16,6 @@
     <string name="notification_content_text_error">指纹认证错误，将在下次开启屏幕时重试</string>
     <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
     <string name="title_pref_foreground_service">前台服务</string>
+    <string name="title_pref_donate">捐赠</string>
+    <string name="summary_pref_donate">如果你喜欢这个应用，可以考虑给我买杯咖啡。</string>
 </resources>
