@@ -15,7 +15,7 @@ On MIUI, go to `Settings`→`Battery & performance`→`Manager apps battery usag
 
 ## Donate
 
-If you like Actinium and want to support the developer of this repo, consider buying me a cup of coffee.  
+If you like Actinium and want to support the developer of this repo, consider buying me a cup of coffee.
 [Donate](./DONATE.md)
 
 ## License
