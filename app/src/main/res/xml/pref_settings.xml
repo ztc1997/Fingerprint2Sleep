@@ -18,6 +18,11 @@
         android:key="pref_foreground_service"
         android:summary="@string/summary_pref_foreground_service"
         android:title="@string/title_pref_foreground_service" />
+    <CheckBoxPreference
+        android:dependency="pref_enable_fingerprint2sleep"
+        android:key="pref_lock_screen_with_power_button_as_root"
+        android:summary="@string/summary_pref_lock_screen_with_power_button_as_root"
+        android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
     <Preference
         android:key="pref_donate"
         android:summary="@string/summary_pref_donate"

@@ -8,10 +8,8 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
 import android.support.v7.app.NotificationCompat
-import org.jetbrains.anko.defaultSharedPreferences
-import org.jetbrains.anko.devicePolicyManager
-import org.jetbrains.anko.fingerprintManager
-import org.jetbrains.anko.toast
+import com.jarsilio.android.waveup.Root
+import org.jetbrains.anko.*
 
 class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
@@ -105,7 +103,10 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     fun goToSleep() {
-        devicePolicyManager.lockNow()
+        if (defaultSharedPreferences.getBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
+            async() { Root.pressPowerButton() }
+        else
+            devicePolicyManager.lockNow()
     }
 
     fun startForegroundIfSet() = startForegroundIfSet(isError)

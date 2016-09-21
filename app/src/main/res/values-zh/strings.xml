@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">指纹休眠</string>
     <string name="explanation_device_admin">指纹休眠需要激活设备管理器才能工作</string>
-    <string name="msg_dialog_device_admin_failed">激活设备管理器失败</string>
     <string name="msg_dialog_device_does_not_support_fingerprint">设备不支持指纹认证</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
     <string name="title_pref_enable_fingerprint2sleep">启用指纹休眠</string>
@@ -18,4 +17,8 @@
     <string name="title_pref_foreground_service">前台服务</string>
     <string name="title_pref_donate">捐赠</string>
     <string name="summary_pref_donate">如果你喜欢这个应用，可以考虑给我买杯咖啡。</string>
+    <string name="toast_device_admin_failed">激活设备管理器失败</string>
+    <string name="toast_root_access_failed">无法取得 Root 权限</string>
+    <string name="title_pref_lock_screen_with_power_button_as_root">解决 Smart Lock 和指纹解锁的问题</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
 </resources>

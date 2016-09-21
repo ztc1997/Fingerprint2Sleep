@@ -12,11 +12,9 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.ads.AdRequest
+import com.jarsilio.android.waveup.Root
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.defaultSharedPreferences
-import org.jetbrains.anko.devicePolicyManager
-import org.jetbrains.anko.fingerprintManager
-import org.jetbrains.anko.startService
+import org.jetbrains.anko.*
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
@@ -26,6 +24,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_DISABLE_ADS = "pref_disable_ads"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_DONATE = "pref_donate"
+        const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val REQUEST_CODE_DEVICE_ADMIN = 0
     }
 
@@ -42,7 +41,10 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             return
         }
 
-        checkDeviceAdmin()
+        if (defaultSharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
+            checkRootAccess()
+        else
+            checkDeviceAdmin()
 
         if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT2SLEEP, false))
             startService<FP2SService>()
@@ -69,14 +71,18 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         }
     }
 
+    fun checkRootAccess() {
+        async() {
+            if (!Root.requestSuPermission()) {
+                uiThread { toast(R.string.toast_root_access_failed) }
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_DEVICE_ADMIN && resultCode != Activity.RESULT_OK) {
-            alert(R.string.msg_dialog_device_admin_failed) {
-                positiveButton(android.R.string.ok) { finish() }
-                onCancel { finish() }
-                show()
-            }
+            toast(R.string.toast_device_admin_failed)
         }
     }
 
@@ -95,13 +101,18 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             PREF_ENABLE_FINGERPRINT2SLEEP -> if (sharedPreferences.getBoolean(key, false))
                 startService<FP2SService>()
 
-            PREF_DISABLE_ADS -> if (defaultSharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
+            PREF_DISABLE_ADS -> if (sharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
                 adView.visibility = View.GONE
             } else {
                 adView.visibility = View.VISIBLE
                 val adRequest = AdRequest.Builder().build()
                 adView.loadAd(adRequest)
             }
+
+            PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT -> if (sharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
+                checkRootAccess()
+            else
+                checkDeviceAdmin()
         }
     }
 
