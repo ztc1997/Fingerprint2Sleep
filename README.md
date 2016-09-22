@@ -1,21 +1,25 @@
 [![GitHub version](https://badge.fury.io/gh/ztc1997%2FFingerprint2Sleep.svg)](https://github.com/ztc1997/Fingerprint2Sleep/releases) ![license](http://img.shields.io/badge/license-GPLv3-brightgreen.svg) ![platform](http://img.shields.io/badge/platform-Android-blue.svg)
 # Fingerprint to Sleep
 
-Sleep your device via fingerprint sensor. Currently, it only works
-well on MIUI, in other systems it will cause the fingerprint to
-unlock doesn't work.
+Sleep your device via tap fingerprint sensor.
+
+Many devices have fingerprint sensor, and have the feature fingerprint to unlock or fingerprint to wake, so i developed this simple app to sleep your device via tap fingerprint sensor.
+
+Fingerprint to Unlock use DevicePolicyManager API to sleep your device by default, however, in many ROMs, it will cause Smart Lock and fingerprint to unlock doesn't work, by my test, it is only works properly on MIUI ROMs. So the app provide another way to sleep your device, that is simulating a power button press, this method requires Root Access.
+
+When other apps using the fingerprint sensor, Fingerprint to Unlock will be temporarily disabled until next time you switch on screen.
 
 ## Tips
 
-1. If you Boot Manager app, please allow `Fingerprint to Sleep` autostart.
+1. If you Boot Manager app, please allow `Fingerprint to Sleep` autostart.<br>
 On MIUI, go to `Security`→`Permissions`→`Autostart`, and choose `Fingerprint to Sleep`.
-2. If you use Task Management app, please add `Fingerprint to Sleep` to whitelist.
+2. If you use Task Management app, please add `Fingerprint to Sleep` to whitelist.<br>
 On MIUI, go to `Settings`→`Battery & performance`→`Manager apps battery usage`
 →`Choose apps`→`Fingerprint to Sleep`, and choose `No restriction`.
 
 ## Donate
 
-If you like Actinium and want to support the developer of this repo, consider buying me a cup of coffee.
+If you like this app and want to support the developer of this repo, consider buying me a cup of coffee.<br>
 [Donate](./DONATE.md)
 
 ## License
