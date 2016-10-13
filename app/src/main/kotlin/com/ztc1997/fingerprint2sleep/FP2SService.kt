@@ -128,7 +128,7 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
 
     fun goToSleep() {
         if (defaultSharedPreferences.getBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-            async() { Root.pressPowerButton() }
+            doAsync { Root.pressPowerButton() }
         else
             devicePolicyManager.lockNow()
     }

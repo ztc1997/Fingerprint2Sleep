@@ -80,7 +80,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     fun checkRootAccess() {
-        async() {
+        doAsync {
             if (!Root.requestSuPermission()) {
                 uiThread { toast(R.string.toast_root_access_failed) }
             }

@@ -25,3 +25,6 @@
     public static int d(...);
     public static int e(...);
 }
+
+-dontwarn org.jetbrains.anko.**
+-keep class org.jetbrains.anko.** { *;}
