@@ -27,16 +27,18 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
 
     var cancellationSignal = CancellationSignal()
 
+    var lastIntent: Intent? = null
+
     val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
-            goToSleep()
+            doOnFingerprintDetected()
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
             if (!defaultSharedPreferences.getBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
-                goToSleep()
+                doOnFingerprintDetected()
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
@@ -49,9 +51,7 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
 
     val presentReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            val startIntent = Intent(context, SplashActivity::class.java)
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(startIntent)
+            restartFingerprintScanning()
         }
     }
 
@@ -66,6 +66,12 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
         fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
 
         isError = false
+
+        lastIntent?.let {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(it)
+            lastIntent = null
+        }
 
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
@@ -96,9 +102,27 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
         when (key) {
             SettingsActivity.PREF_FOREGROUND_SERVICE -> startForegroundIfSet()
 
-            SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP ->
+            SettingsActivity.PREF_ENABLE_FINGERPRINT2ACTION ->
                 if (!sharedPreferences.getBoolean(key, false))
                     stopSelf()
+        }
+    }
+
+    fun restartFingerprintScanning() {
+        val startIntent = Intent(this, SplashActivity::class.java)
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(startIntent)
+    }
+
+    fun doOnFingerprintDetected() {
+        when (defaultSharedPreferences.getString(SettingsActivity.PREF_FINGERPRINT_ACTION,
+                SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_SLEEP)) {
+            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_SLEEP -> goToSleep()
+            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_HOME -> goToHome()
+            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_EXPEND_NOTIFICATIONS_PANEL -> expandNotificationsPanel()
         }
     }
 
@@ -107,6 +131,25 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
             async() { Root.pressPowerButton() }
         else
             devicePolicyManager.lockNow()
+    }
+
+    fun goToHome() {
+        lastIntent = Intent(Intent.ACTION_MAIN)
+        lastIntent!!.addCategory(Intent.CATEGORY_HOME)
+        restartFingerprintScanning()
+    }
+
+
+    fun expandNotificationsPanel() {
+        try {
+            val service = getSystemService("statusbar")
+            val statusBarManager = Class.forName("android.app.StatusBarManager")
+            val expand = statusBarManager.getMethod("expandNotificationsPanel")
+            expand.invoke(service)
+        } catch (e: Exception) {
+            toast(R.string.toast_failed_to_expend_notifications_panel)
+        }
+        restartFingerprintScanning()
     }
 
     fun startForegroundIfSet() = startForegroundIfSet(isError)

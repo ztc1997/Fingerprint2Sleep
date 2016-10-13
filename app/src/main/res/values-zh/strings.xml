@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">指纹休眠</string>
+    <string name="app_name">指纹行动</string>
     <string name="explanation_device_admin">指纹休眠需要激活设备管理器才能工作</string>
     <string name="msg_dialog_device_does_not_support_fingerprint">设备不支持指纹认证</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
-    <string name="title_pref_enable_fingerprint2sleep">启用指纹休眠</string>
+    <string name="title_pref_enable_fingerprint2action">启用指纹行动</string>
     <string name="title_pref_response_enrolled_fingerprint_only">仅响应已注册的指纹</string>
     <string name="summary_pref_disable_ads">观看和点击广告可以激励开发者做得更好，但如果你对此感到反感，可以将其关闭</string>
     <string name="title_pref_disable_ads">关闭广告</string>
@@ -21,4 +21,10 @@
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
     <string name="title_pref_lock_screen_with_power_button_as_root">解决 Smart Lock 和指纹解锁的问题</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
+    <string name="entries_pref_fingerprint_action_expend_notifications_panel">展开通知面板</string>
+    <string name="entries_pref_fingerprint_action_home">主页</string>
+    <string name="entries_pref_fingerprint_action_sleep">休眠</string>
+    <string name="title_pref_category_fingerprint2sleep">指纹休眠</string>
+    <string name="title_pref_fingerprint_action">指纹行动</string>
+    <string name="toast_failed_to_expend_notifications_panel">展开通知面板失败</string>
 </resources>

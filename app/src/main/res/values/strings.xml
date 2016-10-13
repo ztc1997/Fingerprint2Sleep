@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Fingerprint to Sleep</string>
-    <string name="title_pref_enable_fingerprint2sleep">Enable fingerprint to lock</string>
+    <string name="app_name">Fingerprint to Action</string>
+    <string name="title_pref_enable_fingerprint2action">Enable Fingerprint to Action</string>
     <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
     <string name="explanation_device_admin">Fingerprint to Sleep needs activating device administrator to work</string>
     <string name="title_pref_response_enrolled_fingerprint_only">Response enrolled fingerprints only</string>
@@ -21,4 +21,10 @@
     <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switch off screen simulating a power button press.</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
     <string name="toast_device_admin_failed">Failed to activate device administrator</string>
+    <string name="title_pref_fingerprint_action">Fingerprint action</string>
+    <string name="entries_pref_fingerprint_action_sleep">Sleep</string>
+    <string name="entries_pref_fingerprint_action_home">Home</string>
+    <string name="entries_pref_fingerprint_action_expend_notifications_panel">Expend Notifications Panel</string>
+    <string name="title_pref_category_fingerprint2sleep">Fingerprint to Sleep</string>
+    <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
 </resources>

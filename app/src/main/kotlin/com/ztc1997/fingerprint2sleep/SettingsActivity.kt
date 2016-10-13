@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
@@ -19,12 +20,19 @@ import org.jetbrains.anko.*
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
+        const val PREF_ENABLE_FINGERPRINT2ACTION = "pref_enable_fingerprint2action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_DISABLE_ADS = "pref_disable_ads"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
+        const val PREF_FINGERPRINT_ACTION = "pref_fingerprint_action"
+
+        const val VALUES_PREF_FINGERPRINT_ACTION_SLEEP = "sleep"
+        const val VALUES_PREF_FINGERPRINT_ACTION_HOME = "home"
+        const val VALUES_PREF_FINGERPRINT_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
+
         const val REQUEST_CODE_DEVICE_ADMIN = 0
     }
 
@@ -46,7 +54,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         else
             checkDeviceAdmin()
 
-        if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT2SLEEP, false))
+        if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT2ACTION, false))
             startService<FP2SService>()
 
         if (defaultSharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
@@ -98,7 +106,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
-            PREF_ENABLE_FINGERPRINT2SLEEP -> if (sharedPreferences.getBoolean(key, false))
+            PREF_ENABLE_FINGERPRINT2ACTION -> if (sharedPreferences.getBoolean(key, false))
                 startService<FP2SService>()
 
             PREF_DISABLE_ADS -> if (sharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
@@ -116,8 +124,9 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         }
     }
 
-    class SettingsFragment : PreferenceFragment() {
+    class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
+        val fingerprintAction by lazy { findPreference(PREF_FINGERPRINT_ACTION) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -126,6 +135,24 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             donate.setOnPreferenceClickListener {
                 openUri("https://github.com/ztc1997/Fingerprint2Sleep/blob/master/DONATE.md")
                 true
+            }
+
+            fingerprintAction.summary = fingerprintAction.entry
+        }
+
+        override fun onResume() {
+            super.onResume()
+            defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        }
+
+        override fun onPause() {
+            super.onPause()
+            defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        }
+
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+            when (key) {
+                PREF_FINGERPRINT_ACTION -> fingerprintAction.summary = fingerprintAction.entry
             }
         }
 

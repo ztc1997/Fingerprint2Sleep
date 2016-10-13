@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference
-        android:key="pref_enable_fingerprint2sleep"
-        android:title="@string/title_pref_enable_fingerprint2sleep" />
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint2sleep"
-        android:key="pref_response_enrolled_fingerprint_only"
-        android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
-        android:title="@string/title_pref_response_enrolled_fingerprint_only" />
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint2sleep"
-        android:key="pref_notify_on_error"
-        android:summary="@string/summary_pref_notify_on_error"
-        android:title="@string/title_pref_notify_on_error" />
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint2sleep"
-        android:key="pref_foreground_service"
-        android:summary="@string/summary_pref_foreground_service"
-        android:title="@string/title_pref_foreground_service" />
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint2sleep"
-        android:key="pref_lock_screen_with_power_button_as_root"
-        android:summary="@string/summary_pref_lock_screen_with_power_button_as_root"
-        android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
+        android:key="pref_enable_fingerprint2action"
+        android:title="@string/title_pref_enable_fingerprint2action" />
+
+    <ListPreference
+        android:dependency="pref_enable_fingerprint2action"
+        android:entries="@array/entries_pref_fingerprint_action"
+        android:entryValues="@array/values_pref_fingerprint_action"
+        android:key="pref_fingerprint_action"
+        android:defaultValue="sleep"
+        android:title="@string/title_pref_fingerprint_action" />
+
     <Preference
         android:key="pref_donate"
         android:summary="@string/summary_pref_donate"
         android:title="@string/title_pref_donate" />
+
     <CheckBoxPreference
         android:key="pref_disable_ads"
         android:summary="@string/summary_pref_disable_ads"
         android:title="@string/title_pref_disable_ads" />
+
+    <PreferenceCategory
+        android:dependency="pref_enable_fingerprint2action"
+        android:title="@string/title_pref_category_fingerprint2sleep">
+
+        <CheckBoxPreference
+            android:key="pref_response_enrolled_fingerprint_only"
+            android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
+            android:title="@string/title_pref_response_enrolled_fingerprint_only" />
+
+        <CheckBoxPreference
+            android:key="pref_notify_on_error"
+            android:summary="@string/summary_pref_notify_on_error"
+            android:title="@string/title_pref_notify_on_error" />
+
+        <CheckBoxPreference
+            android:key="pref_foreground_service"
+            android:summary="@string/summary_pref_foreground_service"
+            android:title="@string/title_pref_foreground_service" />
+
+        <CheckBoxPreference
+            android:key="pref_lock_screen_with_power_button_as_root"
+            android:summary="@string/summary_pref_lock_screen_with_power_button_as_root"
+            android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
+    </PreferenceCategory>
 </PreferenceScreen>
