@@ -102,7 +102,7 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
         when (key) {
             SettingsActivity.PREF_FOREGROUND_SERVICE -> startForegroundIfSet()
 
-            SettingsActivity.PREF_ENABLE_FINGERPRINT2ACTION ->
+            SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION ->
                 if (!sharedPreferences.getBoolean(key, false))
                     stopSelf()
         }

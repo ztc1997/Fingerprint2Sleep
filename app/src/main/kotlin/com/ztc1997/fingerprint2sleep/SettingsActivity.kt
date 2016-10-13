@@ -19,8 +19,9 @@ import org.jetbrains.anko.*
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
+        const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
+
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
-        const val PREF_ENABLE_FINGERPRINT2ACTION = "pref_enable_fingerprint2action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_DISABLE_ADS = "pref_disable_ads"
@@ -54,7 +55,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         else
             checkDeviceAdmin()
 
-        if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT2ACTION, false))
+        if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             startService<FP2SService>()
 
         if (defaultSharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
@@ -106,7 +107,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
-            PREF_ENABLE_FINGERPRINT2ACTION -> if (sharedPreferences.getBoolean(key, false))
+            PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> if (sharedPreferences.getBoolean(key, false))
                 startService<FP2SService>()
 
             PREF_DISABLE_ADS -> if (sharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {

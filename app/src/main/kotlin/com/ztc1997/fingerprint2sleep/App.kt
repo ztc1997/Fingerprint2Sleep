@@ -7,10 +7,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (defaultSharedPreferences.contains(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION)) {
-            defaultSharedPreferences.edit().putBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT2ACTION,
-                    defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
-                    .remove(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION)
+        if (defaultSharedPreferences.contains(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP)) {
+            defaultSharedPreferences.edit().putBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
+                    defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP, false))
+                    .remove(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP)
                     .apply()
         }
     }
