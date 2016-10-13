@@ -118,11 +118,11 @@ class FP2SService : Service(), SharedPreferences.OnSharedPreferenceChangeListene
     }
 
     fun doOnFingerprintDetected() {
-        when (defaultSharedPreferences.getString(SettingsActivity.PREF_FINGERPRINT_ACTION,
-                SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_SLEEP)) {
-            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_SLEEP -> goToSleep()
-            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_HOME -> goToHome()
-            SettingsActivity.VALUES_PREF_FINGERPRINT_ACTION_EXPEND_NOTIFICATIONS_PANEL -> expandNotificationsPanel()
+        when (defaultSharedPreferences.getString(SettingsActivity.PREF_QUICK_ACTION,
+                SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP)) {
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> goToSleep()
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME -> goToHome()
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL -> expandNotificationsPanel()
         }
     }
 

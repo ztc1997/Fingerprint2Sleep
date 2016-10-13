@@ -19,7 +19,7 @@ import org.jetbrains.anko.*
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
-        const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
+        const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_ENABLE_FINGERPRINT2ACTION = "pref_enable_fingerprint2action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
@@ -27,11 +27,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
-        const val PREF_FINGERPRINT_ACTION = "pref_fingerprint_action"
+        const val PREF_QUICK_ACTION = "pref_quick_action"
 
-        const val VALUES_PREF_FINGERPRINT_ACTION_SLEEP = "sleep"
-        const val VALUES_PREF_FINGERPRINT_ACTION_HOME = "home"
-        const val VALUES_PREF_FINGERPRINT_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
+        const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
+        const val VALUES_PREF_QUICK_ACTION_HOME = "home"
+        const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
 
         const val REQUEST_CODE_DEVICE_ADMIN = 0
     }
@@ -126,7 +126,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
-        val fingerprintAction by lazy { findPreference(PREF_FINGERPRINT_ACTION) as ListPreference }
+        val fingerprintAction by lazy { findPreference(PREF_QUICK_ACTION) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -152,7 +152,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             when (key) {
-                PREF_FINGERPRINT_ACTION -> fingerprintAction.summary = fingerprintAction.entry
+                PREF_QUICK_ACTION -> fingerprintAction.summary = fingerprintAction.entry
             }
         }
 

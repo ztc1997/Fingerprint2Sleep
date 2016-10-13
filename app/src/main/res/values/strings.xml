@@ -1,30 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fingerprint to Action</string>
-    <string name="title_pref_enable_fingerprint2action">Enable Fingerprint to Action</string>
-    <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
-    <string name="explanation_device_admin">Fingerprint to Sleep needs activating device administrator to work</string>
-    <string name="title_pref_response_enrolled_fingerprint_only">Response enrolled fingerprints only</string>
-    <string name="summary_pref_response_enrolled_fingerprint_only">If enable it, fingerprint authentication will be cancel after 4 failed attempts</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
-    <string name="summary_pref_disable_ads">Watching and clicking ads can motivate developers to do better, but if you\\\'re feeling disgusted, you can close them down.</string>
-    <string name="title_pref_disable_ads">Disable ads</string>
-    <string name="summary_pref_notify_on_error">Show message on fingerprint authentication error occur via Toast</string>
-    <string name="title_pref_notify_on_error">Notify on error</string>
-    <string name="toast_notify_on_error">Fingerprint to Sleep: Error\n%1$s</string>
-    <string name="notification_content_text">Fingerprint to Sleep is running</string>
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <!-- FP2SService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action is running</string>
     <string name="notification_content_text_error">Fingerprint authentication error, will retry next time you Switch on screen</string>
-    <string name="title_pref_foreground_service">Foreground service</string>
-    <string name="summary_pref_foreground_service">Use foreground service to prevent it from being killed by system, this will display a notification</string>
+    <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
+
+    <!-- SettingsActivity -->
+    <string name="explanation_device_admin">Fingerprint Quick Action needs activating device administrator to work</string>
+    <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
+    <string name="toast_device_admin_failed">Failed to activate device administrator</string>
+    <string name="toast_root_access_failed">Couldn\'t get root access</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
+
+    <string name="title_pref_quick_action">Quick Action</string>
+    <string name="entries_pref_quick_action_expend_notifications_panel">Expend Notifications Panel</string>
+    <string name="entries_pref_quick_action_home">Home</string>
+    <string name="entries_pref_quick_action_sleep">Sleep</string>
+
     <string name="title_pref_donate">Donate</string>
     <string name="summary_pref_donate">If you like this app, consider buying me a cup of coffee.</string>
-    <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Smart Lock and Fingerprint to Unlock</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switch off screen simulating a power button press.</string>
-    <string name="toast_root_access_failed">Couldn\'t get root access</string>
-    <string name="toast_device_admin_failed">Failed to activate device administrator</string>
-    <string name="title_pref_fingerprint_action">Fingerprint action</string>
-    <string name="entries_pref_fingerprint_action_sleep">Sleep</string>
-    <string name="entries_pref_fingerprint_action_home">Home</string>
-    <string name="entries_pref_fingerprint_action_expend_notifications_panel">Expend Notifications Panel</string>
+
+    <string name="title_pref_disable_ads">Disable ads</string>
+    <string name="summary_pref_disable_ads">Watching and clicking ads can motivate developers to do better, but if you\\\'re feeling disgusted, you can close them down.</string>
+
     <string name="title_pref_category_fingerprint2sleep">Fingerprint to Sleep</string>
-    <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
+
+    <string name="title_pref_notify_on_error">Notify on error</string>
+    <string name="summary_pref_notify_on_error">Show message on fingerprint authentication error occur via Toast</string>
+
+    <string name="title_pref_foreground_service">Foreground service</string>
+    <string name="summary_pref_foreground_service">Use foreground service to prevent it from being killed by system, this will display a notification</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Response enrolled fingerprints only</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">If enable it, fingerprint authentication will be cancel after 4 failed attempts</string>
+
+    <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switch off screen simulating a power button press.</string>
+
+    <!-- AdMob -->
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
 </resources>

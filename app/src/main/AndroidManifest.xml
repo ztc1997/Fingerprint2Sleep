@@ -29,7 +29,8 @@
         <service
             android:name=".FP2SService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/app_name" />
 
         <receiver
             android:name=".AdminReceiver"
