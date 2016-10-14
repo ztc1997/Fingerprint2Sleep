@@ -27,6 +27,11 @@
             android:process=":bg"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:name=".RequireAdminActivity"
+            android:process=":bg"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <service
             android:name=".FPQAService"
             android:enabled="true"

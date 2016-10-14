@@ -1,7 +1,5 @@
 package com.ztc1997.fingerprint2sleep
 
-import android.app.Activity
-import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -37,8 +35,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_HOME = "home"
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
 
-        const val REQUEST_CODE_DEVICE_ADMIN = 0
-
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
@@ -72,8 +68,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         if (defaultSharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
             checkRootAccess()
-        else
-            checkDeviceAdmin()
 
         if (defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             StartFPQAActivity.startActivity(ctx)
@@ -89,29 +83,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         }
     }
 
-    fun checkDeviceAdmin() {
-        val componentName = ComponentName(this, AdminReceiver::class.java)
-        if (!devicePolicyManager.isAdminActive(componentName)) {
-            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName)
-            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.explanation_device_admin))
-
-            startActivityForResult(intent, REQUEST_CODE_DEVICE_ADMIN)
-        }
-    }
-
     fun checkRootAccess() {
         doAsync {
             if (!Root.requestSuPermission()) {
                 uiThread { toast(R.string.toast_root_access_failed) }
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_DEVICE_ADMIN && resultCode != Activity.RESULT_OK) {
-            toast(R.string.toast_device_admin_failed)
         }
     }
 
@@ -154,8 +130,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
             PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT -> if (sharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
                 checkRootAccess()
-            else
-                checkDeviceAdmin()
         }
     }
 

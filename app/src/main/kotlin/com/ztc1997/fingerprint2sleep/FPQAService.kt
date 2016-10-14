@@ -3,10 +3,7 @@ package com.ztc1997.fingerprint2sleep
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
@@ -125,8 +122,13 @@ class FPQAService : Service() {
     fun goToSleep() {
         if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
             doAsync { Root.pressPowerButton() }
-        else
-            devicePolicyManager.lockNow()
+        else {
+            val componentName = ComponentName(this, AdminReceiver::class.java)
+            if (devicePolicyManager.isAdminActive(componentName))
+                devicePolicyManager.lockNow()
+            else
+                RequireAdminActivity.startActivity(ctx)
+        }
     }
 
     fun goToHome() {
