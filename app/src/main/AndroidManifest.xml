@@ -23,14 +23,16 @@
         </activity>
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".StartFPQAActivity"
+            android:process=":bg"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
-            android:name=".FP2SService"
+            android:name=".FPQAService"
             android:enabled="true"
             android:exported="false"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:process=":bg" />
 
         <receiver
             android:name=".AdminReceiver"
@@ -43,7 +45,9 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".BootReceiver">
+        <receiver
+            android:name=".BootReceiver"
+            android:process=":bg">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />

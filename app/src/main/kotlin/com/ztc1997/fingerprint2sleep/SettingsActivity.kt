@@ -4,9 +4,11 @@ import android.app.Activity
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.jarsilio.android.waveup.Root
+import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 
@@ -35,6 +38,23 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
 
         const val REQUEST_CODE_DEVICE_ADMIN = 0
+
+        val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
+                PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,
+                PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
+        val PREF_KEYS_STRING = setOf(PREF_QUICK_ACTION)
+    }
+
+    private var bgService: IFPQAService? = null
+
+    val conn = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            bgService = IFPQAService.Stub.asInterface(service)
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +75,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         else
             checkDeviceAdmin()
 
-        if (!FP2SService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
-            startService<FP2SService>()
+        if (defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+            StartFPQAActivity.startActivity(ctx)
 
         if (defaultSharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
             adView.visibility = View.GONE
@@ -97,18 +117,32 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onResume() {
         super.onResume()
+        bindService(Intent(this, FPQAService::class.java), conn, BIND_AUTO_CREATE)
         defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPause() {
         super.onPause()
+        unbindService(conn)
         defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        if (PREF_KEYS_BOOLEAN.contains(key))
+            defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+
+        if (PREF_KEYS_STRING.contains(key))
+            defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+
+        try {
+            bgService?.onPrefChanged(key)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         when (key) {
             PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> if (sharedPreferences.getBoolean(key, false))
-                startService<FP2SService>()
+                StartFPQAActivity.startActivity(ctx)
 
             PREF_DISABLE_ADS -> if (sharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
                 adView.visibility = View.GONE

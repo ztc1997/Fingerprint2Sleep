@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Fingerprint Quick Action</string>
 
-    <!-- FP2SService -->
+    <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action is running</string>
     <string name="notification_content_text_error">Fingerprint authentication error, will retry next time you Switch on screen</string>
