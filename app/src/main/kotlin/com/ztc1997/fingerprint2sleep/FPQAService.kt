@@ -90,6 +90,8 @@ class FPQAService : Service() {
             isScanning = true
         }
 
+        rxBus.post(FinishStartFPQAActivityEvent)
+
         isError = false
 
         lastIntent?.let {

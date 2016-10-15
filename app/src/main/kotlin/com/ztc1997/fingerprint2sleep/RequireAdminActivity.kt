@@ -45,5 +45,6 @@ class RequireAdminActivity : Activity() {
             }
 
         finish()
+        overridePendingTransition(0, 0)
     }
 }
