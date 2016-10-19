@@ -1,0 +1,3 @@
+package com.ztc1997.fingerprint2sleep.extra
+
+object FinishStartFPQAActivityEvent

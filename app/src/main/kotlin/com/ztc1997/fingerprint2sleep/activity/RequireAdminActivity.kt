@@ -1,4 +1,4 @@
-package com.ztc1997.fingerprint2sleep
+package com.ztc1997.fingerprint2sleep.activity
 
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
@@ -6,6 +6,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast

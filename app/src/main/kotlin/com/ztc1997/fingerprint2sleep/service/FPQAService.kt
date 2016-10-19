@@ -1,4 +1,4 @@
-package com.ztc1997.fingerprint2sleep
+package com.ztc1997.fingerprint2sleep.service
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -9,7 +9,15 @@ import android.os.CancellationSignal
 import android.os.IBinder
 import android.support.v7.app.NotificationCompat
 import com.jarsilio.android.waveup.Root
+import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
+import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
+import com.ztc1997.fingerprint2sleep.defaultDPreference
+import com.ztc1997.fingerprint2sleep.extension.rxBus
+import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
+import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import org.jetbrains.anko.*
 
 class FPQAService : Service() {
@@ -102,14 +110,6 @@ class FPQAService : Service() {
 
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     fun doOnFingerprintDetected() {

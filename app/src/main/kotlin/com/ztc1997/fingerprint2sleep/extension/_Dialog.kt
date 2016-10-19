@@ -1,4 +1,4 @@
-package com.ztc1997.fingerprint2sleep
+package com.ztc1997.fingerprint2sleep.extension
 
 import android.R
 import android.app.Fragment

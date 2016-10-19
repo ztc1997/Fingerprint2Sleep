@@ -1,10 +1,13 @@
-package com.ztc1997.fingerprint2sleep
+package com.ztc1997.fingerprint2sleep.activity
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.hwangjr.rxbus.annotation.Subscribe
+import com.ztc1997.fingerprint2sleep.extension.rxBus
+import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.startService
 
 class StartFPQAActivity : Activity() {

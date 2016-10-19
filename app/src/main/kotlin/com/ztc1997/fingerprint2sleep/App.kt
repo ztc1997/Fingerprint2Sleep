@@ -2,6 +2,7 @@ package com.ztc1997.fingerprint2sleep
 
 import android.app.Application
 import android.content.Context
+import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.defaultSharedPreferences
 

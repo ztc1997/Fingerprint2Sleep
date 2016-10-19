@@ -1,5 +1,6 @@
-package com.ztc1997.fingerprint2sleep
+package com.ztc1997.fingerprint2sleep.activity
 
+import android.R
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -15,6 +16,9 @@ import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.jarsilio.android.waveup.Root
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
+import com.ztc1997.fingerprint2sleep.defaultDPreference
+import com.ztc1997.fingerprint2sleep.extension.alert
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 
@@ -55,11 +59,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(com.ztc1997.fingerprint2sleep.R.layout.activity_settings)
 
         if (!fingerprintManager.isHardwareDetected) {
-            alert(R.string.msg_dialog_device_does_not_support_fingerprint) {
-                positiveButton(android.R.string.ok) { finish() }
+            alert(com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint) {
+                positiveButton(R.string.ok) { finish() }
                 onCancel { finish() }
                 show()
             }
@@ -86,7 +90,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     fun checkRootAccess() {
         doAsync {
             if (!Root.requestSuPermission()) {
-                uiThread { toast(R.string.toast_root_access_failed) }
+                uiThread { toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
             }
         }
     }
@@ -139,7 +143,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.pref_settings)
+            addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
 
             donate.setOnPreferenceClickListener {
                 openUri("https://github.com/ztc1997/Fingerprint2Sleep/blob/master/DONATE.md")
