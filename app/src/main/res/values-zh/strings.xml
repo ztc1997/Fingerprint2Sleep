@@ -5,7 +5,7 @@
     <!-- FPQAService -->
     <string name="toast_notify_on_error">指纹快捷操作：错误\n%1$s</string>
     <string name="notification_content_text">指纹快捷操作正在运行</string>
-    <string name="notification_content_text_error">指纹认证错误，将在下次开启屏幕时重试</string>
+    <string name="notification_content_text_error">指纹认证错误，很快将会重试</string>
     <string name="toast_failed_to_collapse_panel">收起面板失败</string>
 
     <!-- SettingsActivity -->

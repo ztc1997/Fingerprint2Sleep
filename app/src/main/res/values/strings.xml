@@ -5,7 +5,7 @@
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action is running</string>
-    <string name="notification_content_text_error">Fingerprint authentication error, will retry next time you Switch on screen</string>
+    <string name="notification_content_text_error">Fingerprint authentication error, will retry soon</string>
     <string name="toast_failed_to_collapse_panel">Failed to collapse panels</string>
 
     <!-- SettingsActivity -->
