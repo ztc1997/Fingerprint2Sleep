@@ -38,6 +38,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
         const val VALUES_PREF_QUICK_ACTION_HOME = "home"
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
+        const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,

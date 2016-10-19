@@ -10,6 +10,7 @@ import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
+import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -28,12 +29,19 @@ object QuickActions {
             val method = statusBarManager.getMethod("collapsePanels")
             method.invoke(service)
         } catch (e: Exception) {
-            app.toast(R.string.toast_failed_to_expend_notifications_panel)
+            app.toast(R.string.toast_failed_to_collapse_panel)
         }
     }
 
     fun expandNotificationsPanel() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS))
+    }
+
+    fun toggleNotificationsPanel() {
+        if (FPQAAccessibilityService.isNotificationPanelExpanded)
+            collapsePanels()
+        else
+            expandNotificationsPanel()
     }
 
     fun goToHome() {

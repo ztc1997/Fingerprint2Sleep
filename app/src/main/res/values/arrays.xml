@@ -4,10 +4,12 @@
         <item>@string/entries_pref_quick_action_sleep</item>
         <item>@string/entries_pref_quick_action_home</item>
         <item>@string/entries_pref_quick_action_expend_notifications_panel</item>
+        <item>@string/entries_pref_quick_action_toggle_notifications_panel</item>
     </string-array>
     <string-array name="values_pref_quick_action" translatable="false">
         <item>sleep</item>
         <item>home</item>
         <item>expend_notifications_panel</item>
+        <item>toggle_notifications_panel</item>
     </string-array>
 </resources>

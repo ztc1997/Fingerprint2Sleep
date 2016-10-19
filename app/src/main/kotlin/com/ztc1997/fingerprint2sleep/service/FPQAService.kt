@@ -134,18 +134,22 @@ class FPQAService : Service() {
     fun doOnFingerprintDetected() {
         when (defaultDPreference.getPrefString(SettingsActivity.PREF_QUICK_ACTION,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP)) {
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> QuickActions.goToSleep()
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> {
+                QuickActions.goToSleep()
+                return
+            }
 
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME -> {
-                StartFPQAActivity.startActivity(ctx)
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME ->
                 QuickActions.goToHome()
-            }
 
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL -> {
-                StartFPQAActivity.startActivity(ctx)
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL ->
                 QuickActions.expandNotificationsPanel()
-            }
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL ->
+                QuickActions.toggleNotificationsPanel()
         }
+
+        StartFPQAActivity.startActivity(ctx)
     }
 
     fun startFPQA() {

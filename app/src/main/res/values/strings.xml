@@ -6,7 +6,7 @@
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action is running</string>
     <string name="notification_content_text_error">Fingerprint authentication error, will retry next time you Switch on screen</string>
-    <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
+    <string name="toast_failed_to_collapse_panel">Failed to collapse panels</string>
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
@@ -14,7 +14,7 @@
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Sleep device needs device administrator to work</string>
-    <string name="description_accessibility">Fingerprint Quick Action needs Accessibility to detect interface switching, and perform some action</string>
+    <string name="description_accessibility">Fingerprint Quick Action needs Accessibility to detect interface switching and perform some action</string>
     <string name="toast_device_admin_failed">Failed to activate device administrator</string>
     <string name="toast_accessibility_failed">Failed to turn on Accessibility</string>
 
@@ -23,6 +23,7 @@
 
     <string name="title_pref_quick_action">Quick Action</string>
     <string name="entries_pref_quick_action_expend_notifications_panel">Expend Notifications Panel</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle Notifications Panel (Experimental)</string>
     <string name="entries_pref_quick_action_home">Home</string>
     <string name="entries_pref_quick_action_sleep">Sleep</string>
 

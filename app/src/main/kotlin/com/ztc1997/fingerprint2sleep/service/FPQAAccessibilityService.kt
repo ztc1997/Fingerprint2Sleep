@@ -31,10 +31,9 @@ class FPQAAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        isNotificationPanelExpanded = event.packageName == "com.android.systemui" &&
-                event.packageName == "android.widget.FrameLayout"
+        isNotificationPanelExpanded = event.packageName == "com.android.systemui"
 
-        if (event.eventType === AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             val componentName = ComponentName(
                     event.packageName.toString(),
                     event.className.toString())
