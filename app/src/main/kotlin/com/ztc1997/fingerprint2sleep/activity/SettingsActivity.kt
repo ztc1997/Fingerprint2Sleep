@@ -1,6 +1,5 @@
 package com.ztc1997.fingerprint2sleep.activity
 
-import android.R
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -15,6 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.jarsilio.android.waveup.Root
+import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.alert
@@ -59,11 +59,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.ztc1997.fingerprint2sleep.R.layout.activity_settings)
+        setContentView(R.layout.activity_settings)
 
         if (!fingerprintManager.isHardwareDetected) {
             alert(com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint) {
-                positiveButton(R.string.ok) { finish() }
+                positiveButton(android.R.string.ok) { finish() }
                 onCancel { finish() }
                 show()
             }

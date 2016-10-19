@@ -26,12 +26,17 @@
             android:name=".activity.StartFPQAActivity"
             android:excludeFromRecents="true"
             android:process=":bg"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/AppTheme.Translucent" />
 
         <activity
             android:name=".activity.RequireAdminActivity"
             android:process=":bg"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.RequireAccessibilityActivity"
+            android:process=":bg"
+            android:theme="@style/AppTheme.Translucent" />
 
         <service
             android:name=".service.FPQAService"
@@ -59,6 +64,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".service.FPQAAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:process=":bg"
+            android:settingsActivity=".activity.SettingsActivity">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service" />
+        </service>
     </application>
 
 </manifest>

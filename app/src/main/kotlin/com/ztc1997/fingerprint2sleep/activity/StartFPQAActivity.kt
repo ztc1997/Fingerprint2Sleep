@@ -1,16 +1,15 @@
 package com.ztc1997.fingerprint2sleep.activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.hwangjr.rxbus.annotation.Subscribe
-import com.ztc1997.fingerprint2sleep.extension.rxBus
+import android.support.v7.app.AppCompatActivity
+import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.startService
 
-class StartFPQAActivity : Activity() {
+class StartFPQAActivity : AppCompatActivity() {
     companion object {
         fun startActivity(context: Context) {
             val startIntent = Intent(context, StartFPQAActivity::class.java)
@@ -23,17 +22,16 @@ class StartFPQAActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rxBus.register(this)
+        Bus.observe<FinishStartFPQAActivityEvent>().subscribe { finishSelf() }
         startService<FPQAService>()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        rxBus.unregister(this)
+        Bus.unregister(this)
     }
 
-    @Subscribe
-    fun finishSelf(event: FinishStartFPQAActivityEvent) {
+    fun finishSelf() {
         finish()
         overridePendingTransition(0, 0)
     }

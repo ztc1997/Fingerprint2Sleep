@@ -44,7 +44,9 @@ dependencies {
     compile "com.google.firebase:firebase-crash:$firebaseVersion"
     compile "com.google.firebase:firebase-ads:$firebaseVersion"
 
-    compile 'com.hwangjr.rxbus:rxbus:1.0.5'
+    compile 'com.eightbitlab:rxbus:1.0.2'
+
+    compile 'com.orhanobut:logger:1.15'
 }
 
 buildscript {

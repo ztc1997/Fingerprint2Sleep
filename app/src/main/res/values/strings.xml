@@ -9,10 +9,14 @@
     <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
 
     <!-- SettingsActivity -->
-    <string name="explanation_device_admin">Fingerprint Quick Action needs activating device administrator to work</string>
     <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
-    <string name="toast_device_admin_failed">Failed to activate device administrator</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Sleep device needs device administrator to work</string>
+    <string name="description_accessibility">Fingerprint Quick Action needs Accessibility to detect interface switching, and perform some action</string>
+    <string name="toast_device_admin_failed">Failed to activate device administrator</string>
+    <string name="toast_accessibility_failed">Failed to turn on Accessibility</string>
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>

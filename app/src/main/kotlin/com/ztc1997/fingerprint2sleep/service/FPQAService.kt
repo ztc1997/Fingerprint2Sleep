@@ -3,22 +3,31 @@ package com.ztc1997.fingerprint2sleep.service
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
 import android.support.v7.app.NotificationCompat
-import com.jarsilio.android.waveup.Root
+import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.R
-import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
+import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
+import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
-import com.ztc1997.fingerprint2sleep.extension.rxBus
+import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
-import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
-import org.jetbrains.anko.*
+import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
+import com.ztc1997.fingerprint2sleep.util.AccessibilityUtil
+import com.ztc1997.fingerprint2sleep.util.QuickActions
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.toast
+import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
     companion object {
@@ -28,7 +37,13 @@ class FPQAService : Service() {
 
     var isRunning = false
 
+    var delayIsScanning = false
+
     var isScanning = false
+        set(value) {
+            field = value
+            Bus.send(IsScanningChangedEvent(value))
+        }
 
     var isError = false
         set(value) {
@@ -64,7 +79,8 @@ class FPQAService : Service() {
 
     val presentReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            StartFPQAActivity.startActivity(ctx)
+            if (!isScanning)
+                StartFPQAActivity.startActivity(ctx)
         }
     }
 
@@ -98,7 +114,7 @@ class FPQAService : Service() {
             isScanning = true
         }
 
-        rxBus.post(FinishStartFPQAActivityEvent)
+        Bus.send(FinishStartFPQAActivityEvent)
 
         isError = false
 
@@ -108,6 +124,9 @@ class FPQAService : Service() {
             lastIntent = null
         }
 
+        if (!AccessibilityUtil.isAccessibilityEnabled(app, FPQAAccessibilityService.ID))
+            RequireAccessibilityActivity.startActivity(this)
+
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
     }
@@ -115,34 +134,34 @@ class FPQAService : Service() {
     fun doOnFingerprintDetected() {
         when (defaultDPreference.getPrefString(SettingsActivity.PREF_QUICK_ACTION,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP)) {
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> goToSleep()
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME -> goToHome()
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL -> expandNotificationsPanel()
-        }
-    }
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> QuickActions.goToSleep()
 
-    fun goToSleep() {
-        if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-            doAsync { Root.pressPowerButton() }
-        else {
-            val componentName = ComponentName(this, AdminReceiver::class.java)
-            if (devicePolicyManager.isAdminActive(componentName))
-                devicePolicyManager.lockNow()
-            else
-                RequireAdminActivity.startActivity(ctx)
-        }
-    }
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME -> {
+                StartFPQAActivity.startActivity(ctx)
+                QuickActions.goToHome()
+            }
 
-    fun goToHome() {
-        lastIntent = Intent(Intent.ACTION_MAIN)
-        lastIntent!!.addCategory(Intent.CATEGORY_HOME)
-        StartFPQAActivity.startActivity(ctx)
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL -> {
+                StartFPQAActivity.startActivity(ctx)
+                QuickActions.expandNotificationsPanel()
+            }
+        }
     }
 
     fun startFPQA() {
         if (!isRunning) {
             registerReceiver(presentReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
             registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+
+            Bus.observe<ActivityChangedEvent>()
+                    .filter { !delayIsScanning }
+                    .throttleLast(1, TimeUnit.SECONDS)
+                    .filter { !isScanning }
+                    .subscribe { onActivityChanged() }
+
+            Bus.observe<IsScanningChangedEvent>()
+                    .throttleLast(1, TimeUnit.SECONDS)
+                    .subscribe { delayIsScanning = it.value }
 
             isRunning = true
         }
@@ -153,6 +172,9 @@ class FPQAService : Service() {
             unregisterReceiver(presentReceiver)
             unregisterReceiver(screenOffReceiver)
 
+            Bus.unregister(this)
+            delayIsScanning = isScanning
+
             cancellationSignal.cancel()
             stopForeground(true)
             stopSelf()
@@ -161,15 +183,7 @@ class FPQAService : Service() {
         }
     }
 
-    fun expandNotificationsPanel() {
-        try {
-            val service = getSystemService("statusbar")
-            val statusBarManager = Class.forName("android.app.StatusBarManager")
-            val expand = statusBarManager.getMethod("expandNotificationsPanel")
-            expand.invoke(service)
-        } catch (e: Exception) {
-            toast(R.string.toast_failed_to_expend_notifications_panel)
-        }
+    fun onActivityChanged() {
         StartFPQAActivity.startActivity(ctx)
     }
 
