@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion Integer.parseInt("$compileSdkVer")
+    buildToolsVersion "$buildToolsVer"
 
     defaultConfig {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
-        targetSdkVersion 24
+        targetSdkVersion Integer.parseInt("$targetSdkVer")
         versionCode 4
         versionName "0.3.1"
     }
