@@ -13,14 +13,15 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.ads.AdRequest
-import com.jarsilio.android.waveup.Root
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.fingerprintManager
 
 class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
@@ -71,9 +72,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             return
         }
 
-        if (defaultSharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-            checkRootAccess()
-
         if (defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             StartFPQAActivity.startActivity(ctx)
 
@@ -85,14 +83,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .build()
             adView.loadAd(adRequest)
-        }
-    }
-
-    fun checkRootAccess() {
-        doAsync {
-            if (!Root.requestSuPermission()) {
-                uiThread { toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
-            }
         }
     }
 
@@ -132,9 +122,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 val adRequest = AdRequest.Builder().build()
                 adView.loadAd(adRequest)
             }
-
-            PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT -> if (sharedPreferences.getBoolean(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-                checkRootAccess()
         }
     }
 

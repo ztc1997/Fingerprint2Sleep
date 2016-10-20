@@ -3,17 +3,19 @@ package com.ztc1997.fingerprint2sleep.util
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
 import com.eightbitlab.rxbus.Bus
-import com.jarsilio.android.waveup.Root
 import com.ztc1997.fingerprint2sleep.App
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.extension.execute
+import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 object QuickActions {
     private lateinit var app: App
@@ -50,13 +52,22 @@ object QuickActions {
 
     fun goToSleep() {
         if (app.defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-            doAsync { Root.pressPowerButton() }
+            pressPowerButton()
         else {
             val componentName = ComponentName(app, AdminReceiver::class.java)
             if (app.devicePolicyManager.isAdminActive(componentName))
                 app.devicePolicyManager.lockNow()
             else
                 RequireAdminActivity.startActivity(app)
+        }
+    }
+
+    fun pressPowerButton() {
+        doAsync {
+            if (root.isStarted)
+                root.execute("input keyevent 26")
+            else
+                uiThread { app.toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
         }
     }
 }

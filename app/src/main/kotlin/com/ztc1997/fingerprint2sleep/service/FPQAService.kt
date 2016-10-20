@@ -18,13 +18,12 @@ import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
+import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
 import com.ztc1997.fingerprint2sleep.util.QuickActions
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.fingerprintManager
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
@@ -100,6 +99,10 @@ class FPQAService : Service() {
                 SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION ->
                     if (!defaultDPreference.getPrefBoolean(key, false))
                         stopFPQA()
+
+                SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT ->
+                    if (defaultDPreference.getPrefBoolean(key, false))
+                        checkAndStartRoot()
             }
         }
 
@@ -127,6 +130,10 @@ class FPQAService : Service() {
 
         if (!FPQAAccessibilityService.isRunning)
             RequireAccessibilityActivity.startActivity(this)
+
+        if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
+            checkAndStartRoot()
+
 
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
@@ -223,6 +230,14 @@ class FPQAService : Service() {
                 .build()
 
         return notification
+    }
+
+    fun checkAndStartRoot() {
+        doAsync {
+            if (!root.isStarted && !root.startShell()) {
+                uiThread { toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
+            }
+        }
     }
 
     override fun onBind(intent: Intent): IBinder? {

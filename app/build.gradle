@@ -47,6 +47,8 @@ dependencies {
     compile 'com.eightbitlab:rxbus:1.0.2'
 
     compile 'com.orhanobut:logger:1.15'
+
+    compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
 }
 
 buildscript {
