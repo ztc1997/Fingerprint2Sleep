@@ -58,12 +58,12 @@ class FPQAAccessibilityService : AccessibilityService() {
 
                 lastPkg = currPkg
             }
-        }
 
-        if (event.packageName == "com.android.systemui") {
-            isNotificationPanelExpanded = true
-            ignoreOnce = true
-        } else isNotificationPanelExpanded = false
+            if (event.packageName == "com.android.systemui") {
+                isNotificationPanelExpanded = true
+                ignoreOnce = true
+            } else isNotificationPanelExpanded = false
+        }
     }
 
     private fun tryGetActivity(componentName: ComponentName): ActivityInfo? {
