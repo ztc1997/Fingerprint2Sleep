@@ -18,6 +18,19 @@ class FPQAAccessibilityService : AccessibilityService() {
 
         var isRunning = false
             private set
+
+        val CLASS_BLACK_LIST by lazy {
+            setOf(
+                    /* AOSP */
+                    "com.android.settings.fingerprint.FingerprintSettings",
+                    "com.android.settings.fingerprint.FingerprintEnrollEnrolling",
+                    /* MIUI */
+                    "com.android.settings.NewFingerprintInternalActivity",
+                    "com.miui.applicationlock.ConfirmAccessControl",
+                    /* AliPay */
+                    "com.alipay.android.app.flybird.ui.window.FlyBirdWindowActivity"
+            )
+        }
     }
 
     var lastPkg = ""
@@ -38,7 +51,9 @@ class FPQAAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
+                event.className !in CLASS_BLACK_LIST) {
+
             val componentName = ComponentName(
                     event.packageName.toString(),
                     event.className.toString())

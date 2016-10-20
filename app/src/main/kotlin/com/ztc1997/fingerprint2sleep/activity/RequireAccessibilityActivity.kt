@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.extension.alert
+import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.startService
@@ -32,7 +33,7 @@ class RequireAccessibilityActivity : AppCompatActivity() {
                 startActivityForResult(intent, REQUEST_CODE_REQUIRE_ACCESSIBILITY)
             }
 
-            onCancel { finish() }
+            onCancel { finishWithoutAnim() }
             show()
         }
     }
@@ -44,7 +45,6 @@ class RequireAccessibilityActivity : AppCompatActivity() {
                 toast(R.string.toast_accessibility_failed)
 
         startService<FPQAService>()
-        finish()
-        overridePendingTransition(0, 0)
+        finishWithoutAnim()
     }
 }

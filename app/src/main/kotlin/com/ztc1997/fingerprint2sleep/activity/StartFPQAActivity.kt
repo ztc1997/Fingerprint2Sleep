@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.eightbitlab.rxbus.Bus
+import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.startService
@@ -22,17 +23,12 @@ class StartFPQAActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Bus.observe<FinishStartFPQAActivityEvent>().subscribe { finishSelf() }
+        Bus.observe<FinishStartFPQAActivityEvent>().subscribe { finishWithoutAnim() }
         startService<FPQAService>()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Bus.unregister(this)
-    }
-
-    fun finishSelf() {
-        finish()
-        overridePendingTransition(0, 0)
     }
 }

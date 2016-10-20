@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.devicePolicyManager
@@ -48,7 +49,6 @@ class RequireAdminActivity : AppCompatActivity() {
                 startService<FPQAService>()
             }
 
-        finish()
-        overridePendingTransition(0, 0)
+        finishWithoutAnim()
     }
 }
