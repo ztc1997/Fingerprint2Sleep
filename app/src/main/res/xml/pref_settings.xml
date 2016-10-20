@@ -20,12 +20,6 @@
 
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:key="pref_notify_on_error"
-        android:summary="@string/summary_pref_notify_on_error"
-        android:title="@string/title_pref_notify_on_error" />
-
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint_quick_action"
         android:key="pref_foreground_service"
         android:summary="@string/summary_pref_foreground_service"
         android:title="@string/title_pref_foreground_service" />
@@ -36,16 +30,20 @@
         android:summary="@string/summary_pref_lock_screen_with_power_button_as_root"
         android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
 
-    <PreferenceCategory android:title="@string/title_pref_category_other">
+    <PreferenceCategory android:title="@string/title_pref_category_about">
 
         <Preference
             android:key="pref_donate"
             android:summary="@string/summary_pref_donate"
             android:title="@string/title_pref_donate" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_pref_category_debug">
 
         <CheckBoxPreference
-            android:key="pref_disable_ads"
-            android:summary="@string/summary_pref_disable_ads"
-            android:title="@string/title_pref_disable_ads" />
+            android:dependency="pref_enable_fingerprint_quick_action"
+            android:key="pref_notify_on_error"
+            android:summary="@string/summary_pref_notify_on_error"
+            android:title="@string/title_pref_notify_on_error" />
     </PreferenceCategory>
 </PreferenceScreen>

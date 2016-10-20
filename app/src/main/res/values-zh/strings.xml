@@ -27,9 +27,6 @@
     <string name="entries_pref_quick_action_home">主页</string>
     <string name="entries_pref_quick_action_sleep">休眠</string>
 
-    <string name="title_pref_notify_on_error">错误时提示</string>
-    <string name="summary_pref_notify_on_error">当指纹认证发生错误时通过 Toast 显示信息</string>
-
     <string name="title_pref_foreground_service">前台服务</string>
     <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
 
@@ -39,11 +36,13 @@
     <string name="title_pref_lock_screen_with_power_button_as_root">解决指纹解锁的问题</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
 
-    <string name="title_pref_category_other">其他</string>
+    <string name="title_pref_category_about">关于</string>
 
     <string name="title_pref_donate">捐赠</string>
     <string name="summary_pref_donate">如果你喜欢这个应用，可以考虑给我买杯咖啡。</string>
 
-    <string name="title_pref_disable_ads">关闭广告</string>
-    <string name="summary_pref_disable_ads">观看和点击广告可以激励开发者做得更好，但如果你对此感到反感，可以将其关闭</string>
+    <string name="title_pref_category_debug">调试</string>
+
+    <string name="title_pref_notify_on_error">错误时提示</string>
+    <string name="summary_pref_notify_on_error">当指纹认证发生错误时通过 Toast 显示信息</string>
 </resources>

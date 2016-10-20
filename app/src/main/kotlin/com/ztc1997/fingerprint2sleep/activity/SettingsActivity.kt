@@ -11,7 +11,6 @@ import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -30,7 +29,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
-        const val PREF_DISABLE_ADS = "pref_disable_ads"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
@@ -42,7 +40,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
-                PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,
+                PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
         val PREF_KEYS_STRING = setOf(PREF_QUICK_ACTION)
     }
@@ -75,15 +73,10 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         if (defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             StartFPQAActivity.startActivity(ctx)
 
-        if (defaultSharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
-            adView.visibility = View.GONE
-        } else {
-            adView.visibility = View.VISIBLE
-            val adRequest = AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .build()
-            adView.loadAd(adRequest)
-        }
+        val adRequest = AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        adView.loadAd(adRequest)
     }
 
     override fun onResume() {
@@ -99,11 +92,13 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (PREF_KEYS_BOOLEAN.contains(key))
-            defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+        when (key) {
+            in PREF_KEYS_BOOLEAN ->
+                defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
 
-        if (PREF_KEYS_STRING.contains(key))
-            defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+            in PREF_KEYS_STRING ->
+                defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+        }
 
         try {
             bgService?.onPrefChanged(key)
@@ -114,14 +109,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         when (key) {
             PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> if (sharedPreferences.getBoolean(key, false))
                 StartFPQAActivity.startActivity(ctx)
-
-            PREF_DISABLE_ADS -> if (sharedPreferences.getBoolean(PREF_DISABLE_ADS, false)) {
-                adView.visibility = View.GONE
-            } else {
-                adView.visibility = View.VISIBLE
-                val adRequest = AdRequest.Builder().build()
-                adView.loadAd(adRequest)
-            }
         }
     }
 
