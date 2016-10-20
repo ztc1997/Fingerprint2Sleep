@@ -152,25 +152,27 @@ class FPQAService : Service() {
 
     fun startFPQA() {
         if (!isRunning) {
+            isRunning = true
+
             registerReceiver(presentReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
             registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
 
             Bus.observe<ActivityChangedEvent>()
                     .filter { !delayIsScanning }
                     .throttleLast(1, TimeUnit.SECONDS)
-                    .filter { !isScanning }
+                    .filter { !isScanning && isRunning }
                     .subscribe { onActivityChanged() }
 
             Bus.observe<IsScanningChangedEvent>()
                     .throttleLast(1, TimeUnit.SECONDS)
                     .subscribe { delayIsScanning = it.value }
-
-            isRunning = true
         }
     }
 
     fun stopFPQA() {
         if (isRunning) {
+            isRunning = false
+
             unregisterReceiver(presentReceiver)
             unregisterReceiver(screenOffReceiver)
 
@@ -180,8 +182,6 @@ class FPQAService : Service() {
             cancellationSignal.cancel()
             stopForeground(true)
             stopSelf()
-
-            isRunning = false
         }
     }
 
@@ -192,7 +192,7 @@ class FPQAService : Service() {
     fun startForegroundIfSet() = startForegroundIfSet(isError)
 
     fun startForegroundIfSet(isError: Boolean) {
-        if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_FOREGROUND_SERVICE, false)) {
+        if (isRunning && defaultDPreference.getPrefBoolean(SettingsActivity.PREF_FOREGROUND_SERVICE, false)) {
             val notification = generateNotification(if (isError)
                 R.string.notification_content_text_error else R.string.notification_content_text)
 
