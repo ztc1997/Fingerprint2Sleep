@@ -40,7 +40,10 @@ class FPQAService : Service() {
     var isScanning = false
         set(value) {
             field = value
-            Bus.send(IsScanningChangedEvent(value))
+            if (value)
+                delayIsScanning = value
+            else
+                Bus.send(IsScanningChangedEvent(value))
         }
 
     var isError = false

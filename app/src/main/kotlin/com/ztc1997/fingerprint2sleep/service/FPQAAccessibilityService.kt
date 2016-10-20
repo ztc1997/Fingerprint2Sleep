@@ -22,6 +22,8 @@ class FPQAAccessibilityService : AccessibilityService() {
 
     var lastPkg = ""
 
+    var ignoreOnce = false
+
     override fun onCreate() {
         super.onCreate()
         Bus.observe<PerformGlobalActionEvent>()
@@ -36,8 +38,6 @@ class FPQAAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        isNotificationPanelExpanded = event.packageName == "com.android.systemui"
-
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             val componentName = ComponentName(
                     event.packageName.toString(),
@@ -46,7 +46,12 @@ class FPQAAccessibilityService : AccessibilityService() {
             val activityInfo = tryGetActivity(componentName)
 
             activityInfo?.let {
-                val currPkg = it.packageName
+                if (ignoreOnce) {
+                    ignoreOnce = false
+                    return
+                }
+
+                val currPkg = activityInfo.packageName
 
                 if (lastPkg != BuildConfig.APPLICATION_ID && currPkg != BuildConfig.APPLICATION_ID)
                     Bus.send(ActivityChangedEvent)
@@ -54,6 +59,11 @@ class FPQAAccessibilityService : AccessibilityService() {
                 lastPkg = currPkg
             }
         }
+
+        if (event.packageName == "com.android.systemui") {
+            isNotificationPanelExpanded = true
+            ignoreOnce = true
+        } else isNotificationPanelExpanded = false
     }
 
     private fun tryGetActivity(componentName: ComponentName): ActivityInfo? {
