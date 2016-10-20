@@ -15,6 +15,9 @@ class FPQAAccessibilityService : AccessibilityService() {
         const val ID = BuildConfig.APPLICATION_ID + "/.service.FPQAAccessibilityService"
 
         var isNotificationPanelExpanded = false
+
+        var isRunning = false
+            private set
     }
 
     var lastPkg = ""
@@ -28,6 +31,8 @@ class FPQAAccessibilityService : AccessibilityService() {
     override fun onDestroy() {
         super.onDestroy()
         Bus.unregister(this)
+
+        isRunning = false
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
@@ -62,6 +67,8 @@ class FPQAAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+
+        isRunning = true
     }
 
     override fun onInterrupt() {

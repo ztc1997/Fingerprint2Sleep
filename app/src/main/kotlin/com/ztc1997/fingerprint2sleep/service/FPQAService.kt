@@ -17,12 +17,10 @@ import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
-import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
-import com.ztc1997.fingerprint2sleep.util.AccessibilityUtil
 import com.ztc1997.fingerprint2sleep.util.QuickActions
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.fingerprintManager
@@ -124,7 +122,7 @@ class FPQAService : Service() {
             lastIntent = null
         }
 
-        if (!AccessibilityUtil.isAccessibilityEnabled(app, FPQAAccessibilityService.ID))
+        if (!FPQAAccessibilityService.isRunning)
             RequireAccessibilityActivity.startActivity(this)
 
         val newFlags = flags or START_STICKY
