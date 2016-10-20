@@ -134,7 +134,6 @@ class FPQAService : Service() {
         if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
             checkAndStartRoot()
 
-
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
     }

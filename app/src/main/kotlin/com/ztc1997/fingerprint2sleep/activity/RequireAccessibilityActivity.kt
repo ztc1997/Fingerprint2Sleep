@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ztc1997.fingerprint2sleep.R
-import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
-import com.ztc1997.fingerprint2sleep.util.AccessibilityUtil
 import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast
 
@@ -42,7 +40,7 @@ class RequireAccessibilityActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequireAdminActivity.REQUEST_CODE_DEVICE_ADMIN)
-            if (!AccessibilityUtil.isAccessibilityEnabled(app, FPQAAccessibilityService.ID))
+            if (!FPQAAccessibilityService.isRunning)
                 toast(R.string.toast_accessibility_failed)
 
         startService<FPQAService>()
