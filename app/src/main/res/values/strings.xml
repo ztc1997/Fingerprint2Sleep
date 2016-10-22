@@ -5,34 +5,34 @@
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action is running</string>
-    <string name="notification_content_text_error">Fingerprint authentication error, will retry next time you Switch on screen</string>
-    <string name="toast_failed_to_expend_notifications_panel">Failed to expend Notifications Panel</string>
+    <string name="notification_content_text_error">Fingerprint authentication error, will retry the next time you switch on the screen</string>
+    <string name="toast_failed_to_expend_notifications_panel">Failed to expand the notifications panel</string>
 
     <!-- SettingsActivity -->
-    <string name="explanation_device_admin">Fingerprint Quick Action needs activating device administrator to work</string>
-    <string name="msg_dialog_device_does_not_support_fingerprint">Device doesn\'t support fingerprint authentication</string>
-    <string name="toast_device_admin_failed">Failed to activate device administrator</string>
+    <string name="explanation_device_admin">Fingerprint Quick Action needs to activate a device administrator to function correctly</string>
+    <string name="msg_dialog_device_does_not_support_fingerprint">This device doesn\'t support fingerprint authentication</string>
+    <string name="toast_device_admin_failed">Failed to activate a device administrator</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
 
     <string name="title_pref_quick_action">Quick Action</string>
-    <string name="entries_pref_quick_action_expend_notifications_panel">Expend Notifications Panel</string>
+    <string name="entries_pref_quick_action_expend_notifications_panel">Expand Notifications Panel</string>
     <string name="entries_pref_quick_action_home">Home</string>
     <string name="entries_pref_quick_action_sleep">Sleep</string>
 
     <string name="title_pref_notify_on_error">Notify on error</string>
-    <string name="summary_pref_notify_on_error">Show message on fingerprint authentication error occur via Toast</string>
+    <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
 
     <string name="title_pref_foreground_service">Foreground service</string>
-    <string name="summary_pref_foreground_service">Use foreground service to prevent it from being killed by system, this will display a notification</string>
+    <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
 
-    <string name="title_pref_response_enrolled_fingerprint_only">Response enrolled fingerprints only</string>
-    <string name="summary_pref_response_enrolled_fingerprint_only">If enable it, fingerprint authentication will be cancel after 4 failed attempts</string>
+    <string name="title_pref_response_enrolled_fingerprint_only">Respond to enrolled fingerprints only</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">If enabled, fingerprint authentication will cancel after 4 failed attempts</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switch off screen simulating a power button press.</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switches  off the screen (simulating a power button press).</string>
 
     <string name="title_pref_category_other">Other</string>
 
@@ -40,7 +40,7 @@
     <string name="summary_pref_donate">If you like this app, consider buying me a cup of coffee.</string>
 
     <string name="title_pref_disable_ads">Disable ads</string>
-    <string name="summary_pref_disable_ads">Watching and clicking ads can motivate developers to do better, but if you\\\'re feeling disgusted, you can close them down.</string>
+    <string name="summary_pref_disable_ads">Watching and clicking ads helps support this app, but if they're bothering you, you can disable them.</string>
 
     <!-- AdMob -->
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
