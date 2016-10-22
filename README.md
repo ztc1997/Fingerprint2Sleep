@@ -1,6 +1,8 @@
 [![GitHub version](https://badge.fury.io/gh/ztc1997%2FFingerprint2Sleep.svg)](https://github.com/ztc1997/Fingerprint2Sleep/releases) ![license](http://img.shields.io/badge/license-GPLv3-brightgreen.svg) ![platform](http://img.shields.io/badge/platform-Android-blue.svg)
 # Fingerprint Quick Action
 
+*For some reason, since version 0.4.0, source code is no longer available, you can still open issues here. If you would like to provide or update your translation, please move to [the "translation" branch](https://github.com/ztc1997/Fingerprint2Sleep/tree/translation).*
+
 Perform quick actions via tap fingerprint sensor.
 
 Many devices have fingerprint sensor, and have the feature fingerprint to unlock or fingerprint to wake, so i developed this simple app to sleep your device via tap fingerprint sensor.
