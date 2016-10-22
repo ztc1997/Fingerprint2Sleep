@@ -15,6 +15,7 @@ class FPQAAccessibilityService : AccessibilityService() {
         const val ID = BuildConfig.APPLICATION_ID + "/.service.FPQAAccessibilityService"
 
         var isNotificationPanelExpanded = false
+            private set
 
         var isRunning = false
             private set
