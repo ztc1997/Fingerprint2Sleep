@@ -8,6 +8,7 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
 import android.support.v7.app.NotificationCompat
+import android.util.Log
 import com.jarsilio.android.waveup.Root
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import org.jetbrains.anko.*
@@ -35,22 +36,32 @@ class FPQAService : Service() {
     val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
+            Log.v("FPQAService", "Received authentication success!")
             isScanning = false
             doOnFingerprintDetected()
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
+            Log.v("FPQAService", "Received authentication failed!")
             if (!defaultDPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
                 doOnFingerprintDetected()
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             super.onAuthenticationError(errorCode, errString)
+            Log.v("FPQAService", "Received authentication error with code $errorCode, and string $errString")
             if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
                 errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
             isError = true
             isScanning = false
+        }
+
+        override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
+            super.onAuthenticationHelp(helpCode, helpString)
+            Log.v("FPQAService", "Received authentication help with code $helpCode, with string $helpString")
+            if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ANY_ATTEMPT, false))
+                doOnFingerprintDetected()
         }
     }
 

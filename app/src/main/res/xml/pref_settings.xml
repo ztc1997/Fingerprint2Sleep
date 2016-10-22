@@ -20,6 +20,12 @@
 
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"
+        android:key="pref_response_any_attempt"
+        android:summary="@string/summary_pref_response_any_attempt"
+        android:title="@string/title_pref_response_any_attempt" />
+
+    <CheckBoxPreference
+        android:dependency="pref_enable_fingerprint_quick_action"
         android:key="pref_notify_on_error"
         android:summary="@string/summary_pref_notify_on_error"
         android:title="@string/title_pref_notify_on_error" />
