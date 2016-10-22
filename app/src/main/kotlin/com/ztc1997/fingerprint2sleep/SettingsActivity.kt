@@ -24,6 +24,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
+        const val PREF_RESPONSE_ANY_ATTEMPT = "pref_response_any_attempt"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_DISABLE_ADS = "pref_disable_ads"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
@@ -36,7 +37,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
-                PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,
+                PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_RESPONSE_ANY_ATTEMPT, PREF_NOTIFY_ON_ERROR, PREF_DISABLE_ADS,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
         val PREF_KEYS_STRING = setOf(PREF_QUICK_ACTION)
     }

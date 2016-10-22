@@ -31,6 +31,9 @@
     <string name="title_pref_response_enrolled_fingerprint_only">Response enrolled fingerprints only</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">If enable it, fingerprint authentication will be cancel after 4 failed attempts</string>
 
+    <string name="title_pref_response_any_attempt">Respond to any attempt</string>
+    <string name="summary_pref_response_any_attempt">If enabled, the quick action will be performed in cases where the finger was moved too quickly or only a partial fingerprint was detected.</string>
+
     <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switch off screen simulating a power button press.</string>
 
