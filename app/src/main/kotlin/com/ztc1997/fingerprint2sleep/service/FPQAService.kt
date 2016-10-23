@@ -12,6 +12,7 @@ import android.os.CancellationSignal
 import android.os.IBinder
 import android.support.v7.app.NotificationCompat
 import com.eightbitlab.rxbus.Bus
+import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -59,13 +60,13 @@ class FPQAService : Service() {
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
             isScanning = false
-            doOnFingerprintDetected()
+            performSingleTapAction()
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
             if (!defaultDPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
-                doOnFingerprintDetected()
+                performSingleTapAction()
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
@@ -74,6 +75,15 @@ class FPQAService : Service() {
                 errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
             isError = true
             isScanning = false
+        }
+
+        override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
+            super.onAuthenticationHelp(helpCode, helpString)
+
+            Logger.d("helpCode = $helpCode, helpString = $helpString")
+
+            // if (helpCode == FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST)
+            performFastSlideAction()
         }
     }
 
@@ -138,8 +148,12 @@ class FPQAService : Service() {
         return super.onStartCommand(intent, newFlags, startId)
     }
 
-    fun doOnFingerprintDetected() {
-        when (defaultDPreference.getPrefString(SettingsActivity.PREF_QUICK_ACTION,
+    fun performSingleTapAction() = performAction(SettingsActivity.PREF_QUICK_ACTION, true)
+
+    fun performFastSlideAction() = performAction(SettingsActivity.PREF_FAST_SLIDE_ACTION)
+
+    fun performAction(key: String, restart: Boolean = false) {
+        when (defaultDPreference.getPrefString(key,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP)) {
             SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> {
                 QuickActions.goToSleep()
@@ -156,7 +170,8 @@ class FPQAService : Service() {
                 QuickActions.toggleNotificationsPanel()
         }
 
-        StartFPQAActivity.startActivity(ctx)
+        if (restart)
+            StartFPQAActivity.startActivity(ctx)
     }
 
     fun startFPQA() {

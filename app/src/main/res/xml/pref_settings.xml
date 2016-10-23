@@ -5,12 +5,20 @@
         android:title="@string/title_pref_enable_fingerprint_quick_action" />
 
     <ListPreference
-        android:defaultValue="sleep"
+        android:defaultValue="none"
         android:dependency="pref_enable_fingerprint_quick_action"
         android:entries="@array/entries_pref_quick_action"
         android:entryValues="@array/values_pref_quick_action"
         android:key="pref_quick_action"
-        android:title="@string/title_pref_quick_action" />
+        android:title="@string/title_pref_single_tap_action" />
+
+    <ListPreference
+        android:defaultValue="none"
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:entries="@array/entries_pref_quick_action"
+        android:entryValues="@array/values_pref_quick_action"
+        android:key="pref_fast_slide_action"
+        android:title="@string/title_pref_fast_slide_action" />
 
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"

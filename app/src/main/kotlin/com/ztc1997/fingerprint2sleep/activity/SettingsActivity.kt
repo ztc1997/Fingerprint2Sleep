@@ -33,7 +33,9 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val PREF_QUICK_ACTION = "pref_quick_action"
+        const val PREF_FAST_SLIDE_ACTION = "pref_fast_slide_action"
 
+        const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
         const val VALUES_PREF_QUICK_ACTION_HOME = "home"
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
@@ -42,7 +44,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
-        val PREF_KEYS_STRING = setOf(PREF_QUICK_ACTION)
+        val PREF_KEYS_STRING = setOf(PREF_QUICK_ACTION, PREF_FAST_SLIDE_ACTION)
     }
 
     private var bgService: IFPQAService? = null
@@ -114,7 +116,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
-        val fingerprintAction by lazy { findPreference(PREF_QUICK_ACTION) as ListPreference }
+        val singleTapAction by lazy { findPreference(PREF_QUICK_ACTION) as ListPreference }
+        val fastSlideAction by lazy { findPreference(PREF_FAST_SLIDE_ACTION) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -125,7 +128,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 true
             }
 
-            fingerprintAction.summary = fingerprintAction.entry
+            singleTapAction.summary = singleTapAction.entry
+            fastSlideAction.summary = fastSlideAction.entry
         }
 
         override fun onResume() {
@@ -140,7 +144,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             when (key) {
-                PREF_QUICK_ACTION -> fingerprintAction.summary = fingerprintAction.entry
+                PREF_QUICK_ACTION -> singleTapAction.summary = singleTapAction.entry
+                PREF_FAST_SLIDE_ACTION -> fastSlideAction.summary = fastSlideAction.entry
             }
         }
 

@@ -21,11 +21,15 @@
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
 
-    <string name="title_pref_quick_action">Quick Action</string>
-    <string name="entries_pref_quick_action_expend_notifications_panel">Expand Notifications Panel</string>
+    <string name="title_pref_single_tap_action">Single Tap Action</string>
+    <string name="title_pref_fast_slide_action">Fast Slide Action</string>
+
+
+    <string name="entries_pref_quick_action_expand_notifications_panel">Expand Notifications Panel</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle Notifications Panel (Experimental)</string>
     <string name="entries_pref_quick_action_home">Home</string>
     <string name="entries_pref_quick_action_sleep">Sleep</string>
+    <string name="entries_pref_quick_action_none">None</string>
 
     <string name="title_pref_foreground_service">Foreground service</string>
     <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
@@ -46,7 +50,7 @@
     <string name="title_pref_notify_on_error">Notify on error</string>
     <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
 
-    <!-- AdMob -->
+    <!-- AdMob !!! You should NOT add this to other languages !!! -->
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
-    x
+
 </resources>
