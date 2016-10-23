@@ -148,9 +148,9 @@ class FPQAService : Service() {
         return super.onStartCommand(intent, newFlags, startId)
     }
 
-    fun performSingleTapAction() = performAction(SettingsActivity.PREF_QUICK_ACTION, true)
+    fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, true)
 
-    fun performFastSlideAction() = performAction(SettingsActivity.PREF_FAST_SLIDE_ACTION)
+    fun performFastSlideAction() = performAction(SettingsActivity.PREF_ACTION_QUICK_SWIPE)
 
     fun performAction(key: String, restart: Boolean = false) {
         when (defaultDPreference.getPrefString(key,
