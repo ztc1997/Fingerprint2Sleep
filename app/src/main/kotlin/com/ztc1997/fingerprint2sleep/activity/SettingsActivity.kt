@@ -13,10 +13,12 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.SOURCE_ENC
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.service.FPQAService
+import com.ztc1997.fingerprint2sleep.util.RC4
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.defaultSharedPreferences
@@ -41,10 +43,12 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
 
-        val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
+        val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
-        val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_QUICK_SWIPE)
+        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_QUICK_SWIPE)
+
+        val SOURCE by lazy { RC4.decry_RC4(SOURCE_ENC, PREF_KEYS_BOOLEAN[4]) }
     }
 
     private var bgService: IFPQAService? = null

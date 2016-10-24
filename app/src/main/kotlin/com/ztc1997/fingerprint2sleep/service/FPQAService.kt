@@ -21,16 +21,38 @@ import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
+import com.ztc1997.fingerprint2sleep.extra.CompleteHashCodeEvent
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
+import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.util.QuickActions
 import org.jetbrains.anko.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
     companion object {
         const val NOTIFICATION_ID = 1
         const val NOTIFICATION_PENDING_INTENT_CONTENT = 0
+
+
+        fun verify4() {
+            Bus.observe<CompleteHashCodeEvent>().subscribe {
+                val bytes = BootReceiver.toByteArray(it.any)
+                CHECK_BYTES = bytes!!
+                Logger.d(Arrays.toString(CHECK_BYTES))
+            }
+        }
+
+        lateinit var CHECK_BYTES: ByteArray
+            private set
+
+        // 1
+        val THROTTLE_DELAY by lazy {
+            val hash1 = QuickActions.CHECK_CODE
+            val sign2 = QuickActions.CHECK_BYTES
+            Math.abs(hash1 / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
+        }
     }
 
     var isRunning = false

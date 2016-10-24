@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
+import com.ztc1997.fingerprint2sleep.extra.SendPackageInfoEvent
+import com.ztc1997.fingerprint2sleep.extra.SendSignatureEvent
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
+import com.ztc1997.fingerprint2sleep.util.Reflects
 import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast
 
@@ -22,6 +26,13 @@ class RequireAccessibilityActivity : AppCompatActivity() {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             context.startActivity(startIntent)
+        }
+
+        fun verify2() {
+            Bus.observe<SendPackageInfoEvent>().subscribe {
+                val any = Reflects.getSignature(it.any)
+                Bus.send(SendSignatureEvent(any))
+            }
         }
     }
 
