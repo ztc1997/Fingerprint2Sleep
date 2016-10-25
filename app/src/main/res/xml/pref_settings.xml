@@ -23,8 +23,8 @@
         android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
 
     <PreferenceCategory
-        android:title="@string/title_pref_category_quick_action"
-        android:dependency="pref_enable_fingerprint_quick_action">
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:title="@string/title_pref_category_quick_action">
 
         <ListPreference
             android:defaultValue="none"
@@ -37,8 +37,9 @@
             android:defaultValue="none"
             android:entries="@array/entries_pref_quick_action"
             android:entryValues="@array/values_pref_quick_action"
-            android:key="pref_action_quick_swipe"
-            android:title="@string/title_pref_action_quick_swipe" />
+            android:key="pref_action_failed_to_acquire"
+            android:summary="@string/summary_pref_action_failed_to_acquire"
+            android:title="@string/title_pref_action_failed_to_acquire" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_pref_category_about">

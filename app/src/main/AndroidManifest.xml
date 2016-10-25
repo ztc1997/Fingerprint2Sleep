@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.SettingsActivity">
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,16 +27,19 @@
         <activity
             android:name=".activity.StartFPQAActivity"
             android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:process=":bg"
             android:theme="@style/AppTheme.Translucent" />
 
         <activity
             android:name=".activity.RequireAdminActivity"
+            android:launchMode="singleInstance"
             android:process=":bg"
             android:theme="@style/AppTheme.Translucent" />
 
         <activity
             android:name=".activity.RequireAccessibilityActivity"
+            android:launchMode="singleInstance"
             android:process=":bg"
             android:theme="@style/AppTheme.Translucent" />
 

@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
-        const val PREF_ACTION_QUICK_SWIPE = "pref_action_quick_swipe"
+        const val PREF_ACTION_FAILED_TO_ACQUIRE = "pref_action_failed_to_acquire"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -46,7 +46,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
-        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_QUICK_SWIPE)
+        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAILED_TO_ACQUIRE)
 
         val SOURCE by lazy { RC4.decry_RC4(SOURCE_ENC, PREF_KEYS_BOOLEAN[4]) }
     }
@@ -58,8 +58,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            bgService = IFPQAService.Stub.asInterface(service)
+            val iService = IFPQAService.Stub.asInterface(service)
+            bgService = iService
 
+            if (!iService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+                StartFPQAActivity.startActivity(ctx)
         }
     }
 
@@ -75,9 +78,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             }
             return
         }
-
-        if (defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
-            StartFPQAActivity.startActivity(ctx)
 
         val adRequest = AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -121,7 +121,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
-        val actionFastSlide by lazy { findPreference(PREF_ACTION_QUICK_SWIPE) as ListPreference }
+        val actionFailedToAcquire by lazy { findPreference(PREF_ACTION_FAILED_TO_ACQUIRE) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -133,7 +133,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             }
 
             actionSingleTap.summary = actionSingleTap.entry
-            actionFastSlide.summary = actionFastSlide.entry
+            refreshSummaryActionFailedToAcquire()
         }
 
         override fun onResume() {
@@ -149,8 +149,12 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             when (key) {
                 PREF_ACTION_SINGLE_TAP -> actionSingleTap.summary = actionSingleTap.entry
-                PREF_ACTION_QUICK_SWIPE -> actionFastSlide.summary = actionFastSlide.entry
+                PREF_ACTION_FAILED_TO_ACQUIRE -> refreshSummaryActionFailedToAcquire()
             }
+        }
+
+        fun refreshSummaryActionFailedToAcquire() {
+            actionFailedToAcquire.summary = "${getString(R.string.summary_pref_action_failed_to_acquire)}\n${actionFailedToAcquire.entry}"
         }
 
         private fun openUri(uriString: String) {

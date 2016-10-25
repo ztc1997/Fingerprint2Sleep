@@ -114,7 +114,7 @@ class FPQAService : Service() {
             Logger.d("helpCode = $helpCode, helpString = $helpString")
 
             // if (helpCode == FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST)
-            performFastSlideAction()
+            performFailedToAcquireAction()
         }
     }
 
@@ -147,6 +147,7 @@ class FPQAService : Service() {
             }
         }
 
+        override fun isRunning() = this@FPQAService.isRunning
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -181,7 +182,7 @@ class FPQAService : Service() {
 
     fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, true)
 
-    fun performFastSlideAction() = performAction(SettingsActivity.PREF_ACTION_QUICK_SWIPE)
+    fun performFailedToAcquireAction() = performAction(SettingsActivity.PREF_ACTION_FAILED_TO_ACQUIRE)
 
     fun performAction(key: String, restart: Boolean = false) {
         when (defaultDPreference.getPrefString(key,
