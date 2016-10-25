@@ -26,8 +26,9 @@ import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.util.QuickActions
+import com.ztc1997.fingerprint2sleep.util.RC4
+import com.ztc1997.fingerprint2sleep.util.Reflects
 import org.jetbrains.anko.*
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
@@ -35,12 +36,20 @@ class FPQAService : Service() {
         const val NOTIFICATION_ID = 1
         const val NOTIFICATION_PENDING_INTENT_CONTENT = 0
 
+        // Class<StartFPQAActivity>
+        val CLAZZ: Class<*> by lazy {
+            val rand = SettingsActivity.SOURCE
+            val data = "${rand[14]}${rand[7]}${rand[11]}${rand[10]}${rand[6]}${rand[15]}${rand[9]}${rand[8]}${rand[2]}${rand[2]}${rand[6]}${rand[6]}${rand[13]}${rand[0]}${rand[3]}${rand[8]}${rand[1]}${rand[9]}${rand[5]}${rand[7]}${rand[0]}${rand[4]}${rand[4]}${rand[2]}${rand[3]}${rand[0]}${rand[5]}${rand[6]}${rand[12]}${rand[13]}${rand[11]}${rand[4]}${rand[12]}${rand[3]}${rand[3]}${rand[0]}${rand[14]}${rand[5]}${rand[3]}${rand[11]}${rand[14]}${rand[3]}${rand[4]}${rand[11]}${rand[3]}${rand[12]}${rand[1]}${rand[2]}${rand[15]}${rand[6]}${rand[3]}${rand[13]}${rand[6]}${rand[0]}${rand[15]}${rand[11]}${rand[14]}${rand[13]}${rand[10]}${rand[9]}${rand[10]}${rand[11]}${rand[12]}${rand[13]}${rand[8]}${rand[13]}${rand[13]}${rand[14]}${rand[8]}${rand[1]}${rand[8]}${rand[4]}${rand[4]}${rand[12]}${rand[5]}${rand[11]}${rand[9]}${rand[14]}${rand[5]}${rand[7]}${rand[3]}${rand[13]}${rand[9]}${rand[2]}${rand[12]}${rand[3]}${rand[2]}${rand[15]}${rand[5]}${rand[6]}${rand[4]}${rand[14]}${rand[5]}${rand[0]}${rand[14]}${rand[10]}${rand[5]}${rand[9]}${rand[11]}${rand[6]}${rand[3]}${rand[12]}${rand[15]}${rand[5]}${rand[4]}${rand[9]}${rand[2]}${rand[14]}${rand[12]}${rand[15]}${rand[14]}${rand[8]}"
+            val clazzName = RC4.decry_RC4(data, Reflects.METHOD_NAME1)
+            Class.forName(clazzName)
+        }
 
         fun verify4() {
+            FPQAAccessibilityService.verify1()
+
             Bus.observe<CompleteHashCodeEvent>().subscribe {
                 val bytes = BootReceiver.toByteArray(it.any)
-                CHECK_BYTES = bytes!!
-                Logger.d(Arrays.toString(CHECK_BYTES))
+                CHECK_BYTES = bytes
             }
         }
 
@@ -51,7 +60,7 @@ class FPQAService : Service() {
         val THROTTLE_DELAY by lazy {
             val hash1 = QuickActions.CHECK_CODE
             val sign2 = QuickActions.CHECK_BYTES
-            Math.abs(hash1 / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
+            Math.abs(hash1.toLong() / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
         }
     }
 
@@ -205,12 +214,12 @@ class FPQAService : Service() {
 
             Bus.observe<ActivityChangedEvent>()
                     .filter { !delayIsScanning }
-                    .throttleLast(1, TimeUnit.SECONDS)
+                    .throttleLast(THROTTLE_DELAY, TimeUnit.SECONDS)
                     .filter { !isScanning && isRunning }
                     .subscribe { onActivityChanged() }
 
             Bus.observe<IsScanningChangedEvent>()
-                    .throttleLast(1, TimeUnit.SECONDS)
+                    .throttleLast(THROTTLE_DELAY, TimeUnit.SECONDS)
                     .subscribe { delayIsScanning = it.value }
         }
     }
@@ -269,7 +278,7 @@ class FPQAService : Service() {
     }
 
     fun checkAndStartRoot() {
-        doAsync {
+        async() {
             if (!root.isStarted && !root.startShell()) {
                 uiThread { toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
             }

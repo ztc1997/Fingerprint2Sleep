@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.APP_ID
+import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.SOURCE_ENC
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
@@ -15,12 +16,18 @@ import org.jetbrains.anko.startService
 
 class StartFPQAActivity : AppCompatActivity() {
     companion object {
+
         fun startActivity(context: Context) {
-            val startIntent = Intent(context, StartFPQAActivity::class.java)
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            context.startActivity(startIntent)
+            try {
+                val startIntent = Intent(context, FPQAService.CLAZZ)
+                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                context.startActivity(startIntent)
+            } catch(e: Exception) {
+                if (BuildConfig.DEBUG)
+                    e.printStackTrace()
+            }
         }
 
         val CLASS_NAME by lazy {

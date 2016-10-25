@@ -3,7 +3,7 @@ package com.ztc1997.fingerprint2sleep.util
 @Suppress("NOTHING_TO_INLINE")
 object RC4 {
 
-    fun decry_RC4(data: ByteArray, ky: String): String {
+    inline fun decry_RC4(data: ByteArray, ky: String): String {
         return asString(RC4Base(data, ky))
     }
 
@@ -11,7 +11,7 @@ object RC4 {
         return asString(RC4Base(data, ky))
     }
 
-    fun decry_RC4(data: String, ky: String): String {
+    inline fun decry_RC4(data: String, ky: String): String {
         return String(RC4Base(HexString2Bytes(data), ky))
     }
 
@@ -19,21 +19,21 @@ object RC4 {
         return String(RC4Base(HexString2Bytes(data), ky))
     }
 
-    fun encry_RC4_byte(data: String, ky: String): ByteArray {
+    inline fun encry_RC4_byte(data: String, ky: String): ByteArray {
         val b_data = data.toByteArray()
         return RC4Base(b_data, ky)
     }
 
-    fun encry_RC4_byte(data: String, ky: ByteArray): ByteArray {
+    inline fun encry_RC4_byte(data: String, ky: ByteArray): ByteArray {
         val b_data = data.toByteArray()
         return RC4Base(b_data, ky)
     }
 
-    fun encry_RC4_string(data: String, ky: String): String {
+    inline fun encry_RC4_string(data: String, ky: String): String {
         return toHexString(asString(encry_RC4_byte(data, ky)))
     }
 
-    fun encry_RC4_string(data: String, ky: ByteArray): String {
+    inline fun encry_RC4_string(data: String, ky: ByteArray): String {
         return toHexString(asString(encry_RC4_byte(data, ky)))
     }
 

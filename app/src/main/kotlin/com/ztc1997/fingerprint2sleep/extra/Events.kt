@@ -6,18 +6,18 @@ object FinishStartFPQAActivityEvent
 
 object ActivityChangedEvent
 
-data class IsScanningChangedEvent(val value: Boolean)
+class IsScanningChangedEvent(val value: Boolean)
 
-data class PerformGlobalActionEvent(val action: Int)
+class PerformGlobalActionEvent(val action: Int)
 
-data class StartVerifyEvent(val ctx: Context)
+class StartVerifyEvent(val ctx: Context)
 
-data class SendPackageManagerEvent(val any: Any)
+class SendPackageManagerEvent(val any: Any)
 
-data class SendPackageInfoEvent(val any: Any)
+class SendPackageInfoEvent(val any: Any)
 
-data class SendSignatureEvent(val any: Any)
+class SendSignatureEvent(val any: Any)
 
-data class CompleteHashCodeEvent(val any: Any)
+class CompleteHashCodeEvent(val any: Any)
 
-data class SendByteArrayEvent(val byteArray: ByteArray)
+class SendByteArrayEvent(val byteArray: ByteArray)

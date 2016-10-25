@@ -10,6 +10,7 @@ import com.ztc1997.fingerprint2sleep.extension.getPackageManagerReflect
 import com.ztc1997.fingerprint2sleep.extra.SendByteArrayEvent
 import com.ztc1997.fingerprint2sleep.extra.SendPackageManagerEvent
 import com.ztc1997.fingerprint2sleep.extra.StartVerifyEvent
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.QuickActions
 import com.ztc1997.fingerprint2sleep.util.RC4
 import org.jetbrains.anko.defaultSharedPreferences
@@ -29,7 +30,7 @@ class BootReceiver : BroadcastReceiver() {
             RC4.decry_RC4(data, (QuickActions.CHECK_CODE xor 165).toString())
         }
 
-        fun toByteArray(any: Any): ByteArray? {
+        fun toByteArray(any: Any): ByteArray {
             try {
                 val clazz = Class.forName(CLASS_NAME)
                 val method = clazz.getMethod(METHOD_NAME)
@@ -40,11 +41,15 @@ class BootReceiver : BroadcastReceiver() {
                 return bytes.filterIndexed { i, byte -> i % (-QuickActions.CHECK_CODE and 5) == 0 }
                         .reversed().toByteArray()
             } catch (e: Exception) {
-                return null
+                val bytes = ByteArray(605) { ((it + 1) * it).toByte() }
+                Bus.send(SendByteArrayEvent(bytes))
+                return bytes
             }
         }
 
         fun verify0() {
+            FPQAService.verify4()
+
             Bus.observe<StartVerifyEvent>().subscribe {
                 val any = it.ctx.getPackageManagerReflect()
                 Bus.send(SendPackageManagerEvent(any))

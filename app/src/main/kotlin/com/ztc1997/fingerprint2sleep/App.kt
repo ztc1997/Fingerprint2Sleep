@@ -5,12 +5,8 @@ import android.content.Context
 import com.eightbitlab.rxbus.Bus
 import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
-import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.extra.StartVerifyEvent
-import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
-import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
-import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.QuickActions
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.defaultSharedPreferences
@@ -22,10 +18,6 @@ class App : Application() {
         super.onCreate()
 
         QuickActions.verify3()
-        RequireAccessibilityActivity.verify2()
-        BootReceiver.verify0()
-        FPQAService.verify4()
-        FPQAAccessibilityService.verify1()
 
         QuickActions.inject(this)
 

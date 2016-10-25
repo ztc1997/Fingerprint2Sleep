@@ -25,11 +25,16 @@
     public static int d(...);
     public static int e(...);
 }
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+    static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+    static void throwUninitializedPropertyAccessException(java.lang.String);
+}
 
--dontwarn org.jetbrains.anko.**
--keep class org.jetbrains.anko.** { *;}
+-dontwarn org.jetbrains.anko.internals.**
+-keep class org.jetbrains.anko.internals.** { *;}
 
--dontwarn rx.**
--keep class rx.** { *;}
+-dontwarn rx.internal.util.unsafe.**
+-keep class rx.internal.util.unsafe.** { *;}
 
 -keepattributes *Annotation*

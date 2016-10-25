@@ -5,6 +5,7 @@ import android.content.ComponentName
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.App
 import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.extension.execute
@@ -16,11 +17,10 @@ import com.ztc1997.fingerprint2sleep.extra.SendSignatureEvent
 import com.ztc1997.fingerprint2sleep.hashCode
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
-import com.ztc1997.fingerprint2sleep.service.FPQAService
+import org.jetbrains.anko.async
 import org.jetbrains.anko.devicePolicyManager
-import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
 
 object QuickActions {
     val BANNER_AD_UNIT_ID: String by lazy {
@@ -28,6 +28,8 @@ object QuickActions {
     }
 
     fun verify3() {
+        RequireAccessibilityActivity.verify2()
+
         Bus.observe<SendSignatureEvent>().subscribe {
             val code = it.any.hashCode
             if (code is Int)
@@ -50,11 +52,7 @@ object QuickActions {
 
     private lateinit var app: App
 
-    private val POWER_KEY_CMD by lazy {
-        val rand = Reflects.rand
-        val data = "${rand[11]}${rand[11]}${rand[1]}${rand[12]}${rand[14]}${rand[12]}${rand[10]}${rand[4]}${rand[13]}${rand[12]}${rand[6]}${rand[14]}${rand[3]}${rand[1]}${rand[12]}${rand[11]}${rand[2]}${rand[13]}${rand[9]}${rand[7]}${rand[8]}${rand[14]}${rand[4]}${rand[1]}${rand[13]}${rand[4]}${rand[5]}${rand[6]}${rand[13]}${rand[12]}${rand[5]}${rand[4]}${rand[13]}${rand[13]}"
-        RC4.decry_RC4(data, FPQAService.CHECK_BYTES)
-    }
+    private val POWER_KEY_CMD = "input keyevent 26"
 
     fun inject(app: App) {
         this.app = app
@@ -92,11 +90,11 @@ object QuickActions {
     }
 
     fun pressPowerButton() {
-        doAsync {
+        async() {
             if (root.isStarted)
                 root.execute(POWER_KEY_CMD)
             else
-                uiThread { app.toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
+                app.onUiThread { app.toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
         }
     }
 }

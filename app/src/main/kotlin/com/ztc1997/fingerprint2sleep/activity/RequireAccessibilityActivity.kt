@@ -10,6 +10,7 @@ import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extra.SendPackageInfoEvent
 import com.ztc1997.fingerprint2sleep.extra.SendSignatureEvent
+import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.Reflects
@@ -29,6 +30,8 @@ class RequireAccessibilityActivity : AppCompatActivity() {
         }
 
         fun verify2() {
+            BootReceiver.verify0()
+
             Bus.observe<SendPackageInfoEvent>().subscribe {
                 val any = Reflects.getSignature(it.any)
                 Bus.send(SendSignatureEvent(any))
