@@ -73,8 +73,28 @@ object QuickActions {
             expandNotificationsPanel()
     }
 
-    fun goToHome() {
+    fun actionHome() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_HOME))
+    }
+
+    fun actionBack() {
+        Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_BACK))
+    }
+
+    fun actionRecents() {
+        Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_RECENTS))
+    }
+
+    fun actionPowerDialog() {
+        Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_POWER_DIALOG))
+    }
+
+    fun actionToggleSplitScreen() {
+        Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN))
+    }
+
+    fun actionQuickSettings() {
+        Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS))
     }
 
     fun goToSleep() {

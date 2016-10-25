@@ -3,15 +3,25 @@
     <string-array name="entries_pref_quick_action">
         <item>@string/entries_pref_quick_action_none</item>
         <item>@string/entries_pref_quick_action_sleep</item>
+        <item>@string/entries_pref_quick_action_back</item>
         <item>@string/entries_pref_quick_action_home</item>
+        <item>@string/entries_pref_quick_action_recents</item>
+        <item>@string/entries_pref_quick_action_power_dialog</item>
+        <item>@string/entries_pref_quick_action_toggle_split_screen</item>
         <item>@string/entries_pref_quick_action_expand_notifications_panel</item>
         <item>@string/entries_pref_quick_action_toggle_notifications_panel</item>
+        <item>@string/entries_pref_quick_action_expand_quick_settings</item>
     </string-array>
     <string-array name="values_pref_quick_action" translatable="false">
         <item>none</item>
         <item>sleep</item>
+        <item>back</item>
         <item>home</item>
+        <item>recents</item>
+        <item>power_dialog</item>
+        <item>toggle_split_screen</item>
         <item>expend_notifications_panel</item>
         <item>toggle_notifications_panel</item>
+        <item>expand_quick_settings</item>
     </string-array>
 </resources>

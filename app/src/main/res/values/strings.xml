@@ -37,11 +37,16 @@
     <string name="title_pref_action_failed_to_acquire">Failed to Acquire</string>
     <string name="summary_pref_action_failed_to_acquire">Normally triggered by fast swiping</string>
 
-    <string name="entries_pref_quick_action_expand_notifications_panel">Expand Notifications Panel</string>
-    <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle Notifications Panel (Experimental)</string>
-    <string name="entries_pref_quick_action_home">Home</string>
-    <string name="entries_pref_quick_action_sleep">Sleep</string>
     <string name="entries_pref_quick_action_none">None</string>
+    <string name="entries_pref_quick_action_sleep">Sleep</string>
+    <string name="entries_pref_quick_action_back">Go back</string>
+    <string name="entries_pref_quick_action_home">Go home</string>
+    <string name="entries_pref_quick_action_recents">Show recent apps</string>
+    <string name="entries_pref_quick_action_power_dialog">Show power menu</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Toggle split screen</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Expand notifications panel</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle notifications panel</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Expand quick settings</string>
 
     <string name="title_pref_category_about">About</string>
 

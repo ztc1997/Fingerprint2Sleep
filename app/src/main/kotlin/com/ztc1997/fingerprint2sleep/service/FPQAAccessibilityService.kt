@@ -30,6 +30,7 @@ class FPQAAccessibilityService : AccessibilityService() {
                     /* AOSP */
                     "com.android.settings.fingerprint.FingerprintSettings",
                     "com.android.settings.fingerprint.FingerprintEnrollEnrolling",
+                    "com.android.systemui.recents.RecentsActivity",
                     /* MIUI */
                     "com.android.settings.NewFingerprintInternalActivity",
                     "com.miui.applicationlock.ConfirmAccessControl",
@@ -53,14 +54,21 @@ class FPQAAccessibilityService : AccessibilityService() {
         }
     }
 
-    var lastPkg = ""
+    var lastClass = ""
 
     var ignoreOnce = false
+
+    var recentsShowing = false
 
     override fun onCreate() {
         super.onCreate()
         Bus.observe<PerformGlobalActionEvent>()
-                .subscribe { performGlobalAction(it.action) }
+                .subscribe {
+                    val action = it.action
+                    if (action == GLOBAL_ACTION_RECENTS)
+                        recentsShowing = true
+                    performGlobalAction(action)
+                }
     }
 
     override fun onDestroy() {
@@ -80,23 +88,28 @@ class FPQAAccessibilityService : AccessibilityService() {
             val activityInfo = tryGetActivity(componentName)
 
             if (activityInfo != null) {
-                val currPkg = activityInfo.packageName
+                val currClass = event.className.toString()
+                val clazz = FPQAService.CLAZZ.name
 
                 if (ignoreOnce)
                     ignoreOnce = false
-                else if (lastPkg != BuildConfig.APPLICATION_ID
-                        && currPkg != BuildConfig.APPLICATION_ID
+                else if (currClass != clazz
+                        && lastClass != clazz
                         && event.className !in CLASS_BLACK_LIST)
                     Bus.send(ActivityChangedEvent)
 
-                lastPkg = currPkg
+
+                lastClass = currClass
 
                 isNotificationPanelExpanded = false
 
-            } else if (event.packageName == PACKAGE_NAME_SYSTEMUI) {
+            } else if (event.packageName == PACKAGE_NAME_SYSTEMUI && !recentsShowing) {
                 isNotificationPanelExpanded = true
                 ignoreOnce = true
-            } else isNotificationPanelExpanded = false
+            } else {
+                isNotificationPanelExpanded = false
+                recentsShowing = false
+            }
         }
     }
 

@@ -16,13 +16,15 @@ import org.jetbrains.anko.startService
 
 class StartFPQAActivity : AppCompatActivity() {
     companion object {
+        private val withAnim = "withAnim"
 
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context, withAnim: Boolean = false) {
             try {
                 val startIntent = Intent(context, FPQAService.CLAZZ)
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startIntent.putExtra(this@Companion.withAnim, withAnim)
                 context.startActivity(startIntent)
             } catch(e: Exception) {
                 if (BuildConfig.DEBUG)
@@ -55,7 +57,9 @@ class StartFPQAActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Bus.observe<FinishStartFPQAActivityEvent>().subscribe { finishWithoutAnim() }
+        Bus.observe<FinishStartFPQAActivityEvent>().subscribe {
+            if (intent.getBooleanExtra(withAnim, false)) finish() else finishWithoutAnim()
+        }
         startService<FPQAService>()
     }
 

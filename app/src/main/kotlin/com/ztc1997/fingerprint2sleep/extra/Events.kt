@@ -6,6 +6,8 @@ object FinishStartFPQAActivityEvent
 
 object ActivityChangedEvent
 
+object RestartScanningDelayedEvent
+
 class IsScanningChangedEvent(val value: Boolean)
 
 class PerformGlobalActionEvent(val action: Int)

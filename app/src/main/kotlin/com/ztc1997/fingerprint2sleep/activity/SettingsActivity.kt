@@ -39,14 +39,26 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
+        const val VALUES_PREF_QUICK_ACTION_BACK = "back"
         const val VALUES_PREF_QUICK_ACTION_HOME = "home"
+        const val VALUES_PREF_QUICK_ACTION_RECENTS = "recents"
+        const val VALUES_PREF_QUICK_ACTION_POWER_DIALOG = "power_dialog"
+        const val VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN = "toggle_split_screen"
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
+        const val VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS = "expand_quick_settings"
 
         val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
         val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAILED_TO_ACQUIRE)
+
+        val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
+                VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
+                VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN)
+
+        val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_RECENTS,
+                VALUES_PREF_QUICK_ACTION_SLEEP)
 
         val SOURCE by lazy { RC4.decry_RC4(SOURCE_ENC, PREF_KEYS_BOOLEAN[4]) }
     }

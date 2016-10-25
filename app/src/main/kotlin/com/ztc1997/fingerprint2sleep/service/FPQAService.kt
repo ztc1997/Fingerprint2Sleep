@@ -20,10 +20,7 @@ import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
-import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
-import com.ztc1997.fingerprint2sleep.extra.CompleteHashCodeEvent
-import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
-import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
+import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.util.QuickActions
 import com.ztc1997.fingerprint2sleep.util.RC4
@@ -185,25 +182,43 @@ class FPQAService : Service() {
     fun performFailedToAcquireAction() = performAction(SettingsActivity.PREF_ACTION_FAILED_TO_ACQUIRE)
 
     fun performAction(key: String, restart: Boolean = false) {
-        when (defaultDPreference.getPrefString(key,
-                SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP)) {
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP -> {
+        val action = defaultDPreference.getPrefString(key,
+                SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
+
+        when (action) {
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP ->
                 QuickActions.goToSleep()
-                return
-            }
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_BACK ->
+                QuickActions.actionBack()
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_RECENTS ->
+                QuickActions.actionRecents()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME ->
-                QuickActions.goToHome()
+                QuickActions.actionHome()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL ->
                 QuickActions.expandNotificationsPanel()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL ->
                 QuickActions.toggleNotificationsPanel()
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_POWER_DIALOG ->
+                QuickActions.actionPowerDialog()
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS ->
+                QuickActions.actionQuickSettings()
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN ->
+                QuickActions.actionToggleSplitScreen()
         }
 
-        if (restart)
-            StartFPQAActivity.startActivity(ctx)
+        if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)
+            if (action in SettingsActivity.DELAY_RESTART_ACTIONS)
+                Bus.send(RestartScanningDelayedEvent)
+            else
+                StartFPQAActivity.startActivity(ctx)
     }
 
     fun startFPQA() {
@@ -222,6 +237,10 @@ class FPQAService : Service() {
             Bus.observe<IsScanningChangedEvent>()
                     .throttleLast(THROTTLE_DELAY, TimeUnit.SECONDS)
                     .subscribe { delayIsScanning = it.value }
+
+            Bus.observe<RestartScanningDelayedEvent>()
+                    .delay(200, TimeUnit.MILLISECONDS)
+                    .subscribe { StartFPQAActivity.startActivity(ctx, true) }
         }
     }
 
