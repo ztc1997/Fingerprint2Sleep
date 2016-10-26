@@ -34,8 +34,7 @@
 
     <string name="title_pref_action_single_tap">单击</string>
 
-    <string name="title_pref_action_failed_to_acquire">获取失败</string>
-    <string name="summary_pref_action_failed_to_acquire">通常在快速轻扫时被触发</string>
+    <string name="title_pref_action_fast_swipe">快速轻扫</string>
 
     <string name="entries_pref_quick_action_none">无</string>
     <string name="entries_pref_quick_action_sleep">休眠</string>

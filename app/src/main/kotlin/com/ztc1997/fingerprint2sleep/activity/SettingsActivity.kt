@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
-        const val PREF_ACTION_FAILED_TO_ACQUIRE = "pref_action_failed_to_acquire"
+        const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -51,7 +51,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
-        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAILED_TO_ACQUIRE)
+        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
@@ -133,7 +133,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
-        val actionFailedToAcquire by lazy { findPreference(PREF_ACTION_FAILED_TO_ACQUIRE) as ListPreference }
+        val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -145,7 +145,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             }
 
             actionSingleTap.summary = actionSingleTap.entry
-            refreshSummaryActionFailedToAcquire()
+            actionFastSwipe.summary = actionFastSwipe.entry
         }
 
         override fun onResume() {
@@ -161,12 +161,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             when (key) {
                 PREF_ACTION_SINGLE_TAP -> actionSingleTap.summary = actionSingleTap.entry
-                PREF_ACTION_FAILED_TO_ACQUIRE -> refreshSummaryActionFailedToAcquire()
+                PREF_ACTION_FAST_SWIPE -> actionFastSwipe.summary = actionFastSwipe.entry
             }
-        }
-
-        fun refreshSummaryActionFailedToAcquire() {
-            actionFailedToAcquire.summary = "${getString(R.string.summary_pref_action_failed_to_acquire)}\n${actionFailedToAcquire.entry}"
         }
 
         private fun openUri(uriString: String) {

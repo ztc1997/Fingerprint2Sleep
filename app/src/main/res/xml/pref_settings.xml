@@ -37,9 +37,8 @@
             android:defaultValue="none"
             android:entries="@array/entries_pref_quick_action"
             android:entryValues="@array/values_pref_quick_action"
-            android:key="pref_action_failed_to_acquire"
-            android:summary="@string/summary_pref_action_failed_to_acquire"
-            android:title="@string/title_pref_action_failed_to_acquire" />
+            android:key="pref_action_fast_swipe"
+            android:title="@string/title_pref_action_fast_swipe" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_pref_category_about">

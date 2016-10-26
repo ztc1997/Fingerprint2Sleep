@@ -34,8 +34,7 @@
 
     <string name="title_pref_action_single_tap">Single Tap</string>
 
-    <string name="title_pref_action_failed_to_acquire">Failed to Acquire</string>
-    <string name="summary_pref_action_failed_to_acquire">Normally triggered by fast swiping</string>
+    <string name="title_pref_action_fast_swipe">Fast Swipe</string>
 
     <string name="entries_pref_quick_action_none">None</string>
     <string name="entries_pref_quick_action_sleep">Sleep</string>

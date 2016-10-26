@@ -111,7 +111,7 @@ class FPQAService : Service() {
             Logger.d("helpCode = $helpCode, helpString = $helpString")
 
             // if (helpCode == FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST)
-            performFailedToAcquireAction()
+            performFastSwipeAction()
         }
     }
 
@@ -179,7 +179,7 @@ class FPQAService : Service() {
 
     fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, true)
 
-    fun performFailedToAcquireAction() = performAction(SettingsActivity.PREF_ACTION_FAILED_TO_ACQUIRE)
+    fun performFastSwipeAction() = performAction(SettingsActivity.PREF_ACTION_FAST_SWIPE)
 
     fun performAction(key: String, restart: Boolean = false) {
         val action = defaultDPreference.getPrefString(key,
