@@ -72,6 +72,8 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
 
     compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
+
+    provided 'de.robv.android.xposed:api:82'
 }
 
 andResGuard {
