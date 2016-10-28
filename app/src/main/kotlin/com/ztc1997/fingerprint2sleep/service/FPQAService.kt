@@ -21,8 +21,8 @@ import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.*
+import com.ztc1997.fingerprint2sleep.quickactions.CommonQuickActions
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
-import com.ztc1997.fingerprint2sleep.util.QuickActions
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.Reflects
 import org.jetbrains.anko.*
@@ -55,8 +55,8 @@ class FPQAService : Service() {
 
         // 1
         val THROTTLE_DELAY by lazy {
-            val hash1 = QuickActions.CHECK_CODE
-            val sign2 = QuickActions.CHECK_BYTES
+            val hash1 = CommonQuickActions.CHECK_CODE
+            val sign2 = CommonQuickActions.CHECK_BYTES
             Math.abs(hash1.toLong() / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
         }
     }
@@ -187,31 +187,31 @@ class FPQAService : Service() {
 
         when (action) {
             SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP ->
-                QuickActions.goToSleep()
+                CommonQuickActions.goToSleep()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_BACK ->
-                QuickActions.actionBack()
+                CommonQuickActions.actionBack()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_RECENTS ->
-                QuickActions.actionRecents()
+                CommonQuickActions.actionRecents()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME ->
-                QuickActions.actionHome()
+                CommonQuickActions.actionHome()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL ->
-                QuickActions.expandNotificationsPanel()
+                CommonQuickActions.expandNotificationsPanel()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL ->
-                QuickActions.toggleNotificationsPanel()
+                CommonQuickActions.toggleNotificationsPanel()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_POWER_DIALOG ->
-                QuickActions.actionPowerDialog()
+                CommonQuickActions.actionPowerDialog()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS ->
-                QuickActions.actionQuickSettings()
+                CommonQuickActions.actionQuickSettings()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN ->
-                QuickActions.actionToggleSplitScreen()
+                CommonQuickActions.actionToggleSplitScreen()
         }
 
         if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)

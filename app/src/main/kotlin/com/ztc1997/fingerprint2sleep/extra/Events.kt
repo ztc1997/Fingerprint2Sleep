@@ -8,6 +8,8 @@ object ActivityChangedEvent
 
 object RestartScanningDelayedEvent
 
+object StartScanningEvent
+
 class IsScanningChangedEvent(val value: Boolean)
 
 class PerformGlobalActionEvent(val action: Int)

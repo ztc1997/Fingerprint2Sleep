@@ -1,0 +1,14 @@
+package com.ztc1997.fingerprint2sleep.xposed.extentions
+
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
+
+object KXposedHelpers {
+    fun findAndHookMethod(clazz: Class<*>, methodName: String, vararg parameterTypes: Class<*>,
+                          callback: _XC_MethodHook.() -> Unit): XC_MethodHook.Unhook?
+            = XposedHelpers.findAndHookMethod(clazz, methodName, *parameterTypes, methodHookCallback(callback))
+
+    fun findAndHookMethod(className: String, classLoader: ClassLoader, methodName: String,
+                          vararg parameterTypes: Class<*>, callback: _XC_MethodHook.() -> Unit): XC_MethodHook.Unhook?
+            = XposedHelpers.findAndHookMethod(className, classLoader, methodName, *parameterTypes, methodHookCallback(callback))
+}
