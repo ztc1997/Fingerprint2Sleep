@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Ошибка\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action запущен</string>
+    <string name="notification_content_text_error">Ошибка аутентификации по отпечаткам пальцев, попробуйте еще раз</string>
+    <string name="toast_failed_to_collapse_panel">Не удалось свернуть панели</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Данное устройство не поддерживает аутентификацию по отпечаткам пальцев</string>
+    <string name="toast_root_access_failed">е удалось получить root права</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
+    <string name="description_accessibility">Fingerprint Quick Action необходимо Accessibility для обнаружения переключения интерфейса и выполнения некоторых действий</string>
+    <string name="toast_device_admin_failed">Не удалось активировать администратора устройства</string>
+    <string name="toast_accessibility_failed">Не удалось включить Accessibility</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Разрешить Fingerprint Quick Action</string>
+
+    <string name="title_pref_foreground_service">Foreground service</string>
+    <string name="summary_pref_foreground_service">Использовать foreground service для предотвращения выключения Fingerprint Quick Action системой (будет отображаться постояное уведомление)</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">агировать только на зарегистрированные отпечатки</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Если этот параметр включен, проверка отпечатков пальцев будет отменена после 4 неудачных попыток</string>
+
+    <string name="title_pref_lock_screen_with_power_button_as_root">Включить для работы разблокировки экрана по отпечатку пальца</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Требуется root. Включение экрана (имитация нажатия кнопки питания).</string>
+
+    <string name="title_pref_category_quick_action">Quick Action</string>
+
+    <string name="title_pref_action_single_tap">Одиночное нажатие</string>
+
+    <string name="title_pref_action_fast_swipe">Fast Swipe</string>
+
+    <string name="entries_pref_quick_action_none">Нет</string>
+    <string name="entries_pref_quick_action_sleep">Sleep</string>
+    <string name="entries_pref_quick_action_back">Назад</string>
+    <string name="entries_pref_quick_action_home">Домой</string>
+    <string name="entries_pref_quick_action_recents">Показать последние приложения</string>
+    <string name="entries_pref_quick_action_power_dialog">Показать меню питания</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Toggle split screen</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Показать Панель уведомлений</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Показать\Скрыть Панель уведомлений</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Показать быстрые настройки</string>
+
+    <string name="title_pref_category_about">О программе</string>
+
+    <string name="title_pref_donate">Donate</string>
+    <string name="summary_pref_donate">сли вам нравится это приложение, подумайте о покупке мне чашечки кофе :)</string>
+
+    <string name="title_pref_category_debug">Debug</string>
+
+    <string name="title_pref_notify_on_error">Сообщение об ошибке</string>
+    <string name="summary_pref_notify_on_error">Показать сообщение при ошибке аутентификации</string>
+
+</resources>
