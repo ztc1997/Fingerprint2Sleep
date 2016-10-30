@@ -10,7 +10,7 @@
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">Данное устройство не поддерживает аутентификацию по отпечаткам пальцев</string>
-    <string name="toast_root_access_failed">е удалось получить root права</string>
+    <string name="toast_root_access_failed">Не удалось получить root права</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
@@ -24,7 +24,7 @@
     <string name="title_pref_foreground_service">Foreground service</string>
     <string name="summary_pref_foreground_service">Использовать foreground service для предотвращения выключения Fingerprint Quick Action системой (будет отображаться постояное уведомление)</string>
 
-    <string name="title_pref_response_enrolled_fingerprint_only">агировать только на зарегистрированные отпечатки</string>
+    <string name="title_pref_response_enrolled_fingerprint_only">Реагировать только на зарегистрированные отпечатки</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">Если этот параметр включен, проверка отпечатков пальцев будет отменена после 4 неудачных попыток</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">Включить для работы разблокировки экрана по отпечатку пальца</string>
@@ -50,7 +50,7 @@
     <string name="title_pref_category_about">О программе</string>
 
     <string name="title_pref_donate">Donate</string>
-    <string name="summary_pref_donate">сли вам нравится это приложение, подумайте о покупке мне чашечки кофе :)</string>
+    <string name="summary_pref_donate">Если вам нравится это приложение, подумайте о покупке мне чашечки кофе :)</string>
 
     <string name="title_pref_category_debug">Debug</string>
 
