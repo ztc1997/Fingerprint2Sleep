@@ -37,12 +37,12 @@
     <string name="title_pref_action_fast_swipe">Fast Swipe</string>
 
     <string name="entries_pref_quick_action_none">Нет</string>
-    <string name="entries_pref_quick_action_sleep">Sleep</string>
+    <string name="entries_pref_quick_action_sleep">Сон</string>
     <string name="entries_pref_quick_action_back">Назад</string>
     <string name="entries_pref_quick_action_home">Домой</string>
-    <string name="entries_pref_quick_action_recents">Показать последние приложения</string>
+    <string name="entries_pref_quick_action_recents">Последние приложения</string>
     <string name="entries_pref_quick_action_power_dialog">Показать меню питания</string>
-    <string name="entries_pref_quick_action_toggle_split_screen">Toggle split screen</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Разделение экрана</string>
     <string name="entries_pref_quick_action_expand_notifications_panel">Показать Панель уведомлений</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">Показать\Скрыть Панель уведомлений</string>
     <string name="entries_pref_quick_action_expand_quick_settings">Показать быстрые настройки</string>
