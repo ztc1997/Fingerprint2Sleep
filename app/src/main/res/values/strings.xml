@@ -57,7 +57,4 @@
     <string name="title_pref_notify_on_error">Notify on error</string>
     <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
 
-    <!-- AdMob !!! You should NOT add this to other languages !!! -->
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
-
 </resources>
