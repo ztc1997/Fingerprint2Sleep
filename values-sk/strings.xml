@@ -52,9 +52,9 @@
     <string name="title_pref_donate">Podporiť</string>
     <string name="summary_pref_donate">Ak sa vám táto aplikácia páči, môžte mi kúpiť kávu.</string>
 
-    <string name="title_pref_category_debug">Debug</string>
+    <string name="title_pref_category_debug">Ladenie</string>
 
     <string name="title_pref_notify_on_error">Upozorniť pri chybe</string>
-    <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
+    <string name="summary_pref_notify_on_error">Zobraziť toast upozornenie pri chybe overenia odtlačku</string>
 
 </resources>
