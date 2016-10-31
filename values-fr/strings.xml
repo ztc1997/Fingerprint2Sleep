@@ -5,7 +5,7 @@
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Erreur\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action est en cours d\’exécution</string>
-    <string name="notification_content_text_error">Erreur d\’authentification de l\’empreinte, réessayez ultérieurement</string>
+    <string name="notification_content_text_error">Erreur d\’authentification de l\’empreinte, nouvel essai sous peu</string>
     <string name="toast_failed_to_collapse_panel">Echec de l\’abaissement du panneau</string>
 
     <!-- SettingsActivity -->
@@ -25,7 +25,7 @@
     <string name="summary_pref_foreground_service">Utiliser un service en premier plan pour éviter que Fingerprint Quick Action ne soit fermé par le système (une notification persistante va être affichée)</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Répondre uniquement aux empreintes enregistrées</string>
-    <string name="summary_pref_response_enrolled_fingerprint_only">Si activé, l\’authentification par empreinte va se désactiver après 4 essais ratés</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Si activé, l\’authentification par empreinte va se désactiver après 4 essais infructueux</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">Résoudre le problème des empreintes digitales au dévérouillage</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">Root requis. Eteint l\’écran (simule un appui sur le bouton power)</string>
@@ -38,7 +38,7 @@
 
     <string name="entries_pref_quick_action_none">Aucun</string>
     <string name="entries_pref_quick_action_sleep">Veille</string>
-    <string name="entries_pref_quick_action_back">Retour arrière</string>
+    <string name="entries_pref_quick_action_back">Retour</string>
     <string name="entries_pref_quick_action_home">Retour à l\’accueil</string>
     <string name="entries_pref_quick_action_recents">Afficher les applis récentes</string>
     <string name="entries_pref_quick_action_power_dialog">Afficher le menu power</string>
@@ -50,7 +50,7 @@
     <string name="title_pref_category_about">A propos</string>
 
     <string name="title_pref_donate">Donation</string>
-    <string name="summary_pref_donate">Si vous aimez cette app, vous pourriez par exemple m\’offrir un café.</string>
+    <string name="summary_pref_donate">Si vous aimez cette app, vous pourriez par exemple envisager de m\’offrir un café :)</string>
 
     <string name="title_pref_category_debug">Déboguage</string>
 
