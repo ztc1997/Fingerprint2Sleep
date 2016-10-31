@@ -24,3 +24,22 @@ Address: [1E6BBHUBNJsY8uTFY4cSfm7ffKRx1AjyHy](https://blockchain.info/address/1E
 | 23/10/2016 | Manuel Lindner                     | 6.66 EUR |      |
 | 25/10/2016 | anthony godshall                   | 5.00 USD |      |
 | 25/10/2016 | Andreas Wagner                     | 5.00 USD |      |
+| 26/10/2016 | ziguang                            | 5.00 CNY |      |
+| 28/10/2016 | Lindsey Lindayen                   | 2.00 USD |      |
+| 30/10/2016 | Kevin Vanbrabant                   | 2.00 EUR |      |
+| 30/10/2016 | Danilo Frias                       | 5.00 USD |      |
+| 30/10/2016 | Aurelio Galarza                    | 5.00 USD |      |
+| 30/10/2016 | Andrew Schillinger                 | 10.00 USD |      |
+| 30/10/2016 | Scott Plowman                      | 3.00 AUD |      |
+| 30/10/2016 | Jose Montoya                       | 1.00 USD |      |
+| 30/10/2016 | JOSE GUTIERREZ BERMEJO             | 5.00 EUR |      |
+| 30/10/2016 | Stephan Alles                      | 1.25 EUR |      |
+| 30/10/2016 | Davide Rossi                       | 1.00 EUR |      |
+| 31/10/2016 | Tamim Jabban                       | 1.00 USD |      |
+| 31/10/2016 | \*\*\*\*\* \*\*\*\*\*              | 2.00 USD |      |
+| 31/10/2016 | Пилиновичс Максим                  | 300.00 RUB |      |
+| 31/10/2016 | Matveev Michael                    | 1.00 USD |      |
+| 31/10/2016 | ANDREA SANGIORGI                   | 2.00 EUR |      |
+| 31/10/2016 | Львов Андрей                       | 2.00 USD |      |
+| 31/10/2016 | Abinash Bishoyi                    | 1.00 USD |      |
+| 31/10/2016 | Jaspr                              | 10.00 CNY |      |
