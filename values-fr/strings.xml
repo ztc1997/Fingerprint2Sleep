@@ -55,6 +55,6 @@
     <string name="title_pref_category_debug">Déboguage</string>
 
     <string name="title_pref_notify_on_error">Notifier en cas d\’erreur</string>
-    <string name="summary_pref_notify_on_error">Afficher un message en cas d\’erreur d\’authentification par empreinte digitale</string>
+    <string name="summary_pref_notify_on_error">Afficher un message en cas d\'erreur d\'authentification</string>
 
 </resources>
