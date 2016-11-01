@@ -9,13 +9,13 @@
     <string name="toast_failed_to_collapse_panel">Echec de l\’abaissement du panneau</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">Cet appareil ne supporte pas l\’authentification par empreinte digitale</string>
+    <string name="msg_dialog_device_does_not_support_fingerprint">Cet appareil n\'est pas compatible avec l\’authentification par empreinte digitale</string>
     <string name="toast_root_access_failed">Accès root non disponible</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">La mise en veille nécessite l\’activation des droits d\’administrateur pour fonctionner</string>
     <string name="description_accessibility">Fingerprint Quick Action nécessite les droits d\’accessibilité pour détecter le changement d’interface et effectuer certaines actions </string>
-    <string name="toast_device_admin_failed">Echec de l\’activation des droits d\’administration</string>
+    <string name="toast_device_admin_failed">Echec de l\’activation des droits d\’administrateur</string>
     <string name="toast_accessibility_failed">Echec de l\’activation des droits d\’accessibilité</string>
 
     <!-- Preferences -->
@@ -25,7 +25,7 @@
     <string name="summary_pref_foreground_service">Utiliser un service en premier plan pour éviter que Fingerprint Quick Action ne soit fermé par le système (une notification persistante va être affichée)</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Répondre uniquement aux empreintes enregistrées</string>
-    <string name="summary_pref_response_enrolled_fingerprint_only">Si activé, l\’authentification par empreinte va se désactiver après 4 essais infructueux</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Si activé, l\’authentification par empreinte se désactivera après 4 essais infructueux</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">Résoudre le problème des empreintes digitales au dévérouillage</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">Root requis. Eteint l\’écran (simule un appui sur le bouton power)</string>
@@ -36,16 +36,16 @@
 
     <string name="title_pref_action_fast_swipe">Glissé rapide</string>
 
-    <string name="entries_pref_quick_action_none">Aucun</string>
-    <string name="entries_pref_quick_action_sleep">Veille</string>
+    <string name="entries_pref_quick_action_none">Aucune</string>
+    <string name="entries_pref_quick_action_sleep">Mettre en veille</string>
     <string name="entries_pref_quick_action_back">Retour</string>
     <string name="entries_pref_quick_action_home">Retour à l\’accueil</string>
-    <string name="entries_pref_quick_action_recents">Afficher les applis récentes</string>
+    <string name="entries_pref_quick_action_recents">Afficher les éléments récents</string>
     <string name="entries_pref_quick_action_power_dialog">Afficher le menu power</string>
-    <string name="entries_pref_quick_action_toggle_split_screen">Basculer le mode écran scindé</string>
-    <string name="entries_pref_quick_action_expand_notifications_panel">Ouvrir le panneau de notifications</string>
-    <string name="entries_pref_quick_action_toggle_notifications_panel">Basculer le panneau de notifications</string>
-    <string name="entries_pref_quick_action_expand_quick_settings">Ouvrir les paramètres rapides</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Basculer en mode écran scindé</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Étendre le panneau de notifications</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Étendre/Fermer le panneau de notifications</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Étendre les paramètres rapides</string>
 
     <string name="title_pref_category_about">A propos</string>
 
