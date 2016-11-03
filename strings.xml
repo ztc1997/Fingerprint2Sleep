@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Chyba\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action běží</string>
+    <string name="notification_content_text_error">Ověření otisku prstu selhalo</string>
+    <string name="toast_failed_to_collapse_panel">Nepodařilo se rozbalit panel</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Toto zařízení nepodporuje ověření pomocí otisku prstu</string>
+    <string name="toast_root_access_failed">Nepodařilo se získat root přístup</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Uspání zařízení vyžaduje povolení správce zařízení</string>
+    <string name="description_accessibility">Fingerprint Quick Action vyžaduje Dostupnost pro přepínání zobrazení a pro vykonání nekterých akcí</string>
+    <string name="toast_device_admin_failed">Nepodařilo se povolit správce zařízení</string>
+    <string name="toast_accessibility_failed">Nepodařilo se povolit Dostupnost</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Povolit Fingerprint Quick Action</string>
+
+    <string name="title_pref_foreground_service">Služba na popředí</string>
+    <string name="summary_pref_foreground_service">Použijte službu na popředí, aby jste zabránili systému ukončit Fingerprint Quick Action (zobrazí trvalé upozornění)</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Reagovat jen na přidané otisky prstu</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Pokud zaškrtnuté, ověření pomocí otisku skončí po 4 neúspešných pokusech</string>
+
+    <string name="title_pref_lock_screen_with_power_button_as_root">Řešení pro odemknutí pomocí otisku</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Vyžaduje root. Vypne obrazovku (simuluje stisknutí napájecího tlačítka).</string>
+
+    <string name="title_pref_category_quick_action">Rychlá akce</string>
+
+    <string name="title_pref_action_single_tap">Přiložení</string>
+
+    <string name="title_pref_action_fast_swipe">Rýchlé přejetí</string>
+
+    <string name="entries_pref_quick_action_none">Nedělat nic</string>
+    <string name="entries_pref_quick_action_sleep">Uspat</string>
+    <string name="entries_pref_quick_action_back">Zpět</string>
+    <string name="entries_pref_quick_action_home">Domů</string>
+    <string name="entries_pref_quick_action_recents">Zobrazit nedávné apl.</string>
+    <string name="entries_pref_quick_action_power_dialog">Zobrazit menu napájení</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Přepnout rozdělenou  obrazovku</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Rozbalit panel s upozorněními</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Přepnout panel s upozorněními</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Rozbalit panel s rychlými nastaveními</string>
+
+    <string name="title_pref_category_about">O aplikaci</string>
+
+    <string name="title_pref_donate">Podpořit</string>
+    <string name="summary_pref_donate">Pokud se Vám tato aplikace líbí, můžete mi koupit kávu.</string>
+
+    <string name="title_pref_category_debug">Ladění</string>
+
+    <string name="title_pref_notify_on_error">Upozornit při chybě</string>
+    <string name="summary_pref_notify_on_error">Zobrazit toast upozornění při chybě ověření otisku</string>
+
+</resources>
