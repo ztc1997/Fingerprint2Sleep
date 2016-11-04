@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action is running</string>
+    <string name="notification_content_text_error">Fingerprint authentication error, will retry soon</string>
+    <string name="toast_failed_to_collapse_panel">Failed to collapse the panels</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">This device doesn\'t support fingerprint authentication</string>
+    <string name="toast_root_access_failed">Couldn\'t get root access</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
+    <string name="description_accessibility">Fingerprint Quick Action needs Accessibility to detect interface switching and perform some action</string>
+    <string name="toast_device_admin_failed">Failed to activate a device administrator</string>
+    <string name="toast_accessibility_failed">Failed to turn on Accessibility</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
+
+    <string name="title_pref_foreground_service">Foreground service</string>
+    <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Respond to enrolled fingerprints only</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">If enabled, fingerprint authentication will cancel after 4 failed attempts</string>
+
+    <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switches off the screen (simulating a power button press).</string>
+
+    <string name="title_pref_category_quick_action">Quick Action</string>
+
+    <string name="title_pref_action_single_tap">Single Tap</string>
+
+    <string name="title_pref_action_fast_swipe">Fast Swipe</string>
+
+    <string name="entries_pref_quick_action_none">None</string>
+    <string name="entries_pref_quick_action_sleep">Sleep</string>
+    <string name="entries_pref_quick_action_back">Go back</string>
+    <string name="entries_pref_quick_action_home">Go home</string>
+    <string name="entries_pref_quick_action_recents">Show recent apps</string>
+    <string name="entries_pref_quick_action_power_dialog">Show power menu</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Toggle split screen</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Expand notifications panel</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle notifications panel</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Expand quick settings</string>
+
+    <string name="title_pref_category_about">About</string>
+
+    <string name="title_pref_donate">Donate</string>
+    <string name="summary_pref_donate">If you like this app, consider buying me a cup of coffee.</string>
+
+    <string name="title_pref_category_debug">Debug</string>
+
+    <string name="title_pref_notify_on_error">Notify on error</string>
+    <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
+
+</resources>
