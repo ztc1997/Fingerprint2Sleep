@@ -30,7 +30,7 @@
     <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switches off the screen (simulating a power button press).</string>
 
-    <string name="title_pref_category_quick_action">Quick Action</string>
+    <string name="title_pref_category_quick_action">Pikatoiminto</string>
 
     <string name="title_pref_action_single_tap">Single Tap</string>
 
