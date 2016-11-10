@@ -1,4 +1,4 @@
-package com.ztc1997.fingerprint2sleep.xposed.extentions
+package com.ztc1997.fingerprint2sleep.xposed.extention
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers

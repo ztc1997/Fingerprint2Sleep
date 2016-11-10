@@ -185,34 +185,7 @@ class FPQAService : Service() {
         val action = defaultDPreference.getPrefString(key,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
 
-        when (action) {
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP ->
-                CommonQuickActions.goToSleep()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_BACK ->
-                CommonQuickActions.actionBack()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_RECENTS ->
-                CommonQuickActions.actionRecents()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_HOME ->
-                CommonQuickActions.actionHome()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL ->
-                CommonQuickActions.expandNotificationsPanel()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL ->
-                CommonQuickActions.toggleNotificationsPanel()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_POWER_DIALOG ->
-                CommonQuickActions.actionPowerDialog()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS ->
-                CommonQuickActions.actionQuickSettings()
-
-            SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN ->
-                CommonQuickActions.actionToggleSplitScreen()
-        }
+        CommonQuickActions.performQuickAction(action)
 
         if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)
             if (action in SettingsActivity.DELAY_RESTART_ACTIONS)

@@ -1,6 +1,10 @@
 package com.ztc1997.fingerprint2sleep.xposed
 
 import com.ztc1997.fingerprint2sleep.BuildConfig
+import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
+import com.ztc1997.fingerprint2sleep.xposed.hook.AuthenticationCallbackHooks
+import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
+import com.ztc1997.fingerprint2sleep.xposed.hook.SystemUIHooks
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -19,17 +23,11 @@ class FPQAModule : IXposedHookLoadPackage {
         if (lpp == null) return
 
         if (lpp.packageName == "android" && lpp.processName == "android") {
-            try {
-                fingerprintServiceHooks(lpp.classLoader)
-            } catch(e: Exception) {
-                e.printStackTrace()
-            }
+            tryAndPrintStackTrace { FingerprintServiceHooks.doHook(lpp.classLoader) }
+        } else if (lpp.packageName == "com.android.systemui" && lpp.processName == "com.android.systemui") {
+            tryAndPrintStackTrace { SystemUIHooks.doHook(lpp.classLoader) }
         }
 
-        try {
-            authenticationCallbackHooks(lpp.classLoader)
-        } catch(e: Exception) {
-            e.printStackTrace()
-        }
+        tryAndPrintStackTrace { AuthenticationCallbackHooks.doHook(lpp.classLoader) }
     }
 }
