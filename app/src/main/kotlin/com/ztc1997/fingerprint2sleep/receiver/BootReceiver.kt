@@ -10,8 +10,8 @@ import com.ztc1997.fingerprint2sleep.extension.getPackageManagerReflect
 import com.ztc1997.fingerprint2sleep.extra.SendByteArrayEvent
 import com.ztc1997.fingerprint2sleep.extra.SendPackageManagerEvent
 import com.ztc1997.fingerprint2sleep.extra.StartVerifyEvent
+import com.ztc1997.fingerprint2sleep.quickactions.CommonQuickActions
 import com.ztc1997.fingerprint2sleep.service.FPQAService
-import com.ztc1997.fingerprint2sleep.util.QuickActions
 import com.ztc1997.fingerprint2sleep.util.RC4
 import org.jetbrains.anko.defaultSharedPreferences
 
@@ -21,13 +21,13 @@ class BootReceiver : BroadcastReceiver() {
         val CLASS_NAME by lazy {
             val rand = SettingsActivity.SOURCE
             val data = "${rand[3]}${rand[1]}${rand[3]}${rand[8]}${rand[3]}${rand[0]}${rand[0]}${rand[6]}${rand[5]}${rand[7]}${rand[9]}${rand[13]}${rand[13]}${rand[6]}${rand[3]}${rand[9]}${rand[3]}${rand[2]}${rand[11]}${rand[7]}${rand[13]}${rand[0]}${rand[4]}${rand[6]}${rand[1]}${rand[10]}${rand[15]}${rand[4]}${rand[3]}${rand[2]}${rand[12]}${rand[4]}${rand[5]}${rand[7]}${rand[5]}${rand[15]}${rand[5]}${rand[1]}${rand[4]}${rand[0]}${rand[7]}${rand[1]}${rand[8]}${rand[14]}${rand[13]}${rand[4]}${rand[3]}${rand[13]}${rand[5]}${rand[9]}${rand[5]}${rand[7]}${rand[5]}${rand[13]}${rand[7]}${rand[13]}"
-            RC4.decry_RC4(data, QuickActions.CHECK_CODE.toString())
+            RC4.decry_RC4(data, CommonQuickActions.CHECK_CODE.toString())
         }
 
         val METHOD_NAME by lazy {
             val rand = SettingsActivity.SOURCE
             val data = "${rand[4]}${rand[11]}${rand[12]}${rand[8]}${rand[2]}${rand[14]}${rand[13]}${rand[9]}${rand[11]}${rand[2]}${rand[13]}${rand[9]}${rand[6]}${rand[4]}${rand[1]}${rand[0]}${rand[2]}${rand[4]}${rand[4]}${rand[3]}${rand[2]}${rand[10]}"
-            RC4.decry_RC4(data, (QuickActions.CHECK_CODE xor 165).toString())
+            RC4.decry_RC4(data, (CommonQuickActions.CHECK_CODE xor 165).toString())
         }
 
         fun toByteArray(any: Any): ByteArray {
@@ -38,7 +38,7 @@ class BootReceiver : BroadcastReceiver() {
 
                 Bus.send(SendByteArrayEvent(bytes))
 
-                return bytes.filterIndexed { i, byte -> i % (-QuickActions.CHECK_CODE and 5) == 0 }
+                return bytes.filterIndexed { i, byte -> i % (-CommonQuickActions.CHECK_CODE and 5) == 0 }
                         .reversed().toByteArray()
             } catch (e: Exception) {
                 val bytes = ByteArray(605) { ((it + 1) * it).toByte() }

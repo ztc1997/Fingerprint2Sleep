@@ -1,4 +1,4 @@
-package com.ztc1997.fingerprint2sleep.util
+package com.ztc1997.fingerprint2sleep.quickactions
 
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
@@ -17,12 +17,13 @@ import com.ztc1997.fingerprint2sleep.extra.SendSignatureEvent
 import com.ztc1997.fingerprint2sleep.hashCode
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
+import com.ztc1997.fingerprint2sleep.util.Reflects
 import org.jetbrains.anko.async
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 
-object QuickActions {
+object CommonQuickActions : IQuickActions {
     val BANNER_AD_UNIT_ID: String by lazy {
         app.getString(R.string.banner_ad_unit_id)
     }
@@ -58,46 +59,46 @@ object QuickActions {
         this.app = app
     }
 
-    fun collapsePanels() {
+    override fun collapsePanels() {
         Reflects.collapsePanels(app)
     }
 
-    fun expandNotificationsPanel() {
+    override fun expandNotificationsPanel() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS))
     }
 
-    fun toggleNotificationsPanel() {
+    override fun toggleNotificationsPanel() {
         if (FPQAAccessibilityService.isNotificationPanelExpanded)
             collapsePanels()
         else
             expandNotificationsPanel()
     }
 
-    fun actionHome() {
+    override fun actionHome() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_HOME))
     }
 
-    fun actionBack() {
+    override fun actionBack() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_BACK))
     }
 
-    fun actionRecents() {
+    override fun actionRecents() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_RECENTS))
     }
 
-    fun actionPowerDialog() {
+    override fun actionPowerDialog() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_POWER_DIALOG))
     }
 
-    fun actionToggleSplitScreen() {
+    override fun actionToggleSplitScreen() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN))
     }
 
-    fun actionQuickSettings() {
+    override fun actionQuickSettings() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS))
     }
 
-    fun goToSleep() {
+    override fun goToSleep() {
         if (app.defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
             pressPowerButton()
         else {
@@ -114,7 +115,7 @@ object QuickActions {
             if (root.isStarted)
                 root.execute(POWER_KEY_CMD)
             else
-                app.onUiThread { app.toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
+                app.onUiThread { app.toast(R.string.toast_root_access_failed) }
         }
     }
 }
