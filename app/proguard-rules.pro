@@ -40,4 +40,6 @@
 -keepattributes *Annotation*
 
 -keep class com.ztc1997.fingerprint2sleep.xposed.FPQAModule
--keep class com.ztc1997.fingerprint2sleep.util.XposedProbe { *;}
+-keep class com.ztc1997.fingerprint2sleep.util.XposedProbe {
+    public static int activatedModuleVersion();
+}

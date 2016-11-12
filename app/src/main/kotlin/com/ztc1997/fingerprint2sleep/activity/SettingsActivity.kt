@@ -140,6 +140,8 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
+        val foregroundServiceSwitch by lazy { findPreference(PREF_FOREGROUND_SERVICE) as CheckBoxPreference }
+        val rootSwitch by lazy { findPreference(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT) as CheckBoxPreference }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
 
@@ -152,9 +154,14 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 true
             }
 
-            FPQASwitch.summary = getString(if (XposedProbe.isModuleActivated())
+            val moduleActivated = XposedProbe.isModuleActivated()
+
+            FPQASwitch.summary = getString(if (moduleActivated)
                 R.string.summary_pref_enable_fingerprint_quick_action_xposed else
                 R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
+
+            foregroundServiceSwitch.isEnabled = !moduleActivated
+            rootSwitch.isEnabled = !moduleActivated
         }
 
         override fun onResume() {

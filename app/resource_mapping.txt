@@ -518,6 +518,9 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.toast_failed_to_collapse_panel -> com.ztc1997.fingerprint2sleep.R.string.b7
     com.ztc1997.fingerprint2sleep.R.string.toast_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.b8
     com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed -> com.ztc1997.fingerprint2sleep.R.string.b9
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_non_xposed -> com.ztc1997.fingerprint2sleep.R.string.au
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_xposed -> com.ztc1997.fingerprint2sleep.R.string.c3
+    com.ztc1997.fingerprint2sleep.R.string.xposed_description -> com.ztc1997.fingerprint2sleep.R.string.c4
     com.ztc1997.fingerprint2sleep.R.string.abc_font_family_body_1_material -> com.ztc1997.fingerprint2sleep.R.string.b_
     com.ztc1997.fingerprint2sleep.R.string.abc_font_family_body_2_material -> com.ztc1997.fingerprint2sleep.R.string.ba
     com.ztc1997.fingerprint2sleep.R.string.abc_font_family_button_material -> com.ztc1997.fingerprint2sleep.R.string.bb
