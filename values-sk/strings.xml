@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Vykonáva rýchle akcie pomocou priloženia/potiahnutia cez senzor odtlačkov prstov. Aktivovaním Xposed modulu zaistíte väčšiu stabilitu</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Chyba\n%1$s</string>
@@ -20,6 +22,8 @@
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Povoliť Fingerprint Quick Action</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Beží v režime s Xposed</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Beží v režime bez Xposed</string>
 
     <string name="title_pref_foreground_service">Služba na popredí</string>
     <string name="summary_pref_foreground_service">Použite službu na popredí, aby ste zabránili systému ukončiť Fingerprint Quick Action (zobrazí trvalé upozornenie)</string>
