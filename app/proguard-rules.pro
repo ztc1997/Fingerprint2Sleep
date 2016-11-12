@@ -38,3 +38,6 @@
 -keep class rx.internal.util.unsafe.** { *;}
 
 -keepattributes *Annotation*
+
+-keep class com.ztc1997.fingerprint2sleep.xposed.FPQAModule
+-keep class com.ztc1997.fingerprint2sleep.util.XposedProbe { *;}
