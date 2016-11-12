@@ -21,7 +21,7 @@ import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.*
-import com.ztc1997.fingerprint2sleep.quickactions.CommonQuickActions
+import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.Reflects
@@ -55,8 +55,8 @@ class FPQAService : Service() {
 
         // 1
         val THROTTLE_DELAY by lazy {
-            val hash1 = CommonQuickActions.CHECK_CODE
-            val sign2 = CommonQuickActions.CHECK_BYTES
+            val hash1 = NonXposedQuickActions.CHECK_CODE
+            val sign2 = NonXposedQuickActions.CHECK_BYTES
             Math.abs(hash1.toLong() / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
         }
     }
@@ -185,7 +185,7 @@ class FPQAService : Service() {
         val action = defaultDPreference.getPrefString(key,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
 
-        CommonQuickActions.performQuickAction(action)
+        NonXposedQuickActions.performQuickAction(action)
 
         if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)
             if (action in SettingsActivity.DELAY_RESTART_ACTIONS)

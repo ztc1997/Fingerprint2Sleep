@@ -7,7 +7,7 @@ import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.extra.StartVerifyEvent
-import com.ztc1997.fingerprint2sleep.quickactions.CommonQuickActions
+import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.defaultSharedPreferences
 
@@ -17,9 +17,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        CommonQuickActions.verify3()
+        NonXposedQuickActions.verify3()
 
-        CommonQuickActions.inject(this)
+        NonXposedQuickActions.inject(this)
 
         if (defaultSharedPreferences.contains(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP)) {
             defaultSharedPreferences.edit().putBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION,

@@ -15,7 +15,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class FPQAModule : IXposedHookLoadPackage {
     companion object {
         val TAG: String = FPQAModule::class.java.simpleName
-        val ACTION_START_SCANNING = FPQAModule::class.java.name + ".ACTION_START_SCANNING"
 
         fun log(log: Any?) {
             if (BuildConfig.DEBUG) XposedBridge.log("/$TAG: $log")

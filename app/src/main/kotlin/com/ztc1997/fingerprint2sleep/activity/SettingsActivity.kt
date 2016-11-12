@@ -7,12 +7,12 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.preference.CheckBoxPreference
 import android.preference.ListPreference
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
-import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.SOURCE_ENC
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -21,6 +21,7 @@ import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
+import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.defaultSharedPreferences
@@ -103,8 +104,6 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         super.onResume()
         bindService(Intent(this, FPQAService::class.java), conn, BIND_AUTO_CREATE)
         defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
-
-        Logger.d(XposedProbe.activatedModuleVersion())
     }
 
     override fun onPause() {
@@ -129,13 +128,18 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         }
 
         when (key) {
-            PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> if (sharedPreferences.getBoolean(key, false))
-                StartFPQAActivity.startActivity(ctx)
+            PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> {
+                if (XposedProbe.isModuleActivated())
+                    sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
+                else if (sharedPreferences.getBoolean(key, false))
+                    StartFPQAActivity.startActivity(ctx)
+            }
         }
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val donate: Preference by lazy { findPreference(PREF_DONATE) }
+        val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
 
@@ -148,13 +152,17 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 true
             }
 
-            actionSingleTap.summary = actionSingleTap.entry
-            actionFastSwipe.summary = actionFastSwipe.entry
+            FPQASwitch.summary = getString(if (XposedProbe.isModuleActivated())
+                R.string.summary_pref_enable_fingerprint_quick_action_xposed else
+                R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
         }
 
         override fun onResume() {
             super.onResume()
             defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+            actionSingleTap.summary = actionSingleTap.entry
+            actionFastSwipe.summary = actionFastSwipe.entry
         }
 
         override fun onPause() {

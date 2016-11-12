@@ -23,7 +23,7 @@ import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 
-object CommonQuickActions : IQuickActions {
+object NonXposedQuickActions : IQuickActions {
     val BANNER_AD_UNIT_ID: String by lazy {
         app.getString(R.string.banner_ad_unit_id)
     }

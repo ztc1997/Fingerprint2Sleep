@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.fingerprint.FingerprintManager
+import android.os.CancellationSignal
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -15,40 +16,14 @@ import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedBridge
 import de.robv.android.xposed.XposedHelpers
 import me.dozen.dpreference.DPreference
-import org.jetbrains.anko.async
 import org.jetbrains.anko.fingerprintManager
 import java.util.concurrent.TimeUnit
 
 object FingerprintServiceHooks : IHooks {
+    val ACTION_START_SCANNING = FingerprintServiceHooks::class.java.name + ".ACTION_START_SCANNING"
+    val ACTION_ENABLED_STATE_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_ENABLED_STATE_CHANGED"
+
     object MyAuthenticationCallback : FingerprintManager.AuthenticationCallback() {
-        /*override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
-            super.onAuthenticationSucceeded(result)
-            isScanning = false
-            performSingleTapAction()
-        }
-
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            if (!dPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
-                performSingleTapAction()
-        }
-
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-            super.onAuthenticationError(errorCode, errString)
-            if (dPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
-                errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
-            isError = true
-            isScanning = false
-        }
-
-        override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            super.onAuthenticationHelp(helpCode, helpString)
-
-            Logger.d("helpCode = $helpCode, helpString = $helpString")
-
-            // if (helpCode == FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST)
-            performFastSwipeAction()
-        }*/
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
             FPQAModule.log("onAuthenticationSucceeded($result)")
@@ -64,6 +39,9 @@ object FingerprintServiceHooks : IHooks {
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
             FPQAModule.log("onAuthenticationFailed()")
+            if (!dPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
+                quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP,
+                        SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE))
         }
 
         override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
@@ -75,6 +53,7 @@ object FingerprintServiceHooks : IHooks {
     }
 
     private var CLASS_FINGERPRINT_SERVICE: Class<*>? = null
+    private var cancellationSignal: CancellationSignal? = null
     private lateinit var context: Context
     private lateinit var quickActions: IQuickActions
     private lateinit var dPreference: DPreference
@@ -99,11 +78,18 @@ object FingerprintServiceHooks : IHooks {
 
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
-                        Bus.send(StartScanningEvent)
+                        if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+                            Bus.send(StartScanningEvent)
+                        else if (!(cancellationSignal?.isCanceled ?: true))
+                            cancellationSignal?.cancel()
                     }
                 }
 
-                context.registerReceiver(receiver, IntentFilter(FPQAModule.ACTION_START_SCANNING))
+                val intentFilter = IntentFilter()
+                intentFilter.addAction(ACTION_ENABLED_STATE_CHANGED)
+                intentFilter.addAction(ACTION_START_SCANNING)
+
+                context.registerReceiver(receiver, intentFilter)
 
                 FPQAModule.log("CLASS_FINGERPRINT_SERVICE Constructor")
             }
@@ -113,10 +99,9 @@ object FingerprintServiceHooks : IHooks {
     }
 
     fun authenticate(context: Context, fingerprintService: Any) {
-        context.async() {
-            Thread.sleep(100)
-            if (!hasClientMonitor(fingerprintService))
-                context.fingerprintManager.authenticate(null, null, 0, MyAuthenticationCallback, null)
+        if (!hasClientMonitor(fingerprintService)) {
+            cancellationSignal = CancellationSignal()
+            context.fingerprintManager.authenticate(null, cancellationSignal, 0, MyAuthenticationCallback, null)
         }
     }
 

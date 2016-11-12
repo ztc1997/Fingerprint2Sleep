@@ -12,6 +12,7 @@ import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.RC4
+import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import org.jetbrains.anko.startService
 
 class StartFPQAActivity : AppCompatActivity() {
@@ -20,6 +21,8 @@ class StartFPQAActivity : AppCompatActivity() {
 
         fun startActivity(context: Context, withAnim: Boolean = false) {
             try {
+                if (XposedProbe.isModuleActivated()) return
+
                 val startIntent = Intent(context, FPQAService.CLAZZ)
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
