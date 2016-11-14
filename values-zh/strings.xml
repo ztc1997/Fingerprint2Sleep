@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">指纹快捷操作</string>
 
+    <string name="xposed_description">通过点击/轻扫指纹传感器执行快捷操作。激活 Xposed 模块将更加稳定。</string>
+
     <!-- FPQAService -->
     <string name="toast_notify_on_error">指纹快捷操作：错误\n%1$s</string>
     <string name="notification_content_text">指纹快捷操作正在运行</string>
@@ -20,12 +22,18 @@
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">启用指纹快捷操作</string>
-
-    <string name="title_pref_foreground_service">前台服务</string>
-    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">运行在 Xposed 模式下</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">运行在非 Xposed 模式下</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">仅响应已注册的指纹</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
+
+    <string name="title_pref_screen_non_xposed_mode">非 Xposed 模式设置</string>
+
+    <string name="title_pref_screen_xposed_mode">Xposed 模式设置</string>
+
+    <string name="title_pref_foreground_service">前台服务</string>
+    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">解决指纹解锁的问题</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
