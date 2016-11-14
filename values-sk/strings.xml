@@ -25,11 +25,15 @@
     <string name="summary_pref_enable_fingerprint_quick_action_xposed">Beží v režime s Xposed</string>
     <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Beží v režime bez Xposed</string>
 
-    <string name="title_pref_foreground_service">Služba na popredí</string>
-    <string name="summary_pref_foreground_service">Použite službu na popredí, aby ste zabránili systému ukončiť Fingerprint Quick Action (zobrazí trvalé upozornenie)</string>
-
     <string name="title_pref_response_enrolled_fingerprint_only">Odpovedať iba na pridané odtlačky</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">Ak je povolené, overenie pomocou odtlačku skončí po 4 neúspešných pokusoch</string>
+    
+    <string name="title_pref_screen_non_xposed_mode">Nastavenia režimu bez Xposed</string>
+
+    <string name="title_pref_screen_xposed_mode">Nastavenia režimu s Xposed</string>
+    
+    <string name="title_pref_foreground_service">Služba na popredí</string>
+    <string name="summary_pref_foreground_service">Použite službu na popredí, aby ste zabránili systému ukončiť Fingerprint Quick Action (zobrazí trvalé upozornenie)</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">Riešenie pre odomknutie pomocou odtlačku</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">Vyžaduje root. Vypne obrazovku (simuluje stlačenie napájacieho tlačidla).</string>
