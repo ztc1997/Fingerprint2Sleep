@@ -41,13 +41,13 @@
             android:title="@string/title_pref_action_fast_swipe" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/title_pref_category_about">
+    <!--<PreferenceCategory android:title="@string/title_pref_category_about">
 
-        <Preference
-            android:key="pref_donate"
-            android:summary="@string/summary_pref_donate"
-            android:title="@string/title_pref_donate" />
-    </PreferenceCategory>
+            <Preference
+                android:key="pref_donate"
+                android:summary="@string/summary_pref_donate"
+                android:title="@string/title_pref_donate" />
+        </PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/title_pref_category_debug">
 

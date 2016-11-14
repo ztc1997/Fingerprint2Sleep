@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 7
-        versionName "0.6.0"
+        versionCode 8
+        versionName "0.6.1"
     }
 
     signingConfigs {
@@ -77,7 +77,7 @@ dependencies {
 }
 
 andResGuard {
-    mappingFile = file("./resource_mapping.txt")
+    mappingFile = file("./resource_mapping_app-release.txt")
     // mappingFile = null
     use7zip = true
     useSign = true

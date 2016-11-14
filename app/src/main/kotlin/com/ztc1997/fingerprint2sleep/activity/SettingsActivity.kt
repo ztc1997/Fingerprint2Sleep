@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.preference.CheckBoxPreference
 import android.preference.ListPreference
-import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
@@ -35,7 +34,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
-        const val PREF_DONATE = "pref_donate"
+        // const val PREF_DONATE = "pref_donate"
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
@@ -138,7 +137,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-        val donate: Preference by lazy { findPreference(PREF_DONATE) }
+        // val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val foregroundServiceSwitch by lazy { findPreference(PREF_FOREGROUND_SERVICE) as CheckBoxPreference }
         val rootSwitch by lazy { findPreference(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT) as CheckBoxPreference }
@@ -149,10 +148,10 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
 
-            donate.setOnPreferenceClickListener {
+            /*donate.setOnPreferenceClickListener {
                 openUri("https://github.com/ztc1997/Fingerprint2Sleep/blob/master/DONATE.md")
                 true
-            }
+            }*/
 
             val moduleActivated = XposedProbe.isModuleActivated()
 
