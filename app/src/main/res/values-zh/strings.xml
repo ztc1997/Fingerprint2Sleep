@@ -25,11 +25,15 @@
     <string name="summary_pref_enable_fingerprint_quick_action_xposed">运行在 Xposed 模式下</string>
     <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">运行在非 Xposed 模式下</string>
 
-    <string name="title_pref_foreground_service">前台服务</string>
-    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
-
     <string name="title_pref_response_enrolled_fingerprint_only">仅响应已注册的指纹</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
+
+    <string name="title_pref_screen_non_xposed_mode">非 Xposed 模式设置</string>
+
+    <string name="title_pref_screen_xposed_mode">Xposed 模式设置</string>
+
+    <string name="title_pref_foreground_service">前台服务</string>
+    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
 
     <string name="title_pref_lock_screen_with_power_button_as_root">解决指纹解锁的问题</string>
     <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>

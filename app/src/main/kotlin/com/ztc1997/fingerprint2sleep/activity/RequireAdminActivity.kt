@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
@@ -15,7 +14,7 @@ import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast
 
-class RequireAdminActivity : AppCompatActivity() {
+class RequireAdminActivity : Activity() {
     companion object {
         const val REQUEST_CODE_DEVICE_ADMIN = 0
 

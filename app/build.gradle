@@ -55,12 +55,8 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    // Android support library
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-
     // DSL
     compile "org.jetbrains.anko:anko-sdk23:$ankoVersion"
-    compile "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
 
     // Firebase
     compile "com.google.firebase:firebase-core:$firebaseVersion"

@@ -10,7 +10,6 @@ import android.content.IntentFilter
 import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
-import android.support.v7.app.NotificationCompat
 import com.eightbitlab.rxbus.Bus
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
@@ -263,7 +262,7 @@ class FPQAService : Service() {
                 .setSmallIcon(R.drawable.ic_fingerprint_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(text)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setPriority(Notification.PRIORITY_MIN)
                 .setContentIntent(contentPendingIntent)
                 .build()
 

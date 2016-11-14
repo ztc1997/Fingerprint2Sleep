@@ -1,9 +1,9 @@
 package com.ztc1997.fingerprint2sleep.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.APP_ID
 import com.ztc1997.fingerprint2sleep.BuildConfig
@@ -15,7 +15,7 @@ import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import org.jetbrains.anko.startService
 
-class StartFPQAActivity : AppCompatActivity() {
+class StartFPQAActivity : Activity() {
     companion object {
         private val withAnim = "withAnim"
 

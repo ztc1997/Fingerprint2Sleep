@@ -1,5 +1,6 @@
 package com.ztc1997.fingerprint2sleep.activity
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -10,23 +11,23 @@ import android.os.IBinder
 import android.preference.CheckBoxPreference
 import android.preference.ListPreference
 import android.preference.PreferenceFragment
-import android.support.v7.app.AppCompatActivity
+import android.preference.PreferenceScreen
 import com.google.android.gms.ads.AdRequest
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.SOURCE_ENC
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
-import com.ztc1997.fingerprint2sleep.extension.alert
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import kotlinx.android.synthetic.main.activity_settings.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.defaultSharedPreferences
 import org.jetbrains.anko.fingerprintManager
 
-class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
 
@@ -38,6 +39,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
+        const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -139,8 +141,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         // val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
-        val foregroundServiceSwitch by lazy { findPreference(PREF_FOREGROUND_SERVICE) as CheckBoxPreference }
-        val rootSwitch by lazy { findPreference(PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT) as CheckBoxPreference }
+        val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
 
@@ -159,8 +160,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 R.string.summary_pref_enable_fingerprint_quick_action_xposed else
                 R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
 
-            foregroundServiceSwitch.isEnabled = !moduleActivated
-            rootSwitch.isEnabled = !moduleActivated
+            nonXposedScreen.isEnabled = !moduleActivated
         }
 
         override fun onResume() {
