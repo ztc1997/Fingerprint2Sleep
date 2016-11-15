@@ -24,4 +24,16 @@
         <item>toggle_notifications_panel</item>
         <item>expand_quick_settings</item>
     </string-array>
+
+    <string-array name="entries_pref_screen_off_method">
+        <item>@string/entries_pref_screen_off_method_shorten_timeout</item>
+        <item>@string/entries_pref_screen_off_method_device_admin</item>
+        <item>@string/entries_pref_screen_off_method_power_button</item>
+    </string-array>
+
+    <string-array name="values_pref_screen_off_method">
+        <item>shorten_timeout</item>
+        <item>device_admin</item>
+        <item>power_button</item>
+    </string-array>
 </resources>

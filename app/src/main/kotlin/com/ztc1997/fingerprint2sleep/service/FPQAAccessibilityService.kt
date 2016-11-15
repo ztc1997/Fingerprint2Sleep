@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.view.accessibility.AccessibilityEvent
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
+import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
@@ -27,6 +28,7 @@ class FPQAAccessibilityService : AccessibilityService() {
 
         val CLASS_BLACK_LIST by lazy {
             setOf(
+                    ShortenTimeOutActivity::class.java.name,
                     /* AOSP */
                     "com.android.settings.fingerprint.FingerprintSettings",
                     "com.android.settings.fingerprint.FingerprintEnrollEnrolling",

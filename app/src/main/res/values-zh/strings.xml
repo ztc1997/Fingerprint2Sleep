@@ -35,8 +35,10 @@
     <string name="title_pref_foreground_service">前台服务</string>
     <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
 
-    <string name="title_pref_lock_screen_with_power_button_as_root">解决指纹解锁的问题</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
+    <string name="title_pref_screen_off_method">关闭屏幕方法</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">缩短超时（推荐）</string>
+    <string name="entries_pref_screen_off_method_device_admin">设备管理器（可能导致指纹解锁不工作）</string>
+    <string name="entries_pref_screen_off_method_power_button">模拟点按电源键（ROOT）</string>
 
     <string name="title_pref_category_quick_action">快捷操作</string>
 

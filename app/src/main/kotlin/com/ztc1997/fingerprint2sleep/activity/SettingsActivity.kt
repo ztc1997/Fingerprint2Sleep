@@ -36,7 +36,7 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         // const val PREF_DONATE = "pref_donate"
-        const val PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT = "pref_lock_screen_with_power_button_as_root"
+        const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
@@ -52,10 +52,14 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS = "expand_quick_settings"
 
+        const val VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT = "shorten_timeout"
+        const val VALUES_PREF_SCREEN_OFF_METHOD_DEVICE_ADMIN = "device_admin"
+        const val VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON = "power_button"
+
         val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
-                PREF_FOREGROUND_SERVICE, PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT)
-        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE)
+                PREF_FOREGROUND_SERVICE, "pref_lock_screen_with_power_button_as_root")
+        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE, PREF_SCREEN_OFF_METHOD)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
@@ -144,6 +148,7 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
+        val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -169,6 +174,7 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
 
             actionSingleTap.summary = actionSingleTap.entry
             actionFastSwipe.summary = actionFastSwipe.entry
+            screenOffMethod.summary = screenOffMethod.entry
         }
 
         override fun onPause() {
@@ -180,6 +186,7 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
             when (key) {
                 PREF_ACTION_SINGLE_TAP -> actionSingleTap.summary = actionSingleTap.entry
                 PREF_ACTION_FAST_SWIPE -> actionFastSwipe.summary = actionFastSwipe.entry
+                PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
             }
         }
 

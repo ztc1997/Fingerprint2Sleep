@@ -137,8 +137,9 @@ class FPQAService : Service() {
                     if (!defaultDPreference.getPrefBoolean(key, false))
                         stopFPQA()
 
-                SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT ->
-                    if (defaultDPreference.getPrefBoolean(key, false))
+                SettingsActivity.PREF_SCREEN_OFF_METHOD ->
+                    if (defaultDPreference.getPrefString(key, SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
+                            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
                         checkAndStartRoot()
             }
         }
@@ -169,7 +170,9 @@ class FPQAService : Service() {
         if (!FPQAAccessibilityService.isRunning)
             RequireAccessibilityActivity.startActivity(this)
 
-        if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
+        if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
+                SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
+                SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
             checkAndStartRoot()
 
         val newFlags = flags or START_STICKY

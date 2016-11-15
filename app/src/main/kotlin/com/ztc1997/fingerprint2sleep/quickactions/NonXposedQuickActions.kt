@@ -8,6 +8,7 @@ import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.extension.execute
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.CompleteHashCodeEvent
@@ -99,14 +100,19 @@ object NonXposedQuickActions : IQuickActions {
     }
 
     override fun goToSleep() {
-        if (app.defaultDPreference.getPrefBoolean(SettingsActivity.PREF_LOCK_SCREEN_WITH_POWER_BUTTON_AS_ROOT, false))
-            pressPowerButton()
-        else {
-            val componentName = ComponentName(app, AdminReceiver::class.java)
-            if (app.devicePolicyManager.isAdminActive(componentName))
-                app.devicePolicyManager.lockNow()
-            else
-                RequireAdminActivity.startActivity(app)
+        when (app.defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
+                SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT)) {
+            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT ->
+                ShortenTimeOutActivity.startActivity(app)
+
+            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_DEVICE_ADMIN -> {
+                val componentName = ComponentName(app, AdminReceiver::class.java)
+                if (app.devicePolicyManager.isAdminActive(componentName))
+                    app.devicePolicyManager.lockNow()
+                else
+                    RequireAdminActivity.startActivity(app)
+            }
+            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON -> pressPowerButton()
         }
     }
 
