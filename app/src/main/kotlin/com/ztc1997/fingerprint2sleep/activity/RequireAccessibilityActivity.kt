@@ -12,6 +12,7 @@ import com.ztc1997.fingerprint2sleep.extra.SendSignatureEvent
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
+import com.ztc1997.fingerprint2sleep.util.AccessibilityUtil
 import com.ztc1997.fingerprint2sleep.util.Reflects
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startService
@@ -55,7 +56,7 @@ class RequireAccessibilityActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequireAdminActivity.REQUEST_CODE_DEVICE_ADMIN)
-            if (!FPQAAccessibilityService.isRunning)
+            if (!AccessibilityUtil.isAccessibilityEnabled(this, FPQAAccessibilityService.ID))
                 toast(R.string.toast_accessibility_failed)
 
         startService<FPQAService>()
