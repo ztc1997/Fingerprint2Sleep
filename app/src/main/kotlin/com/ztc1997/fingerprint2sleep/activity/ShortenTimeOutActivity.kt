@@ -25,6 +25,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.toast
 
+
 class ShortenTimeOutActivity : Activity() {
     companion object {
         const val REQUEST_CODE = 1
@@ -108,8 +109,16 @@ class ShortenTimeOutActivity : Activity() {
     }
 
 
-    fun setScreenTimeOut(value: Int) {
-        Settings.System.putInt(contentResolver, "screen_off_timeout", value)
+    fun setScreenTimeOut(value: Int): Boolean {
+        try {
+            Settings.System.putInt(contentResolver, "screen_off_timeout", value)
+            return true
+        } catch(e: SecurityException) {
+            val intent = Intent("android.settings.action.MANAGE_WRITE_SETTINGS")
+            intent.data = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+            startActivity(intent)
+            return false
+        }
     }
 
     fun getScreenTimeOut(): Int {
@@ -118,6 +127,12 @@ class ShortenTimeOutActivity : Activity() {
 
     fun addOverlayToWindows() {
         if (viewAdded) return
+
+        screenTimeout = getScreenTimeOut()
+        if (!setScreenTimeOut(0)) {
+            finishWithoutAnim()
+            return
+        }
 
         val params = WindowManager.LayoutParams()
         with(params) {
@@ -137,9 +152,6 @@ class ShortenTimeOutActivity : Activity() {
         windowManager.addView(view, params)
 
         viewAdded = true
-
-        screenTimeout = getScreenTimeOut()
-        setScreenTimeOut(0)
 
         view?.post(collapsePanelsRunnable)
 
