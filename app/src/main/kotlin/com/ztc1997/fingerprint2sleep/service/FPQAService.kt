@@ -116,8 +116,8 @@ class FPQAService : Service() {
 
     val presentReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            if (!isScanning)
-                StartFPQAActivity.startActivity(ctx)
+            isScanning = false
+            StartFPQAActivity.startActivity(ctx)
         }
     }
 

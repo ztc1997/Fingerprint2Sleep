@@ -43,6 +43,7 @@ class ShortenTimeOutActivity : Activity() {
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
             finishWithoutAnim()
+            Bus.send(RestartScanningDelayedEvent)
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
@@ -94,7 +95,6 @@ class ShortenTimeOutActivity : Activity() {
             setScreenTimeOut(screenTimeout)
         }
         view = null
-        Bus.send(RestartScanningDelayedEvent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
