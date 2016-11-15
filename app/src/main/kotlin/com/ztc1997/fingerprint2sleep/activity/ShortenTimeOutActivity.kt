@@ -13,9 +13,15 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+import android.widget.TextView
+import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
+import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
+import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
+import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
+import org.jetbrains.anko.find
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.toast
 
@@ -37,11 +43,25 @@ class ShortenTimeOutActivity : Activity() {
             super.onAuthenticationSucceeded(result)
             finishWithoutAnim()
         }
+
+        override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
+            super.onAuthenticationError(errorCode, errString)
+            view?.find<TextView>(R.id.tv)?.text = errString
+        }
     }
 
     val screenOffReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             finishWithoutAnim()
+        }
+    }
+
+    val collapsePanelsRunnable = object : Runnable {
+        override fun run() {
+            if (FPQAAccessibilityService.isRunning) {
+                NonXposedQuickActions.collapsePanels()
+            }
+            view?.postDelayed(this, 100)
         }
     }
 
@@ -69,10 +89,11 @@ class ShortenTimeOutActivity : Activity() {
         super.onDestroy()
         unregisterReceiver(screenOffReceiver)
         if (viewAdded) view?.let {
-            windowManager.removeViewImmediate(view)
-
+            windowManager.removeViewImmediate(it)
             setScreenTimeOut(screenTimeout)
         }
+        view = null
+        Bus.send(RestartScanningDelayedEvent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -81,7 +102,7 @@ class ShortenTimeOutActivity : Activity() {
             if (Settings.canDrawOverlays(this))
                 addOverlayToWindows()
             else {
-                toast("")
+                toast(R.string.toast_window_overlay_permission_failed)
                 finishWithoutAnim()
             }
     }
@@ -119,6 +140,8 @@ class ShortenTimeOutActivity : Activity() {
 
         screenTimeout = getScreenTimeOut()
         setScreenTimeOut(0)
+
+        view?.post(collapsePanelsRunnable)
 
         fingerprintManager.authenticate(null, null, 0, authenticationCallback, null)
     }

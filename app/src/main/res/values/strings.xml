@@ -23,6 +23,7 @@
 
     <!-- SleepTimeOutActivity -->
     <string name="tv_unlock_via_fingerprint">Unlock via Fingerprint</string>
+    <string name="toast_window_overlay_permission_failed">Couldn\'t get window overlay permission</string>
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>

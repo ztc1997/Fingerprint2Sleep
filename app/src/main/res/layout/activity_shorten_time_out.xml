@@ -14,7 +14,7 @@
         android:maxLines="1"
         android:paddingBottom="200dp"
         android:textColor="#fff"
-        android:textSize="100sp" />
+        android:textSize="75sp" />
 
     <TextView
         android:id="@+id/tv"

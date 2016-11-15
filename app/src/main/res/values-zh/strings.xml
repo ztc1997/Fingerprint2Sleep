@@ -20,6 +20,10 @@
     <string name="toast_device_admin_failed">激活设备管理器失败</string>
     <string name="toast_accessibility_failed">打开辅助功能失败</string>
 
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">通过指纹解锁</string>
+    <string name="toast_window_overlay_permission_failed">无法取得窗口覆盖权限</string>
+
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">启用指纹快捷操作</string>
     <string name="summary_pref_enable_fingerprint_quick_action_xposed">运行在 Xposed 模式下</string>

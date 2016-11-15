@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 8
-        versionName "0.6.1"
+        versionCode 9
+        versionName "0.7.0"
     }
 
     signingConfigs {
@@ -45,6 +45,14 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+    }
 }
 
 dependencies {
