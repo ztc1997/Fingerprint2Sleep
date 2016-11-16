@@ -13,7 +13,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-import android.widget.TextView
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
@@ -21,7 +20,7 @@ import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
-import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.activity_shorten_time_out.view.*
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.toast
 
@@ -48,7 +47,7 @@ class ShortenTimeOutActivity : Activity() {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             super.onAuthenticationError(errorCode, errString)
-            view?.find<TextView>(R.id.tv)?.text = errString
+            view?.tv?.text = errString
         }
     }
 

@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 12
-        versionName "0.7.3"
+        versionCode 13
+        versionName "0.8.0"
     }
 
     signingConfigs {
@@ -78,6 +78,8 @@ dependencies {
     compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
 
     provided 'de.robv.android.xposed:api:82'
+
+    compile 'com.anjlab.android.iab.v3:library:1.0.34'
 }
 
 andResGuard {

@@ -65,7 +65,9 @@
     <string name="title_pref_category_about">About</string>
 
     <string name="title_pref_donate">Donate</string>
-    <string name="summary_pref_donate">If you like this app, consider buying me a cup of coffee.</string>
+    <string name="title_pref_donate_purchased">Donated</string>
+    <string name="summary_pref_donate">Support the developer and remove ads</string>
+    <string name="summary_pref_donate_purchased">Thank you for your donation</string>
 
     <string name="title_pref_category_debug">Debug</string>
 

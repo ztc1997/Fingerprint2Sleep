@@ -8,11 +8,14 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.preference.CheckBoxPreference
-import android.preference.ListPreference
-import android.preference.PreferenceFragment
-import android.preference.PreferenceScreen
+import android.preference.*
+import android.view.View
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.google.android.gms.ads.AdRequest
+import com.orhanobut.logger.Logger
+import com.ztc1997.fingerprint2sleep.App.Companion.IAP_SKU_DONATE
+import com.ztc1997.fingerprint2sleep.App.Companion.LICENSE_KEY
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.SOURCE_ENC
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -22,20 +25,18 @@ import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.defaultSharedPreferences
-import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.*
 
-class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
     companion object {
+        @Deprecated("No longer use", replaceWith = ReplaceWith("PREF_ENABLE_FINGERPRINT_QUICK_ACTION"))
         const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
 
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
-        // const val PREF_DONATE = "pref_donate"
+        const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
@@ -73,6 +74,8 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
 
     private var bgService: IFPQAService? = null
 
+    private lateinit var billingProcessor: BillingProcessor
+
     val conn = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
         }
@@ -99,51 +102,48 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
             return
         }
 
-        val adRequest = AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build()
-        adView.loadAd(adRequest)
+        billingProcessor = BillingProcessor(this, LICENSE_KEY, this)
     }
 
     override fun onResume() {
         super.onResume()
         bindService(Intent(this, FPQAService::class.java), conn, BIND_AUTO_CREATE)
-        defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        if (billingProcessor.isPurchased(IAP_SKU_DONATE))
+            adView.visibility = View.GONE
     }
 
     override fun onPause() {
         super.onPause()
         unbindService(conn)
-        defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        when (key) {
-            in PREF_KEYS_BOOLEAN ->
-                defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+    override fun onBillingInitialized() {
+        Logger.d("onBillingInitialized")
 
-            in PREF_KEYS_STRING ->
-                defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+        if (!billingProcessor.isPurchased(IAP_SKU_DONATE)) {
+            val adRequest = AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build()
+            adView.loadAd(adRequest)
         }
+    }
 
-        try {
-            bgService?.onPrefChanged(key)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    override fun onProductPurchased(productId: String?, details: TransactionDetails?) {
+    }
 
-        when (key) {
-            PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> {
-                if (XposedProbe.isModuleActivated())
-                    sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
-                else if (sharedPreferences.getBoolean(key, false))
-                    StartFPQAActivity.startActivity(ctx)
-            }
-        }
+    override fun onBillingError(errorCode: Int, error: Throwable?) {
+        toast(error?.message.orEmpty())
+    }
+
+    override fun onPurchaseHistoryRestored() {
+        Logger.d("onPurchaseHistoryRestored")
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-        // val donate: Preference by lazy { findPreference(PREF_DONATE) }
+        val activity by lazy { act as SettingsActivity }
+
+        val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
@@ -154,10 +154,11 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
 
-            /*donate.setOnPreferenceClickListener {
-                openUri("https://github.com/ztc1997/Fingerprint2Sleep/blob/master/DONATE.md")
+            donate.setOnPreferenceClickListener {
+                if (!activity.billingProcessor.isPurchased(IAP_SKU_DONATE))
+                    activity.billingProcessor.purchase(activity, IAP_SKU_DONATE)
                 true
-            }*/
+            }
 
             val moduleActivated = XposedProbe.isModuleActivated()
 
@@ -175,6 +176,11 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
             actionSingleTap.summary = actionSingleTap.entry
             actionFastSwipe.summary = actionFastSwipe.entry
             screenOffMethod.summary = screenOffMethod.entry
+
+            if (activity.billingProcessor.isPurchased(IAP_SKU_DONATE)) {
+                donate.title = getString(R.string.title_pref_donate_purchased)
+                donate.summary = getString(R.string.summary_pref_donate_purchased)
+            }
         }
 
         override fun onPause() {
@@ -182,11 +188,34 @@ class SettingsActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeL
             defaultSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         }
 
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
             when (key) {
                 PREF_ACTION_SINGLE_TAP -> actionSingleTap.summary = actionSingleTap.entry
                 PREF_ACTION_FAST_SWIPE -> actionFastSwipe.summary = actionFastSwipe.entry
                 PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
+            }
+
+            when (key) {
+                in PREF_KEYS_BOOLEAN ->
+                    activity.defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+
+                in PREF_KEYS_STRING ->
+                    activity.defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+            }
+
+            try {
+                activity.bgService?.onPrefChanged(key)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            when (key) {
+                PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> {
+                    if (XposedProbe.isModuleActivated())
+                        activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
+                    else if (sharedPreferences.getBoolean(key, false))
+                        StartFPQAActivity.startActivity(ctx)
+                }
             }
         }
 

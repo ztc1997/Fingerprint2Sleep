@@ -43,3 +43,6 @@
 -keep class com.ztc1997.fingerprint2sleep.util.XposedProbe {
     public static int activatedModuleVersion();
 }
+
+-keep class com.android.vending.billing.**
+-keep public class com.android.vending.licensing.ILicensingService

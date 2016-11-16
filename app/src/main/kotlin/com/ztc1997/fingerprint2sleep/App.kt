@@ -6,12 +6,25 @@ import com.eightbitlab.rxbus.Bus
 import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.extension.KEY_PART_1
+import com.ztc1997.fingerprint2sleep.extra.KEY_PART_2
 import com.ztc1997.fingerprint2sleep.extra.StartVerifyEvent
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
+import com.ztc1997.fingerprint2sleep.receiver.KEY_PART_3
+import com.ztc1997.fingerprint2sleep.util.RC4
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.defaultSharedPreferences
 
 class App : Application() {
+    companion object {
+        val LICENSE_KEY by lazy {
+            RC4.decry_RC4(KEY_PART_0 + KEY_PART_1 + KEY_PART_2 + KEY_PART_3,
+                    NonXposedQuickActions.CHECK_BYTES)
+        }
+
+        val IAP_SKU_DONATE = "com.ztc1997.fingerprint2sleep.donate_1_99"//"android.test.purchased"
+    }
+
     val defaultDPreference by lazy { DPreference(this, BuildConfig.APPLICATION_ID + "_preferences") }
 
     override fun onCreate() {
@@ -51,3 +64,5 @@ val Any.hashCode: Any get() {
         return Unit
     }
 }
+
+val KEY_PART_0 by lazy { "${SettingsActivity.SOURCE[5]}${SettingsActivity.SOURCE[14]}${SettingsActivity.SOURCE[2]}${SettingsActivity.SOURCE[4]}${SettingsActivity.SOURCE[13]}${SettingsActivity.SOURCE[0]}${SettingsActivity.SOURCE[4]}${SettingsActivity.SOURCE[10]}${SettingsActivity.SOURCE[0]}${SettingsActivity.SOURCE[10]}${SettingsActivity.SOURCE[14]}${SettingsActivity.SOURCE[2]}${SettingsActivity.SOURCE[11]}${SettingsActivity.SOURCE[7]}" }

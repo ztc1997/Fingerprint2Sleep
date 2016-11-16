@@ -64,7 +64,9 @@
     <string name="title_pref_category_about">关于</string>
 
     <string name="title_pref_donate">捐赠</string>
-    <string name="summary_pref_donate">如果你喜欢这个应用，可以考虑给我买杯咖啡。</string>
+    <string name="title_pref_donate_purchased">已捐赠</string>
+    <string name="summary_pref_donate">支持开发者并去除广告</string>
+    <string name="summary_pref_donate_purchased">感谢您的捐赠</string>
 
     <string name="title_pref_category_debug">调试</string>
 
