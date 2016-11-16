@@ -14,6 +14,8 @@ import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.XposedQuickActions
 import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedBridge
+import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
+import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
 import de.robv.android.xposed.XposedHelpers
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.fingerprintManager
@@ -46,7 +48,7 @@ object FingerprintServiceHooks : IHooks {
 
         override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
             super.onAuthenticationHelp(helpCode, helpString)
-            FPQAModule.log("onAuthenticationFailed()")
+            FPQAModule.log("onAuthenticationHelp($helpCode, $helpString)")
             quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE,
                     SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE))
         }
@@ -57,6 +59,8 @@ object FingerprintServiceHooks : IHooks {
     private lateinit var context: Context
     private lateinit var quickActions: IQuickActions
     private lateinit var dPreference: DPreference
+
+    private var forceAccessOnce = false
 
     override fun doHook(loader: ClassLoader) {
         CLASS_FINGERPRINT_SERVICE = XposedHelpers.findClass(
@@ -74,7 +78,7 @@ object FingerprintServiceHooks : IHooks {
 
                 Bus.observe<StartScanningEvent>()
                         .throttleLast(100, TimeUnit.MILLISECONDS)
-                        .subscribe { authenticate(context, fingerprintService) }
+                        .subscribe { startScanning(context, fingerprintService) }
 
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
@@ -88,6 +92,7 @@ object FingerprintServiceHooks : IHooks {
                 val intentFilter = IntentFilter()
                 intentFilter.addAction(ACTION_ENABLED_STATE_CHANGED)
                 intentFilter.addAction(ACTION_START_SCANNING)
+                intentFilter.addAction(Intent.ACTION_USER_PRESENT)
 
                 context.registerReceiver(receiver, intentFilter)
 
@@ -95,13 +100,40 @@ object FingerprintServiceHooks : IHooks {
             }
         }
 
+        tryAndPrintStackTrace {
+            KXposedHelpers.findAndHookMethod(CLASS_FINGERPRINT_SERVICE!!, "canUseFingerprint",
+                    String::class.java, Boolean::class.java) {
+                beforeHookedMethod {
+                    if (forceAccessOnce && it.args[0] == "android")
+                        it.result = true
+                }
+            }
+        }
+
+        tryAndPrintStackTrace {
+            KXposedHelpers.findAndHookMethod(CLASS_FINGERPRINT_SERVICE!!, "canUseFingerprint",
+                    String::class.java) {
+                beforeHookedMethod {
+                    if (forceAccessOnce && it.args[0] == "android")
+                        it.result = true
+                }
+            }
+        }
+
         FPQAModule.log("fingerprintServiceHooks")
     }
 
-    fun authenticate(context: Context, fingerprintService: Any) {
+    fun startScanning(context: Context, fingerprintService: Any) {
+        FPQAModule.log("startScanning invoke")
+
         if (!hasClientMonitor(fingerprintService)) {
             cancellationSignal = CancellationSignal()
+
+            forceAccessOnce = true
             context.fingerprintManager.authenticate(null, cancellationSignal, 0, MyAuthenticationCallback, null)
+            forceAccessOnce = false
+
+            FPQAModule.log("startScanning")
         }
     }
 

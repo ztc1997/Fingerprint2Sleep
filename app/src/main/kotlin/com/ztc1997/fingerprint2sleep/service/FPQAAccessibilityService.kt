@@ -83,6 +83,8 @@ class FPQAAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
 
+            if (event.packageName == null || event.className == null) return
+
             val componentName = ComponentName(
                     event.packageName.toString(),
                     event.className.toString())

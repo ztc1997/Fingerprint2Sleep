@@ -17,7 +17,7 @@ class FPQAModule : IXposedHookLoadPackage {
         val TAG: String = FPQAModule::class.java.simpleName
 
         fun log(log: Any?) {
-            if (BuildConfig.DEBUG) XposedBridge.log("/$TAG: $log")
+            /*if (BuildConfig.DEBUG)*/ XposedBridge.log("/$TAG: $log")
         }
     }
 
