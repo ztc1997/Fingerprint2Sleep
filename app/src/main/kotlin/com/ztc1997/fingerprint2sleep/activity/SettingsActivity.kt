@@ -5,15 +5,16 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.preference.*
+import android.preference.CheckBoxPreference
+import android.preference.ListPreference
+import android.preference.PreferenceFragment
+import android.preference.PreferenceScreen
 import android.view.View
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.google.android.gms.ads.AdRequest
-import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.App.Companion.IAP_SKU_DONATE
 import com.ztc1997.fingerprint2sleep.App.Companion.LICENSE_KEY
 import com.ztc1997.fingerprint2sleep.R
@@ -36,7 +37,7 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
-        const val PREF_DONATE = "pref_donate"
+        // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
@@ -119,8 +120,6 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onBillingInitialized() {
-        Logger.d("onBillingInitialized")
-
         if (!billingProcessor.isPurchased(IAP_SKU_DONATE)) {
             val adRequest = AdRequest.Builder()
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -137,13 +136,12 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onPurchaseHistoryRestored() {
-        Logger.d("onPurchaseHistoryRestored")
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
         val activity by lazy { act as SettingsActivity }
 
-        val donate: Preference by lazy { findPreference(PREF_DONATE) }
+        // val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
@@ -154,11 +152,11 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
 
-            donate.setOnPreferenceClickListener {
-                if (!activity.billingProcessor.isPurchased(IAP_SKU_DONATE))
-                    activity.billingProcessor.purchase(activity, IAP_SKU_DONATE)
-                true
-            }
+            // donate.setOnPreferenceClickListener {
+            //     if (!activity.billingProcessor.isPurchased(IAP_SKU_DONATE))
+            //         activity.billingProcessor.purchase(activity, IAP_SKU_DONATE)
+            //     true
+            // }
 
             val moduleActivated = XposedProbe.isModuleActivated()
 
@@ -166,7 +164,7 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
                 R.string.summary_pref_enable_fingerprint_quick_action_xposed else
                 R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
 
-            nonXposedScreen.isEnabled = !moduleActivated
+            if (moduleActivated) nonXposedScreen.isEnabled = false
         }
 
         override fun onResume() {
@@ -177,10 +175,10 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
             actionFastSwipe.summary = actionFastSwipe.entry
             screenOffMethod.summary = screenOffMethod.entry
 
-            if (activity.billingProcessor.isPurchased(IAP_SKU_DONATE)) {
-                donate.title = getString(R.string.title_pref_donate_purchased)
-                donate.summary = getString(R.string.summary_pref_donate_purchased)
-            }
+            // if (activity.billingProcessor.isPurchased(IAP_SKU_DONATE)) {
+            //     donate.title = getString(R.string.title_pref_donate_purchased)
+            //     donate.summary = getString(R.string.summary_pref_donate_purchased)
+            // }
         }
 
         override fun onPause() {
@@ -217,11 +215,6 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
                         StartFPQAActivity.startActivity(ctx)
                 }
             }
-        }
-
-        private fun openUri(uriString: String) {
-            val uri = Uri.parse(uriString)
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
     }
 }

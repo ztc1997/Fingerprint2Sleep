@@ -11,11 +11,11 @@
         android:title="@string/title_pref_response_enrolled_fingerprint_only" />
 
     <PreferenceScreen
+        android:dependency="pref_enable_fingerprint_quick_action"
         android:key="pref_screen_non_xposed_mode"
         android:title="@string/title_pref_screen_non_xposed_mode">
 
         <CheckBoxPreference
-            android:dependency="pref_enable_fingerprint_quick_action"
             android:key="pref_foreground_service"
             android:summary="@string/summary_pref_foreground_service"
             android:title="@string/title_pref_foreground_service" />
@@ -48,12 +48,12 @@
             android:title="@string/title_pref_action_fast_swipe" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/title_pref_category_about">
+    <!--<PreferenceCategory android:title="@string/title_pref_category_about">
         <Preference
             android:key="pref_donate"
             android:summary="@string/summary_pref_donate"
             android:title="@string/title_pref_donate" />
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/title_pref_category_debug">
 
