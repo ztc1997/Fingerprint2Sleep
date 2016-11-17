@@ -11,7 +11,7 @@ public class XposedProbe {
         return activatedModuleVersion() > 0;
     }
 
-    public static boolean isModuleCurrVersion() {
+    public static boolean isModuleVersionMatched() {
         return activatedModuleVersion() == BuildConfig.VERSION_CODE;
     }
 }

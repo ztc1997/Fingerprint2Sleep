@@ -104,6 +104,9 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
         }
 
         billingProcessor = BillingProcessor(this, LICENSE_KEY, this)
+
+        if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
+            toast(R.string.toast_xposed_version_mismatched)
     }
 
     override fun onResume() {
