@@ -11,11 +11,8 @@ import android.preference.CheckBoxPreference
 import android.preference.ListPreference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
-import android.view.View
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
-import com.google.android.gms.ads.AdRequest
-import com.ztc1997.fingerprint2sleep.App.Companion.IAP_SKU_DONATE
 import com.ztc1997.fingerprint2sleep.App.Companion.LICENSE_KEY
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.SOURCE_ENC
@@ -25,7 +22,6 @@ import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
-import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 
 class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
@@ -113,8 +109,8 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
         super.onResume()
         bindService(Intent(this, FPQAService::class.java), conn, BIND_AUTO_CREATE)
 
-        if (billingProcessor.isPurchased(IAP_SKU_DONATE))
-            adView.visibility = View.GONE
+        // if (billingProcessor.isPurchased(IAP_SKU_DONATE))
+        //     adView.visibility = View.GONE
     }
 
     override fun onPause() {
@@ -123,12 +119,12 @@ class SettingsActivity : Activity(), BillingProcessor.IBillingHandler {
     }
 
     override fun onBillingInitialized() {
-        if (!billingProcessor.isPurchased(IAP_SKU_DONATE)) {
-            val adRequest = AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .build()
-            adView.loadAd(adRequest)
-        }
+        // if (!billingProcessor.isPurchased(IAP_SKU_DONATE)) {
+        //     val adRequest = AdRequest.Builder()
+        //             .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+        //             .build()
+        //     adView.loadAd(adRequest)
+        // }
     }
 
     override fun onProductPurchased(productId: String?, details: TransactionDetails?) {

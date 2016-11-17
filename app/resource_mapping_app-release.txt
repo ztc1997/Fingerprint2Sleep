@@ -110,17 +110,20 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.toast_failed_to_collapse_panel -> com.ztc1997.fingerprint2sleep.R.string.b7
     com.ztc1997.fingerprint2sleep.R.string.toast_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.b8
     com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed -> com.ztc1997.fingerprint2sleep.R.string.b9
-    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_non_xposed -> com.ztc1997.fingerprint2sleep.R.string.au
-    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_xposed -> com.ztc1997.fingerprint2sleep.R.string.c3
-    com.ztc1997.fingerprint2sleep.R.string.xposed_description -> com.ztc1997.fingerprint2sleep.R.string.c4
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_device_admin -> com.ztc1997.fingerprint2sleep.R.string.a
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_power_button -> com.ztc1997.fingerprint2sleep.R.string.b
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_shorten_timeout -> com.ztc1997.fingerprint2sleep.R.string.c
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_donate_purchased -> com.ztc1997.fingerprint2sleep.R.string.g
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_non_xposed -> com.ztc1997.fingerprint2sleep.R.string.au
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_xposed -> com.ztc1997.fingerprint2sleep.R.string.c3
+    com.ztc1997.fingerprint2sleep.R.string.title_pref_donate_purchased -> com.ztc1997.fingerprint2sleep.R.string.h
     com.ztc1997.fingerprint2sleep.R.string.title_pref_screen_non_xposed_mode -> com.ztc1997.fingerprint2sleep.R.string.c5
     com.ztc1997.fingerprint2sleep.R.string.title_pref_screen_off_method -> com.ztc1997.fingerprint2sleep.R.string.d
     com.ztc1997.fingerprint2sleep.R.string.title_pref_screen_xposed_mode -> com.ztc1997.fingerprint2sleep.R.string.c6
     com.ztc1997.fingerprint2sleep.R.string.toast_window_overlay_permission_failed -> com.ztc1997.fingerprint2sleep.R.string.e
     com.ztc1997.fingerprint2sleep.R.string.tv_unlock_via_fingerprint -> com.ztc1997.fingerprint2sleep.R.string.f
+    com.ztc1997.fingerprint2sleep.R.string.xposed_description -> com.ztc1997.fingerprint2sleep.R.string.c4
+    com.ztc1997.fingerprint2sleep.R.string.toast_xposed_version_mismatched -> com.ztc1997.fingerprint2sleep.R.string.i
     com.ztc1997.fingerprint2sleep.R.string.accept -> com.ztc1997.fingerprint2sleep.R.string.bl
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
     com.ztc1997.fingerprint2sleep.R.string.create_calendar_message -> com.ztc1997.fingerprint2sleep.R.string.bn
