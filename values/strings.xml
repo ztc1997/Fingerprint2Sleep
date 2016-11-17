@@ -14,6 +14,7 @@
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">This device doesn\'t support fingerprint authentication</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
+    <string name="toast_xposed_version_mismatched">The Xposed module is activated, but does not match the current program version. Recommend to reboot to refresh the module</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>

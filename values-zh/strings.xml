@@ -13,6 +13,7 @@
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">设备不支持指纹认证</string>
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
+    <string name="toast_xposed_version_mismatched">Xposed 模块已激活，但与当前程序版本不匹配，建议重启以刷新模块</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">休眠设备需要设备管理器才能工作</string>
