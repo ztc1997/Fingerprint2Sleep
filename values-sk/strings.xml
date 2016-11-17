@@ -64,7 +64,9 @@
     <string name="title_pref_category_about">O aplikácii</string>
 
     <string name="title_pref_donate">Podporiť</string>
-    <string name="summary_pref_donate">Ak sa vám táto aplikácia páči, môžte mi kúpiť kávu.</string>
+    <string name="title_pref_donate_purchased">Podporené</string>
+    <string name="summary_pref_donate">Podporte vývojára a odstráňte reklamy</string>
+    <string name="summary_pref_donate_purchased">Ďakujem za vašu podporu</string>
 
     <string name="title_pref_category_debug">Ladenie</string>
 
