@@ -16,18 +16,25 @@ import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
+import com.ztc1997.fingerprint2sleep.extension.getScreenTimeOut
+import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import kotlinx.android.synthetic.main.activity_shorten_time_out.view.*
 import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
+import java.util.concurrent.TimeUnit
 
 
 class ShortenTimeOutActivity : Activity() {
     companion object {
         const val REQUEST_CODE = 1
+
+        const val PREF_ORIGINAL_SCREEN_OFF_TIMEOUT = "pref_original_screen_off_timeout"
 
         fun startActivity(context: Context) {
             val startIntent = Intent(context, ShortenTimeOutActivity::class.java)
@@ -47,7 +54,12 @@ class ShortenTimeOutActivity : Activity() {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             super.onAuthenticationError(errorCode, errString)
-            view?.tv?.text = errString
+            if (errorCode == FingerprintManager.FINGERPRINT_ERROR_CANCELED)
+                Bus.send(RestartScanningEvent)
+            else {
+                Bus.unregister(this@ShortenTimeOutActivity)
+                view?.tv?.text = errString
+            }
         }
     }
 
@@ -68,14 +80,13 @@ class ShortenTimeOutActivity : Activity() {
 
     var viewAdded = false
     var view: View? = null
-    var screenTimeout = 60 * 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Settings.canDrawOverlays(this)) {
             addOverlayToWindows()
         } else {
-            val intent = Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION",
+            val intent = Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:${BuildConfig.APPLICATION_ID}"))
             startActivityForResult(intent, REQUEST_CODE)
         }
@@ -89,11 +100,19 @@ class ShortenTimeOutActivity : Activity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(screenOffReceiver)
+
+        Bus.unregister(this)
+
         if (viewAdded) view?.let {
             windowManager.removeViewImmediate(it)
-            setScreenTimeOut(screenTimeout)
         }
+
         view = null
+
+        val screenTimeout = defaultDPreference.getPrefInt(PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+        if (screenTimeout > 0)
+            setScreenTimeOut(screenTimeout)
+        defaultDPreference.setPrefInt(PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -108,26 +127,13 @@ class ShortenTimeOutActivity : Activity() {
     }
 
 
-    fun setScreenTimeOut(value: Int): Boolean {
-        try {
-            Settings.System.putInt(contentResolver, "screen_off_timeout", value)
-            return true
-        } catch(e: SecurityException) {
-            val intent = Intent("android.settings.action.MANAGE_WRITE_SETTINGS")
-            intent.data = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
-            startActivity(intent)
-            return false
-        }
-    }
-
-    fun getScreenTimeOut(): Int {
-        return Settings.System.getInt(contentResolver, "screen_off_timeout")
-    }
-
     fun addOverlayToWindows() {
         if (viewAdded) return
 
-        screenTimeout = getScreenTimeOut()
+        val screenTimeOut = getScreenTimeOut()
+        if (screenTimeOut > 0)
+            defaultDPreference.setPrefInt(PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, screenTimeOut)
+
         if (!setScreenTimeOut(0)) {
             finishWithoutAnim()
             return
@@ -155,5 +161,14 @@ class ShortenTimeOutActivity : Activity() {
         view?.post(collapsePanelsRunnable)
 
         fingerprintManager.authenticate(null, null, 0, authenticationCallback, null)
+
+        Bus.observe<RestartScanningEvent>()
+                .throttleLast(100, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onUiThread { view?.tv?.setText(R.string.tv_unlock_via_fingerprint) }
+                    fingerprintManager.authenticate(null, null, 0, authenticationCallback, null)
+                }
     }
+
+    object RestartScanningEvent
 }

@@ -15,10 +15,12 @@ import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
+import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import com.ztc1997.fingerprint2sleep.receiver.BootReceiver
@@ -118,6 +120,11 @@ class FPQAService : Service() {
         override fun onReceive(context: Context, intent: Intent?) {
             isScanning = false
             StartFPQAActivity.startActivity(ctx)
+
+            val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+            if (screenTimeout > 0)
+                setScreenTimeOut(screenTimeout)
+            defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
         }
     }
 
@@ -125,6 +132,11 @@ class FPQAService : Service() {
         override fun onReceive(context: Context, intent: Intent?) {
             cancellationSignal.cancel()
             isScanning = false
+
+            val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+            if (screenTimeout > 0)
+                setScreenTimeOut(screenTimeout)
+            defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
         }
     }
 
