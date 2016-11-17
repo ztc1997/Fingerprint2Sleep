@@ -3,6 +3,10 @@
 
 *For some reason, since version 0.4.0, source code is no longer available, you can still open issues here. If you would like to provide or update your translation, please move to [the "translation" branch](https://github.com/ztc1997/Fingerprint2Sleep/tree/translation).*
 
+<a href="https://play.google.com/store/apps/details?id=com.ztc1997.fingerprint2sleep">
+<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="165" height="64" />
+</a>
+
 Perform quick actions via tap fingerprint sensor.
 
 Many devices have fingerprint sensor, and have the feature fingerprint to unlock or fingerprint to wake, so i developed this simple app to sleep your device via tap fingerprint sensor.
