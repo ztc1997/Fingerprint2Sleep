@@ -1,13 +1,4 @@
-## Paypal
-
-My PayPal link: [PayPal.Me/ztc1997](https://paypal.me/ztc1997)
-
-## AliPay
-
-![AliPay](./art/alipay.jpg)
-
-## BTC
-Address: [1E6BBHUBNJsY8uTFY4cSfm7ffKRx1AjyHy](https://blockchain.info/address/1E6BBHUBNJsY8uTFY4cSfm7ffKRx1AjyHy)
+The donation has been suspended, the project will soon offer in-app purchases, the unfinished donation will be returned, please support me with in-app purchases. And the donators that completed donation will receive a redemption code.
 
 ## Donators
 
