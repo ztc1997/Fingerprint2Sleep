@@ -13,6 +13,7 @@
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nepodporuje overenie pomocou odtlačku prsta</string>
     <string name="toast_root_access_failed">Nepodarilo sa získať root prístup</string>
+    <string name="toast_xposed_version_mismatched">Xposed modul je aktivovaný, ale nesúhlasí s aktuálnou verziou aplikácie. Odporúčame reštartovať zariadenie pre obnovenie modulu</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Uspanie zariadenia vyžaduje povolenie správcu zariadenia</string>
