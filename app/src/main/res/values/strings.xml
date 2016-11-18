@@ -42,7 +42,7 @@
     <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
 
     <string name="title_pref_auto_retry">Auto retry</string>
-    <string name="summary_pref_auto_retry">Automatically retry at the appropriate time. When it's turned off, it will still retry when the screen is unlocked, you can also retry by clicking the notification.</string>
+    <string name="summary_pref_auto_retry">Automatically retry at the appropriate time. When it is turned off, it will still retry when the screen is unlocked, you can also retry by clicking the notification.</string>
 
     <string name="title_pref_screen_off_method">Screen off method</string>
     <string name="entries_pref_screen_off_method_shorten_timeout">Shorten timeout (Recommended)</string>

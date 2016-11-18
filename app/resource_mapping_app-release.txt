@@ -90,7 +90,6 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.explanation_device_admin -> com.ztc1997.fingerprint2sleep.R.string.al
     com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint -> com.ztc1997.fingerprint2sleep.R.string.am
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text -> com.ztc1997.fingerprint2sleep.R.string.an
-    com.ztc1997.fingerprint2sleep.R.string.notification_content_text_error -> com.ztc1997.fingerprint2sleep.R.string.ao
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_donate -> com.ztc1997.fingerprint2sleep.R.string.ap
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_foreground_service -> com.ztc1997.fingerprint2sleep.R.string.aq
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.as
@@ -124,6 +123,9 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.tv_unlock_via_fingerprint -> com.ztc1997.fingerprint2sleep.R.string.f
     com.ztc1997.fingerprint2sleep.R.string.xposed_description -> com.ztc1997.fingerprint2sleep.R.string.c4
     com.ztc1997.fingerprint2sleep.R.string.toast_xposed_version_mismatched -> com.ztc1997.fingerprint2sleep.R.string.i
+    com.ztc1997.fingerprint2sleep.R.string.notification_content_text_retry -> com.ztc1997.fingerprint2sleep.R.string.j
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_auto_retry -> com.ztc1997.fingerprint2sleep.R.string.k
+    com.ztc1997.fingerprint2sleep.R.string.title_pref_auto_retry -> com.ztc1997.fingerprint2sleep.R.string.l
     com.ztc1997.fingerprint2sleep.R.string.accept -> com.ztc1997.fingerprint2sleep.R.string.bl
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
     com.ztc1997.fingerprint2sleep.R.string.create_calendar_message -> com.ztc1997.fingerprint2sleep.R.string.bn
@@ -136,6 +138,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu
     com.ztc1997.fingerprint2sleep.R.string.store_picture_message -> com.ztc1997.fingerprint2sleep.R.string.bv
     com.ztc1997.fingerprint2sleep.R.string.store_picture_title -> com.ztc1997.fingerprint2sleep.R.string.bw
+    com.ztc1997.fingerprint2sleep.R.string.notification_content_text_error -> com.ztc1997.fingerprint2sleep.R.string.ao
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_lock_screen_with_power_button_as_root -> com.ztc1997.fingerprint2sleep.R.string.ar
     com.ztc1997.fingerprint2sleep.R.string.title_pref_lock_screen_with_power_button_as_root -> com.ztc1997.fingerprint2sleep.R.string.b2
     com.ztc1997.fingerprint2sleep.R.array.entries_pref_quick_action -> com.ztc1997.fingerprint2sleep.R.array.a
