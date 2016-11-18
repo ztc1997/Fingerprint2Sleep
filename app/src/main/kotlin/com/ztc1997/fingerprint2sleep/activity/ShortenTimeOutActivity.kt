@@ -12,7 +12,7 @@ import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ERROR
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
@@ -142,7 +142,7 @@ class ShortenTimeOutActivity : Activity() {
         val params = WindowManager.LayoutParams()
         with(params) {
             flags = 1808
-            type = TYPE_SYSTEM_ALERT
+            type = TYPE_SYSTEM_ERROR
             gravity = Gravity.TOP
             width = -1
             height = -1

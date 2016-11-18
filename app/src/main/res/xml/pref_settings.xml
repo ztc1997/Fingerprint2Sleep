@@ -20,6 +20,12 @@
             android:summary="@string/summary_pref_foreground_service"
             android:title="@string/title_pref_foreground_service" />
 
+        <CheckBoxPreference
+            android:key="pref_auto_retry"
+            android:defaultValue="true"
+            android:summary="@string/summary_pref_auto_retry"
+            android:title="@string/title_pref_auto_retry" />
+
         <ListPreference
             android:defaultValue="shorten_timeout"
             android:entries="@array/entries_pref_screen_off_method"

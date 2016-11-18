@@ -18,6 +18,7 @@ import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
+import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
@@ -33,6 +34,8 @@ class FPQAService : Service() {
     companion object {
         const val NOTIFICATION_ID = 1
         const val NOTIFICATION_PENDING_INTENT_CONTENT = 0
+
+        val ACTION_RESTART_SCANNING = FPQAService::class.java.name + "ACTION_RESTART_SCANNING"
 
         // Class<StartFPQAActivity>
         val CLAZZ: Class<*> by lazy {
@@ -58,19 +61,37 @@ class FPQAService : Service() {
         val THROTTLE_DELAY by lazy {
             val hash1 = NonXposedQuickActions.CHECK_CODE
             val sign2 = NonXposedQuickActions.CHECK_BYTES
-            Math.abs(hash1.toLong() / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15])
+            Math.abs(hash1.toLong() / sign2[1] / sign2[8] / sign2[65] / sign2[3] / sign2[15]) * 200
         }
+
+        val CLASS_BLACK_LIST by lazy {
+            setOf(
+                    ShortenTimeOutActivity::class.java.name,
+                    /* AOSP */
+                    "com.android.settings.fingerprint.FingerprintSettings",
+                    "com.android.settings.fingerprint.FingerprintEnrollEnrolling",
+                    "com.android.systemui.recents.RecentsActivity",
+                    /* MIUI */
+                    "com.android.settings.NewFingerprintInternalActivity",
+                    "com.miui.applicationlock.ConfirmAccessControl",
+                    /* AliPay */
+                    "com.alipay.android.app.flybird.ui.window.FlyBirdWindowActivity"
+            )
+        }
+
+        var isServiceRunning = false
+            private set
     }
 
     var isRunning = false
 
-    var delayIsScanning = false
+    // var delayIsScanning = false
 
     var isScanning = false
         set(value) {
             field = value
             if (value)
-                delayIsScanning = value
+            // delayIsScanning = value
             else
                 Bus.send(IsScanningChangedEvent(value))
         }
@@ -78,8 +99,17 @@ class FPQAService : Service() {
     var isError = false
         set(value) {
             field = value
-            startForegroundIfSet(value)
+            if (value)
+                Bus.send(OnAuthenticationErrorEvent)
+            else
+                startForegroundIfSet()
         }
+
+    var errString = ""
+
+    var lastPkgName = ""
+
+    var errorPkgName = ""
 
     var cancellationSignal = CancellationSignal()
 
@@ -102,8 +132,13 @@ class FPQAService : Service() {
             super.onAuthenticationError(errorCode, errString)
             if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
                 errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
+
+            this@FPQAService.errString = errString?.toString().orEmpty()
+
             isError = true
             isScanning = false
+
+            errorPkgName = lastPkgName
         }
 
         override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
@@ -120,6 +155,8 @@ class FPQAService : Service() {
         override fun onReceive(context: Context, intent: Intent?) {
             isScanning = false
             StartFPQAActivity.startActivity(ctx)
+
+            Bus.send(RestartScanningDelayedEvent)
 
             val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
             if (screenTimeout > 0)
@@ -157,6 +194,19 @@ class FPQAService : Service() {
         }
 
         override fun isRunning() = this@FPQAService.isRunning
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        isServiceRunning = true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        stopFPQA()
+
+        isServiceRunning = false
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -212,21 +262,33 @@ class FPQAService : Service() {
         if (!isRunning) {
             isRunning = true
 
-            registerReceiver(presentReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
+            val restartIntentFilter = IntentFilter(Intent.ACTION_USER_PRESENT)
+            restartIntentFilter.addAction(ACTION_RESTART_SCANNING)
+            registerReceiver(presentReceiver, restartIntentFilter)
+
             registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
 
             Bus.observe<ActivityChangedEvent>()
-                    .filter { !delayIsScanning }
-                    .throttleLast(THROTTLE_DELAY, TimeUnit.SECONDS)
+                    .doOnEach { lastPkgName = (it.value as ActivityChangedEvent).event.packageName.toString() }
+                    .filter { it.event.packageName.toString() != errorPkgName }
+                    .filter { it.event.className !in CLASS_BLACK_LIST }
+                    // .filter { !delayIsScanning }
+                    .throttleLast(THROTTLE_DELAY, TimeUnit.MILLISECONDS)
                     .filter { !isScanning && isRunning }
                     .subscribe { onActivityChanged() }
 
-            Bus.observe<IsScanningChangedEvent>()
-                    .throttleLast(THROTTLE_DELAY, TimeUnit.SECONDS)
-                    .subscribe { delayIsScanning = it.value }
+            // Bus.observe<IsScanningChangedEvent>()
+            //         .throttleLast(THROTTLE_DELAY, TimeUnit.MILLISECONDS)
+            //         .subscribe { delayIsScanning = it.value }
+
+            Bus.observe<OnAuthenticationErrorEvent>()
+                    .delay(THROTTLE_DELAY, TimeUnit.MILLISECONDS)
+                    .filter { !isScanning }
+                    .subscribe { startForegroundIfSet() }
 
             Bus.observe<RestartScanningDelayedEvent>()
-                    .delay(200, TimeUnit.MILLISECONDS)
+                    .delay(THROTTLE_DELAY, TimeUnit.MILLISECONDS)
+                    .filter { !isScanning && isRunning }
                     .subscribe { StartFPQAActivity.startActivity(ctx, true) }
         }
     }
@@ -239,7 +301,7 @@ class FPQAService : Service() {
             unregisterReceiver(screenOffReceiver)
 
             Bus.unregister(this)
-            delayIsScanning = isScanning
+            // delayIsScanning = isScanning
 
             cancellationSignal.cancel()
             stopForeground(true)
@@ -251,12 +313,12 @@ class FPQAService : Service() {
         StartFPQAActivity.startActivity(ctx)
     }
 
-    fun startForegroundIfSet() = startForegroundIfSet(isError)
-
-    fun startForegroundIfSet(isError: Boolean) {
+    fun startForegroundIfSet() {
         if (isRunning && defaultDPreference.getPrefBoolean(SettingsActivity.PREF_FOREGROUND_SERVICE, false)) {
-            val notification = generateNotification(if (isError)
-                R.string.notification_content_text_error else R.string.notification_content_text)
+
+            val notification = if (isError)
+                generateNotification(getString(R.string.notification_content_text_retry) + errString, true)
+            else generateNotification(R.string.notification_content_text)
 
             startForeground(NOTIFICATION_ID, notification)
         } else {
@@ -267,18 +329,22 @@ class FPQAService : Service() {
     @Suppress("NOTHING_TO_INLINE")
     inline fun generateNotification(textRes: Int) = generateNotification(getString(textRes))
 
-    fun generateNotification(text: CharSequence): Notification {
-        val startMainIntent = Intent(applicationContext, SettingsActivity::class.java)
-        val contentPendingIntent = PendingIntent.getActivity(applicationContext,
-                NOTIFICATION_PENDING_INTENT_CONTENT, startMainIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+    fun generateNotification(text: CharSequence, restart: Boolean = false): Notification {
+        val pendingIntent = if (restart)
+            PendingIntent.getBroadcast(app,
+                    NOTIFICATION_PENDING_INTENT_CONTENT, Intent(ACTION_RESTART_SCANNING),
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+        else
+            PendingIntent.getActivity(app,
+                    NOTIFICATION_PENDING_INTENT_CONTENT, Intent(app, SettingsActivity::class.java),
+                    PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = Notification.Builder(applicationContext)
                 .setSmallIcon(R.drawable.ic_fingerprint_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(text)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setContentIntent(contentPendingIntent)
+                .setContentIntent(pendingIntent)
                 .build()
 
         return notification
@@ -295,4 +361,6 @@ class FPQAService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         return binder
     }
+
+    object OnAuthenticationErrorEvent
 }

@@ -1,15 +1,16 @@
 package com.ztc1997.fingerprint2sleep.extra
 
 import android.content.Context
+import android.view.accessibility.AccessibilityEvent
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 
 object FinishStartFPQAActivityEvent
 
-object ActivityChangedEvent
-
 object RestartScanningDelayedEvent
 
 object StartScanningEvent
+
+class ActivityChangedEvent(val event: AccessibilityEvent)
 
 class IsScanningChangedEvent(val value: Boolean)
 

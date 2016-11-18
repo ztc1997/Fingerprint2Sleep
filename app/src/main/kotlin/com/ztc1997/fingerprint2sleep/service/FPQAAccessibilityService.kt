@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.view.accessibility.AccessibilityEvent
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
-import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
+import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
@@ -15,6 +15,8 @@ import com.ztc1997.fingerprint2sleep.extra.SendPackageInfoEvent
 import com.ztc1997.fingerprint2sleep.extra.SendPackageManagerEvent
 import com.ztc1997.fingerprint2sleep.util.RC4
 import com.ztc1997.fingerprint2sleep.util.Reflects
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.defaultSharedPreferences
 
 class FPQAAccessibilityService : AccessibilityService() {
     companion object {
@@ -25,21 +27,6 @@ class FPQAAccessibilityService : AccessibilityService() {
 
         var isRunning = false
             private set
-
-        val CLASS_BLACK_LIST by lazy {
-            setOf(
-                    ShortenTimeOutActivity::class.java.name,
-                    /* AOSP */
-                    "com.android.settings.fingerprint.FingerprintSettings",
-                    "com.android.settings.fingerprint.FingerprintEnrollEnrolling",
-                    "com.android.systemui.recents.RecentsActivity",
-                    /* MIUI */
-                    "com.android.settings.NewFingerprintInternalActivity",
-                    "com.miui.applicationlock.ConfirmAccessControl",
-                    /* AliPay */
-                    "com.alipay.android.app.flybird.ui.window.FlyBirdWindowActivity"
-            )
-        }
 
         // com.android.systemui
         val PACKAGE_NAME_SYSTEMUI by lazy {
@@ -83,6 +70,10 @@ class FPQAAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
 
+            if (!FPQAService.isServiceRunning &&
+                    defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+                StartFPQAActivity.startActivity(ctx)
+
             if (event.packageName == null || event.className == null) return
 
             val componentName = ComponentName(
@@ -98,9 +89,8 @@ class FPQAAccessibilityService : AccessibilityService() {
                 if (ignoreOnce)
                     ignoreOnce = false
                 else if (currClass != clazz
-                        && lastClass != clazz
-                        && event.className !in CLASS_BLACK_LIST)
-                    Bus.send(ActivityChangedEvent)
+                        && lastClass != clazz)
+                    Bus.send(ActivityChangedEvent(event))
 
 
                 lastClass = currClass
@@ -130,6 +120,9 @@ class FPQAAccessibilityService : AccessibilityService() {
         super.onServiceConnected()
 
         isRunning = true
+
+        if (defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+            StartFPQAActivity.startActivity(ctx)
     }
 
     override fun onInterrupt() {
