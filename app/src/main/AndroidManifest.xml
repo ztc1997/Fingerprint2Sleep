@@ -56,7 +56,6 @@
         <activity
             android:name=".activity.ShortenTimeOutActivity"
             android:launchMode="singleInstance"
-            android:process=":bg"
             android:theme="@style/AppTheme.Translucent" />
 
         <service
@@ -77,9 +76,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".receiver.BootReceiver"
-            android:process=":bg">
+        <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />

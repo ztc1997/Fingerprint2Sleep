@@ -52,6 +52,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.cb
     com.ztc1997.fingerprint2sleep.R.layout.activity_settings -> com.ztc1997.fingerprint2sleep.R.layout.a0
     com.ztc1997.fingerprint2sleep.R.layout.activity_shorten_time_out -> com.ztc1997.fingerprint2sleep.R.layout.a
+    com.ztc1997.fingerprint2sleep.R.layout.item_app_picker -> com.ztc1997.fingerprint2sleep.R.layout.b
     com.ztc1997.fingerprint2sleep.R.xml.accessibility_service -> com.ztc1997.fingerprint2sleep.R.xml.a
     com.ztc1997.fingerprint2sleep.R.xml.device_admin -> com.ztc1997.fingerprint2sleep.R.xml.b
     com.ztc1997.fingerprint2sleep.R.xml.pref_settings -> com.ztc1997.fingerprint2sleep.R.xml.c
@@ -171,6 +172,10 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.id.fragment_settings -> com.ztc1997.fingerprint2sleep.R.id.bt
     com.ztc1997.fingerprint2sleep.R.id.adView -> com.ztc1997.fingerprint2sleep.R.id.bu
     com.ztc1997.fingerprint2sleep.R.id.tv -> com.ztc1997.fingerprint2sleep.R.id.a
+    com.ztc1997.fingerprint2sleep.R.id.item_bg -> com.ztc1997.fingerprint2sleep.R.id.b
+    com.ztc1997.fingerprint2sleep.R.id.btn_radio -> com.ztc1997.fingerprint2sleep.R.id.c
+    com.ztc1997.fingerprint2sleep.R.id.iv_icon -> com.ztc1997.fingerprint2sleep.R.id.d
+    com.ztc1997.fingerprint2sleep.R.id.tv_name -> com.ztc1997.fingerprint2sleep.R.id.f
     com.ztc1997.fingerprint2sleep.R.integer.google_play_services_version -> com.ztc1997.fingerprint2sleep.R.integer.d
     com.ztc1997.fingerprint2sleep.R.style.AppBaseTheme -> com.ztc1997.fingerprint2sleep.R.style.ir
     com.ztc1997.fingerprint2sleep.R.style.AppTheme -> com.ztc1997.fingerprint2sleep.R.style.cv
