@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Vykonáva rýchle akcie pomocou priloženia/potiahnutia cez senzor odtlačkov prstov. Aktivovaním Xposed modulu zaistíte väčšiu stabilitu</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Chyba\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action beží</string>
+    <string name="notification_content_text_error">Overenie odtlačku prsta zlyhalo</string>
+    <string name="toast_failed_to_collapse_panel">Nepodarilo sa rozbaliť panel</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nepodporuje overenie pomocou odtlačku prsta</string>
+    <string name="toast_root_access_failed">Nepodarilo sa získať root prístup</string>
+    <string name="toast_xposed_version_mismatched">Xposed modul je aktivovaný, ale nesúhlasí s aktuálnou verziou aplikácie. Odporúčame reštartovať zariadenie pre obnovenie modulu</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Uspanie zariadenia vyžaduje povolenie správcu zariadenia</string>
+    <string name="description_accessibility">Fingerprint Quick Action vyžaduje Dostupnosť pre prepínanie zobrazenia a pre vykonanie niektorých akcií</string>
+    <string name="toast_device_admin_failed">Nepodarilo sa povoliť správcu zariadenia</string>
+    <string name="toast_accessibility_failed">Nepodarilo sa povoliť Dostupnosť</string>
+
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">Odomknúť pomocou odtlačku prsta</string>
+    <string name="toast_window_overlay_permission_failed">Nie je požné získať povolenie prekrytia obrazovky</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Povoliť Fingerprint Quick Action</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Beží v režime s Xposed</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Beží v režime bez Xposed</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Odpovedať iba na pridané odtlačky</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Ak je povolené, overenie pomocou odtlačku skončí po 4 neúspešných pokusoch</string>
+
+    <string name="title_pref_screen_non_xposed_mode">Nastavenia režimu bez Xposed</string>
+
+    <string name="title_pref_screen_xposed_mode">Nastavenia režimu s Xposed</string>
+
+    <string name="title_pref_foreground_service">Služba na popredí</string>
+    <string name="summary_pref_foreground_service">Použite službu na popredí, aby ste zabránili systému ukončiť Fingerprint Quick Action (zobrazí trvalé upozornenie)</string>
+
+    <string name="title_pref_screen_off_method">Metóda vypnutia obrazovky</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">Kratší časový limit (odporúčané)</string>
+    <string name="entries_pref_screen_off_method_device_admin">Správca zariadenia (odomknutie pomocou odtlačku prsta nemusí fungovať)</string>
+    <string name="entries_pref_screen_off_method_power_button">Simulácia stlačenia tlačidla napájania (ROOT)</string>
+
+    <string name="title_pref_category_quick_action">Rýchla akcia</string>
+
+    <string name="title_pref_action_single_tap">Priloženie</string>
+
+    <string name="title_pref_action_fast_swipe">Rýchle potiahnutie</string>
+
+    <string name="entries_pref_quick_action_none">Nič</string>
+    <string name="entries_pref_quick_action_sleep">Uspať</string>
+    <string name="entries_pref_quick_action_back">Späť</string>
+    <string name="entries_pref_quick_action_home">Domov</string>
+    <string name="entries_pref_quick_action_recents">Zobraziť nedávne apl.</string>
+    <string name="entries_pref_quick_action_power_dialog">Zobraziť menu napájania</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Prepnúť rozdelenú obrazovku</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Rozbaliť panel s upozorneniami</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Prepnúť panel s upozorneniami</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Rozbaliť panel s rýchlymi nastaveniami</string>
+
+    <string name="title_pref_category_about">O aplikácii</string>
+
+    <string name="title_pref_donate">Podporiť</string>
+    <string name="title_pref_donate_purchased">Podporené</string>
+    <string name="summary_pref_donate">Podporte vývojára a odstráňte reklamy</string>
+    <string name="summary_pref_donate_purchased">Ďakujem za vašu podporu</string>
+
+    <string name="title_pref_category_debug">Ladenie</string>
+
+    <string name="title_pref_notify_on_error">Upozorniť pri chybe</string>
+    <string name="summary_pref_notify_on_error">Zobraziť toast upozornenie pri chybe overenia odtlačku</string>
+
+</resources>

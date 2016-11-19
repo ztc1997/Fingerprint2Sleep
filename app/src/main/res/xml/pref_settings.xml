@@ -4,48 +4,69 @@
         android:key="pref_enable_fingerprint_quick_action"
         android:title="@string/title_pref_enable_fingerprint_quick_action" />
 
-    <ListPreference
-        android:defaultValue="sleep"
-        android:dependency="pref_enable_fingerprint_quick_action"
-        android:entries="@array/entries_pref_quick_action"
-        android:entryValues="@array/values_pref_quick_action"
-        android:key="pref_quick_action"
-        android:title="@string/title_pref_quick_action" />
-
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"
         android:key="pref_response_enrolled_fingerprint_only"
         android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
         android:title="@string/title_pref_response_enrolled_fingerprint_only" />
 
-    <CheckBoxPreference
+    <PreferenceScreen
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:key="pref_notify_on_error"
-        android:summary="@string/summary_pref_notify_on_error"
-        android:title="@string/title_pref_notify_on_error" />
+        android:key="pref_screen_non_xposed_mode"
+        android:title="@string/title_pref_screen_non_xposed_mode">
 
-    <CheckBoxPreference
+        <CheckBoxPreference
+            android:key="pref_foreground_service"
+            android:summary="@string/summary_pref_foreground_service"
+            android:title="@string/title_pref_foreground_service" />
+
+        <CheckBoxPreference
+            android:key="pref_auto_retry"
+            android:defaultValue="true"
+            android:summary="@string/summary_pref_auto_retry"
+            android:title="@string/title_pref_auto_retry" />
+
+        <ListPreference
+            android:defaultValue="shorten_timeout"
+            android:entries="@array/entries_pref_screen_off_method"
+            android:entryValues="@array/values_pref_screen_off_method"
+            android:key="pref_screen_off_method"
+            android:title="@string/title_pref_screen_off_method" />
+
+    </PreferenceScreen>
+
+    <PreferenceCategory
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:key="pref_foreground_service"
-        android:summary="@string/summary_pref_foreground_service"
-        android:title="@string/title_pref_foreground_service" />
+        android:title="@string/title_pref_category_quick_action">
 
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint_quick_action"
-        android:key="pref_lock_screen_with_power_button_as_root"
-        android:summary="@string/summary_pref_lock_screen_with_power_button_as_root"
-        android:title="@string/title_pref_lock_screen_with_power_button_as_root" />
+        <ListPreference
+            android:defaultValue="none"
+            android:entries="@array/entries_pref_quick_action"
+            android:entryValues="@array/values_pref_quick_action"
+            android:key="pref_quick_action"
+            android:title="@string/title_pref_action_single_tap" />
 
-    <PreferenceCategory android:title="@string/title_pref_category_other">
+        <ListPreference
+            android:defaultValue="none"
+            android:entries="@array/entries_pref_quick_action"
+            android:entryValues="@array/values_pref_quick_action"
+            android:key="pref_action_fast_swipe"
+            android:title="@string/title_pref_action_fast_swipe" />
+    </PreferenceCategory>
 
+    <!--<PreferenceCategory android:title="@string/title_pref_category_about">
         <Preference
             android:key="pref_donate"
             android:summary="@string/summary_pref_donate"
             android:title="@string/title_pref_donate" />
+    </PreferenceCategory>-->
+
+    <PreferenceCategory android:title="@string/title_pref_category_debug">
 
         <CheckBoxPreference
-            android:key="pref_disable_ads"
-            android:summary="@string/summary_pref_disable_ads"
-            android:title="@string/title_pref_disable_ads" />
+            android:dependency="pref_enable_fingerprint_quick_action"
+            android:key="pref_notify_on_error"
+            android:summary="@string/summary_pref_notify_on_error"
+            android:title="@string/title_pref_notify_on_error" />
     </PreferenceCategory>
 </PreferenceScreen>

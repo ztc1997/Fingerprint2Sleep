@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SettingsActivity">
+    tools:context=".activity.SettingsActivity">
 
     <fragment
         android:id="@+id/fragment_settings"
-        android:name="com.ztc1997.fingerprint2sleep.SettingsActivity$SettingsFragment"
+        android:name="com.ztc1997.fingerprint2sleep.activity.SettingsActivity$SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0" />

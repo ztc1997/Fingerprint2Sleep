@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ztc1997.fingerprint2sleep">
 
-    <uses-feature android:name="android.hardware.fingerprint" />
-
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name=".App"
@@ -15,7 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SettingsActivity">
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="@string/xposed_description" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,25 +37,37 @@
         </activity>
 
         <activity
-            android:name=".StartFPQAActivity"
-            android:excludeFromRecents="true"
-            android:process=":bg"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:name=".activity.RequireAdminActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.Translucent" />
 
         <activity
-            android:name=".RequireAdminActivity"
+            android:name=".activity.RequireAccessibilityActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.StartFPQAActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:process=":bg"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.ShortenTimeOutActivity"
+            android:launchMode="singleInstance"
+            android:process=":bg"
+            android:theme="@style/AppTheme.Translucent" />
 
         <service
-            android:name=".FPQAService"
+            android:name=".service.FPQAService"
             android:enabled="true"
             android:exported="false"
             android:label="@string/app_name"
             android:process=":bg" />
 
         <receiver
-            android:name=".AdminReceiver"
+            android:name=".receiver.AdminReceiver"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
@@ -52,13 +78,27 @@
         </receiver>
 
         <receiver
-            android:name=".BootReceiver"
+            android:name=".receiver.BootReceiver"
             android:process=":bg">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".service.FPQAAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:process=":bg"
+            android:settingsActivity=".activity.SettingsActivity">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service" />
+        </service>
     </application>
 
 </manifest>

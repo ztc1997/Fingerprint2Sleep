@@ -25,26 +25,24 @@
     public static int d(...);
     public static int e(...);
 }
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+    static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+    static void throwUninitializedPropertyAccessException(java.lang.String);
+}
 
--dontwarn org.jetbrains.anko.**
--keep class org.jetbrains.anko.** { *;}
+-dontwarn org.jetbrains.anko.internals.**
+-keep class org.jetbrains.anko.internals.** { *;}
 
--dontwarn rx.**
--keep class rx.** { *;}
+-dontwarn rx.internal.util.unsafe.**
+-keep class rx.internal.util.unsafe.** { *;}
 
 -keepattributes *Annotation*
--keepclassmembers class ** {
-    @com.hwangjr.rxbus.annotation.Subscribe public *;
-    @com.hwangjr.rxbus.annotation.Produce public *;
+
+-keep class com.ztc1997.fingerprint2sleep.xposed.FPQAModule
+-keep class com.ztc1997.fingerprint2sleep.util.XposedProbe {
+    public static int activatedModuleVersion();
 }
--keepclassmembers class * implements java.io.Serializable {
-    static final long serialVersionUID;
-    private static final java.io.ObjectStreamField[] serialPersistentFields;
-    !static !transient <fields>;
-    !private <fields>;
-    !private <methods>;
-    private void writeObject(java.io.ObjectOutputStream);
-    private void readObject(java.io.ObjectInputStream);
-    java.lang.Object writeReplace();
-    java.lang.Object readResolve();
-}
+
+-keep class com.android.vending.billing.**
+-keep public class com.android.vending.licensing.ILicensingService

@@ -2,43 +2,78 @@
 <resources>
     <string name="app_name">指纹快捷操作</string>
 
+    <string name="xposed_description">通过点击/轻扫指纹传感器执行快捷操作。激活 Xposed 模块将更加稳定。</string>
+
     <!-- FPQAService -->
     <string name="toast_notify_on_error">指纹快捷操作：错误\n%1$s</string>
     <string name="notification_content_text">指纹快捷操作正在运行</string>
-    <string name="notification_content_text_error">指纹认证错误，将在下次开启屏幕时重试</string>
-    <string name="toast_failed_to_expend_notifications_panel">展开通知面板失败</string>
+    <string name="notification_content_text_retry">点击此处重试。</string>
+    <string name="toast_failed_to_collapse_panel">收起面板失败</string>
 
     <!-- SettingsActivity -->
-    <string name="explanation_device_admin">指纹快捷操作需要激活设备管理器才能工作</string>
     <string name="msg_dialog_device_does_not_support_fingerprint">设备不支持指纹认证</string>
-    <string name="toast_device_admin_failed">激活设备管理器失败</string>
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
+    <string name="toast_xposed_version_mismatched">Xposed 模块已激活，但与当前程序版本不匹配，建议重启以刷新模块</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">休眠设备需要设备管理器才能工作</string>
+    <string name="description_accessibility">指纹快捷操作需要辅助功能以侦测界面切换以及执行某些操作</string>
+    <string name="toast_device_admin_failed">激活设备管理器失败</string>
+    <string name="toast_accessibility_failed">打开辅助功能失败</string>
+
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">通过指纹解锁</string>
+    <string name="toast_window_overlay_permission_failed">无法取得窗口覆盖权限</string>
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">启用指纹快捷操作</string>
-
-    <string name="title_pref_quick_action">快捷操作</string>
-    <string name="entries_pref_quick_action_expend_notifications_panel">展开通知面板</string>
-    <string name="entries_pref_quick_action_home">主页</string>
-    <string name="entries_pref_quick_action_sleep">休眠</string>
-
-    <string name="title_pref_notify_on_error">错误时提示</string>
-    <string name="summary_pref_notify_on_error">当指纹认证发生错误时通过 Toast 显示信息</string>
-
-    <string name="title_pref_foreground_service">前台服务</string>
-    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">运行在 Xposed 模式下</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">运行在非 Xposed 模式下</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">仅响应已注册的指纹</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
 
-    <string name="title_pref_lock_screen_with_power_button_as_root">解决指纹解锁的问题</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">需要 Root。通过模拟点按电源键关闭屏幕</string>
+    <string name="title_pref_screen_non_xposed_mode">非 Xposed 模式设置</string>
 
-    <string name="title_pref_category_other">其他</string>
+    <string name="title_pref_screen_xposed_mode">Xposed 模式设置</string>
+
+    <string name="title_pref_foreground_service">前台服务</string>
+    <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
+
+    <string name="title_pref_auto_retry">自动重试</string>
+    <string name="summary_pref_auto_retry">在适当的时候自动重试。关闭后，仍会在屏幕解锁时重试，您还可以通过点击通知重试。</string>
+
+    <string name="title_pref_screen_off_method">关闭屏幕方法</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">缩短超时（推荐）</string>
+    <string name="entries_pref_screen_off_method_device_admin">设备管理器（可能导致指纹解锁不工作）</string>
+    <string name="entries_pref_screen_off_method_power_button">模拟点按电源键（ROOT）</string>
+
+    <string name="title_pref_category_quick_action">快捷操作</string>
+
+    <string name="title_pref_action_single_tap">单击</string>
+
+    <string name="title_pref_action_fast_swipe">快速轻扫</string>
+
+    <string name="entries_pref_quick_action_none">无</string>
+    <string name="entries_pref_quick_action_sleep">休眠</string>
+    <string name="entries_pref_quick_action_back">返回</string>
+    <string name="entries_pref_quick_action_home">返回主页</string>
+    <string name="entries_pref_quick_action_recents">显示最近使用的应用程序</string>
+    <string name="entries_pref_quick_action_power_dialog">显示电源键菜单</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">切换分割屏幕</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">展开通知面板</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">切换通知面板</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">展开快速设置</string>
+
+    <string name="title_pref_category_about">关于</string>
 
     <string name="title_pref_donate">捐赠</string>
-    <string name="summary_pref_donate">如果你喜欢这个应用，可以考虑给我买杯咖啡。</string>
+    <string name="title_pref_donate_purchased">已捐赠</string>
+    <string name="summary_pref_donate">支持开发者并去除广告</string>
+    <string name="summary_pref_donate_purchased">感谢您的捐赠</string>
 
-    <string name="title_pref_disable_ads">关闭广告</string>
-    <string name="summary_pref_disable_ads">观看和点击广告可以激励开发者做得更好，但如果你对此感到反感，可以将其关闭</string>
+    <string name="title_pref_category_debug">调试</string>
+
+    <string name="title_pref_notify_on_error">错误时提示</string>
+    <string name="summary_pref_notify_on_error">当指纹认证发生错误时通过 Toast 显示信息</string>
 </resources>

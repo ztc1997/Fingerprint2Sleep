@@ -7,9 +7,10 @@
 
         <provider
             android:name="me.dozen.dpreference.PreferenceProvider"
-            android:enabled="true"
             android:authorities="com.ztc1997.fingerprint2sleep.dpreference"
-            android:exported="false" />
+            android:enabled="true"
+            android:exported="false"
+            android:process=":bg" />
 
     </application>
 

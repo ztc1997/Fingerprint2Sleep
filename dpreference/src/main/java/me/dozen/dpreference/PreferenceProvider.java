@@ -8,9 +8,9 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -203,7 +203,7 @@ public class PreferenceProvider extends ContentProvider {
         getDPreference(name).setPrefStringSet(kString, StringSetConverter.decode(vString));
     }
 
-    private static Map<String, IPrefImpl> sPreferences = new ArrayMap<>();
+    private static Map<String, IPrefImpl> sPreferences = new HashMap<>();
 
     private IPrefImpl getDPreference(String name) {
         if (TextUtils.isEmpty(name)) {

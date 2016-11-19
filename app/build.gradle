@@ -1,26 +1,57 @@
 apply plugin: 'com.android.application'
+apply plugin: 'AndResGuard'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion Integer.parseInt("$compileSdkVer")
+    buildToolsVersion "$buildToolsVer"
 
     defaultConfig {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
-        targetSdkVersion 24
-        versionCode 4
-        versionName "0.3.1"
+        targetSdkVersion Integer.parseInt("$targetSdkVer")
+        versionCode 15
+        versionName "0.7.5"
     }
+
+    signingConfigs {
+        release {
+            def File signingConfFile = file("../signing.properties")
+            def Properties signingConf = new Properties()
+            signingConf.load(new FileInputStream(signingConfFile))
+
+            storeFile file(signingConf['storeFile'])
+            storePassword signingConf['storePassword']
+            keyAlias signingConf['keyAlias']
+            keyPassword signingConf['keyPassword']
+        }
+    }
+
     buildTypes {
         release {
             shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            pseudoLocalesEnabled true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
     }
 }
 
@@ -32,19 +63,80 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    // Android support library
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-
     // DSL
     compile "org.jetbrains.anko:anko-sdk23:$ankoVersion"
-    compile "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
 
     // Firebase
     compile "com.google.firebase:firebase-core:$firebaseVersion"
     compile "com.google.firebase:firebase-crash:$firebaseVersion"
     compile "com.google.firebase:firebase-ads:$firebaseVersion"
 
-    compile 'com.hwangjr.rxbus:rxbus:1.0.5'
+    compile 'com.eightbitlab:rxbus:1.0.2'
+
+    compile 'com.orhanobut:logger:1.15'
+
+    compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
+
+    provided 'de.robv.android.xposed:api:82'
+}
+
+andResGuard {
+    mappingFile = file("./resource_mapping_app-release.txt")
+    // mappingFile = null
+    use7zip = true
+    useSign = true
+    // it will keep the origin path of your resources when it's true
+    keepRoot = false
+    whiteList = [
+            // for your icon
+            "R.mipmap.ic_launcher",
+            // for fabric
+            "R.string.com.crashlytics.*",
+            // for umeng update
+            "R.string.umeng*",
+            "R.string.UM*",
+            "R.string.tb_*",
+            "R.layout.umeng*",
+            "R.layout.tb_*",
+            "R.drawable.umeng*",
+            "R.drawable.tb_*",
+            "R.anim.umeng*",
+            "R.color.umeng*",
+            "R.color.tb_*",
+            "R.style.*UM*",
+            "R.style.umeng*",
+            "R.id.umeng*",
+            // umeng share for sina
+            "R.drawable.sina*",
+            // for google-services.json
+            "R.string.google_app_id",
+            "R.string.gcm_defaultSenderId",
+            "R.string.default_web_client_id",
+            "R.string.ga_trackingId",
+            "R.string.firebase_database_url",
+            "R.string.google_api_key",
+            "R.string.google_crash_reporting_api_key",
+            // umeng share for facebook
+            "R.layout.*facebook*",
+            "R.id.*facebook*",
+            // umeng share for messager
+            "R.layout.*messager*",
+            "R.id.*messager*",
+            // umeng share commond
+            "R.id.progress_bar_parent",
+            "R.id.webView"
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.1.13'
+        //path = "/usr/local/bin/7za"
+    }
 }
 
 buildscript {
@@ -53,6 +145,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.13'
     }
 }
 
