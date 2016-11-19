@@ -1,8 +1,6 @@
 [![GitHub version](https://badge.fury.io/gh/ztc1997%2FFingerprint2Sleep.svg)](https://github.com/ztc1997/Fingerprint2Sleep/releases) ![license](http://img.shields.io/badge/license-GPLv3-brightgreen.svg) ![platform](http://img.shields.io/badge/platform-Android-blue.svg)
 # Fingerprint Quick Action
 
-*For some reason, since version 0.4.0, source code is no longer available, you can still open issues here. If you would like to provide or update your translation, please move to [the "translation" branch](https://github.com/ztc1997/Fingerprint2Sleep/tree/translation).*
-
 <a href="https://play.google.com/store/apps/details?id=com.ztc1997.fingerprint2sleep">
 <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="165" height="64" />
 </a>
@@ -23,10 +21,17 @@ On MIUI, go to `Security`→`Permissions`→`Autostart`, and choose `Fingerprint
 On MIUI, go to `Settings`→`Battery & performance`→`Manager apps battery usage`
 →`Choose apps`→`Fingerprint to Sleep`, and choose `No restriction`.
 
-## Donate
-
-If you like this app and want to support the developer of this repo, consider buying me a cup of coffee.<br>
-[Donate](./DONATE.md)
+## Build
+1. `git clone https://github.com/V2Ray-Android/Actinium.git`
+2. Add `google-services.json`, see to [Firebass documentation](https://firebase.google.com/docs/android/setup)
+3. Add `signing.properties` to project root, its format is:
+```
+storeFile='keystore file path'
+storePassword='keystore password'
+keyAlias='key alias name'
+keyPassword='key alias password'
+```
+4. Open in Android Studio or Intellij IDEA.
 
 ## License
 ```
