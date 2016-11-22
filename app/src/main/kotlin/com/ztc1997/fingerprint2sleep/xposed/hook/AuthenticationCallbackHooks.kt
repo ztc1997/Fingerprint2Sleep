@@ -7,12 +7,14 @@ import android.os.CancellationSignal
 import android.os.Handler
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
 import de.robv.android.xposed.XposedHelpers
+import org.jetbrains.anko.powerManager
 
 object AuthenticationCallbackHooks : IHooks {
     override fun doHook(loader: ClassLoader) {
         fun sendBroadcast(obj: Any) {
             val ctx = XposedHelpers.getAdditionalInstanceField(obj, "context") as Context
-            ctx.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_START_SCANNING))
+            if (ctx.powerManager.isInteractive)
+                ctx.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_START_SCANNING))
         }
 
         KXposedHelpers.findAndHookMethod(FingerprintManager::class.java, "authenticate",
@@ -28,6 +30,7 @@ object AuthenticationCallbackHooks : IHooks {
         KXposedHelpers.findAndHookMethod(FingerprintManager.AuthenticationCallback::class.java,
                 "onAuthenticationSucceeded", FingerprintManager.AuthenticationResult::class.java) {
             afterHookedMethod {
+
                 sendBroadcast(it.thisObject)
             }
         }
