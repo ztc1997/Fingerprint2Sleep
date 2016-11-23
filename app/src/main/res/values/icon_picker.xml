@@ -17,7 +17,7 @@
 <resources>
 
     <string-array name="shortcut_icon_picker_labels" translatable="false">
-        <item>@string/shortcuts_icon_picker_alarm</item>
+        <!--<item>@string/shortcuts_icon_picker_alarm</item>
         <item>@string/shortcuts_icon_picker_andy</item>
         <item>@string/shortcuts_icon_picker_battery</item>
         <item>@string/shortcuts_icon_picker_browser</item>
@@ -76,11 +76,11 @@
         <item>@string/shortcuts_icon_picker_twitter</item>
         <item>@string/shortcuts_icon_picker_unlock</item>
         <item>@string/shortcuts_icon_picker_viber</item>
-        <item>@string/shortcuts_icon_picker_whatsapp</item>
+        <item>@string/shortcuts_icon_picker_whatsapp</item>-->
     </string-array>
 
     <string-array name="shortcut_icon_picker_icons" translatable="false">
-        <item>@drawable/ic_shortcut_alarm</item>
+        <!--<item>@drawable/ic_shortcut_alarm</item>
         <item>@drawable/ic_shortcut_andy</item>
         <item>@drawable/ic_shortcut_battery</item>
         <item>@drawable/ic_shortcut_browser</item>
@@ -139,7 +139,7 @@
         <item>@drawable/ic_shortcut_twitter</item>
         <item>@drawable/ic_shortcut_unlock</item>
         <item>@drawable/ic_shortcut_viber</item>
-        <item>@drawable/ic_shortcut_whatsapp</item>
+        <item>@drawable/ic_shortcut_whatsapp</item>-->
     </string-array>
 
 </resources>
