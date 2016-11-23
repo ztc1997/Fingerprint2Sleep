@@ -11,12 +11,14 @@ import android.preference.CheckBoxPreference
 import android.preference.ListPreference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import com.google.android.gms.ads.AdRequest
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
+import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 
 class SettingsActivity : Activity() {
@@ -92,6 +94,11 @@ class SettingsActivity : Activity() {
 
         if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
             toast(R.string.toast_xposed_version_mismatched)
+
+        val adRequest = AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        adView.loadAd(adRequest)
     }
 
     override fun onResume() {
