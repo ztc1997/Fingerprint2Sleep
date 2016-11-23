@@ -94,12 +94,11 @@ class SettingsActivity : Activity() {
         setContentView(R.layout.activity_settings)
 
         if (!fingerprintManager.isHardwareDetected) {
-            alert(com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint) {
+            alert(R.string.msg_dialog_device_does_not_support_fingerprint) {
                 positiveButton(android.R.string.ok) { finish() }
                 onCancel { finish() }
                 show()
             }
-            return
         }
 
         if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
