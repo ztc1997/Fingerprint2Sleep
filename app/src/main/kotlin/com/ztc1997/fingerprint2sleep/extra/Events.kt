@@ -8,8 +8,8 @@ object RestartScanningDelayedEvent
 
 object StartScanningEvent
 
-class ActivityChangedEvent(val event: AccessibilityEvent)
+data class ActivityChangedEvent(val event: AccessibilityEvent)
 
-class IsScanningChangedEvent(val value: Boolean)
+data class IsScanningChangedEvent(val value: Boolean)
 
-class PerformGlobalActionEvent(val action: Int)
+data class PerformGlobalActionEvent(val action: Int)

@@ -1,16 +1,18 @@
 package com.ztc1997.fingerprint2sleep.activity
 
 import android.app.Activity
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
-import android.content.SharedPreferences
+import android.content.*
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.CheckBoxPreference
 import android.preference.ListPreference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
+import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
 import com.google.android.gms.ads.AdRequest
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -21,8 +23,11 @@ import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 
+
 class SettingsActivity : Activity() {
     companion object {
+        private const val REQ_OBTAIN_SHORTCUT = 0
+
         @Deprecated("No longer use", replaceWith = ReplaceWith("PREF_ENABLE_FINGERPRINT_QUICK_ACTION"))
         const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
 
@@ -35,6 +40,8 @@ class SettingsActivity : Activity() {
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
+        const val PREF_ACTION_SINGLE_TAP_APP = "pref_action_single_tap_app"
+        const val PREF_ACTION_FAST_SWIPE_APP = "pref_action_fast_swipe_app"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -46,19 +53,22 @@ class SettingsActivity : Activity() {
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS = "expand_quick_settings"
+        const val VALUES_PREF_QUICK_ACTION_LAUNCH_APP = "launch_app"
 
         const val VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT = "shorten_timeout"
         const val VALUES_PREF_SCREEN_OFF_METHOD_DEVICE_ADMIN = "device_admin"
         const val VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON = "power_button"
 
-        val PREF_KEYS_BOOLEAN = listOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
+        val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE)
-        val PREF_KEYS_STRING = listOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE, PREF_SCREEN_OFF_METHOD)
+        val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
+                PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
+                PREF_ACTION_FAST_SWIPE_APP)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
-                VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN)
+                VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN, VALUES_PREF_QUICK_ACTION_LAUNCH_APP)
 
         val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_RECENTS,
                 VALUES_PREF_QUICK_ACTION_SLEEP)
@@ -121,12 +131,16 @@ class SettingsActivity : Activity() {
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
+        val actionSingleTapApp by lazy { findPreference(PREF_ACTION_SINGLE_TAP_APP) as AppPickerPreference }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
+        val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
+
+            AppPickerPreference.settingsFragment = this
 
             val moduleActivated = XposedProbe.isModuleActivated()
 
@@ -142,7 +156,11 @@ class SettingsActivity : Activity() {
             defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
             actionSingleTap.summary = actionSingleTap.entry
+            actionSingleTapApp.isEnabled = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
+                    VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             actionFastSwipe.summary = actionFastSwipe.entry
+            actionFastSwipeApp.isEnabled = defaultSharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
+                    VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             screenOffMethod.summary = screenOffMethod.entry
         }
 
@@ -153,8 +171,16 @@ class SettingsActivity : Activity() {
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
             when (key) {
-                PREF_ACTION_SINGLE_TAP -> actionSingleTap.summary = actionSingleTap.entry
-                PREF_ACTION_FAST_SWIPE -> actionFastSwipe.summary = actionFastSwipe.entry
+                PREF_ACTION_SINGLE_TAP -> {
+                    actionSingleTap.summary = actionSingleTap.entry
+                    actionSingleTapApp.isEnabled = sharedPreferences.getString(key,
+                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                }
+                PREF_ACTION_FAST_SWIPE -> {
+                    actionFastSwipe.summary = actionFastSwipe.entry
+                    actionFastSwipeApp.isEnabled = sharedPreferences.getString(key,
+                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                }
                 PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
             }
 
@@ -178,6 +204,51 @@ class SettingsActivity : Activity() {
                         activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
                     else if (sharedPreferences.getBoolean(key, false))
                         StartFPQAActivity.startActivity(ctx)
+                }
+            }
+        }
+
+        var shortcutHandler: ShortcutHandler? = null
+        fun obtainShortcut(handler: ShortcutHandler?) {
+            if (handler == null) return
+
+            shortcutHandler = handler
+            startActivityForResult(shortcutHandler!!.createShortcutIntent, REQ_OBTAIN_SHORTCUT)
+        }
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+            if (requestCode == REQ_OBTAIN_SHORTCUT && shortcutHandler != null) {
+                if (resultCode == Activity.RESULT_OK) {
+                    var localIconResName: String? = null
+                    var b: Bitmap? = null
+                    val siRes = data!!.getParcelableExtra<Intent.ShortcutIconResource>(Intent.EXTRA_SHORTCUT_ICON_RESOURCE)
+                    val shortcutIntent = data.getParcelableExtra<Intent>(Intent.EXTRA_SHORTCUT_INTENT)
+                    if (siRes != null) {
+                        if (shortcutIntent != null &&
+                                AppPickerPreference.ACTION_LAUNCH_ACTION == shortcutIntent.action) {
+                            localIconResName = siRes.resourceName
+                        } else {
+                            try {
+                                val extContext = activity.createPackageContext(
+                                        siRes.packageName, Context.CONTEXT_IGNORE_SECURITY)
+                                val extRes = extContext.resources
+                                val drawableResId = extRes.getIdentifier(siRes.resourceName, "drawable", siRes.packageName)
+                                b = BitmapFactory.decodeResource(extRes, drawableResId)
+                            } catch (e: PackageManager.NameNotFoundException) {
+                                //
+                            }
+                        }
+                    }
+                    if (localIconResName == null && b == null) {
+                        b = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON)
+                    }
+
+                    shortcutHandler?.onHandleShortcut(shortcutIntent,
+                            data.getStringExtra(Intent.EXTRA_SHORTCUT_NAME),
+                            localIconResName, b)
+                } else {
+                    shortcutHandler?.onShortcutCancelled()
                 }
             }
         }

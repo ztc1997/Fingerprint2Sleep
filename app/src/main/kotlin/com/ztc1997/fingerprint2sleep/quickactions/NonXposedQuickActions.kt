@@ -2,6 +2,7 @@ package com.ztc1997.fingerprint2sleep.quickactions
 
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
+import android.content.Context
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.App
 import com.ztc1997.fingerprint2sleep.R
@@ -13,12 +14,18 @@ import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
+import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.async
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 
 object NonXposedQuickActions : IQuickActions {
+    override val ctx: Context
+        get() = app
+
+    override val dPreference: DPreference
+        get() = app.defaultDPreference
 
     private lateinit var app: App
 

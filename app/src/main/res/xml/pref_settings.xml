@@ -46,12 +46,24 @@
             android:key="pref_quick_action"
             android:title="@string/title_pref_action_single_tap" />
 
+        <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+            android:key="pref_action_single_tap_app"
+            android:title="@string/title_pref_action_single_tap_app"
+            android:summary="@string/app_picker_none"
+            iconPickerEnabled="false" />
+
         <ListPreference
             android:defaultValue="none"
             android:entries="@array/entries_pref_quick_action"
             android:entryValues="@array/values_pref_quick_action"
             android:key="pref_action_fast_swipe"
             android:title="@string/title_pref_action_fast_swipe" />
+
+        <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+            android:key="pref_action_fast_swipe_app"
+            android:title="@string/title_pref_action_fast_swipe_app"
+            android:summary="@string/app_picker_none"
+            iconPickerEnabled="false" />
     </PreferenceCategory>
 
     <!--<PreferenceCategory android:title="@string/title_pref_category_about">

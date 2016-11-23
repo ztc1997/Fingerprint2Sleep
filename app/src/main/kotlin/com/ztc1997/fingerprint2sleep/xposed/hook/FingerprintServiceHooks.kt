@@ -30,7 +30,7 @@ object FingerprintServiceHooks : IHooks {
             super.onAuthenticationSucceeded(result)
             FPQAModule.log("onAuthenticationSucceeded($result)")
             quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP,
-                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE))
+                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.SingleTap)
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
@@ -43,14 +43,14 @@ object FingerprintServiceHooks : IHooks {
             FPQAModule.log("onAuthenticationFailed()")
             if (!dPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
                 quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP,
-                        SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE))
+                        SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.SingleTap)
         }
 
         override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
             super.onAuthenticationHelp(helpCode, helpString)
             FPQAModule.log("onAuthenticationHelp($helpCode, $helpString)")
             quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE,
-                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE))
+                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.FastSwipe)
         }
     }
 
@@ -74,7 +74,7 @@ object FingerprintServiceHooks : IHooks {
 
                 dPreference = DPreference(context, BuildConfig.APPLICATION_ID + "_preferences")
 
-                quickActions = XposedQuickActions(context, loader)
+                quickActions = XposedQuickActions(context, dPreference, loader)
 
                 Bus.observe<StartScanningEvent>()
                         .throttleLast(100, TimeUnit.MILLISECONDS)

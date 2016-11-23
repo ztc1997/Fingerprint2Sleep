@@ -31,7 +31,7 @@ object SystemUIHooks : IHooks {
             afterHookedMethod {
                 phoneStatusBar = it.thisObject
                 context = XposedHelpers.getObjectField(phoneStatusBar, "mContext") as Context
-                quickActions = XposedQuickActions(context, loader)
+                quickActions = XposedQuickActions(context, null, loader)
                 context.registerReceiver(notificationPanelViewActionReceiver,
                         IntentFilter(ACTION_TOGGLE_NOTIFICATION_PANEL))
             }

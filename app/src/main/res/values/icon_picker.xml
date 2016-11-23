@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * Copyright (C) 2012-2013 SlimRoms Project
+ * Copyright (C) 2014 Peter Gregus for GravityBox Project (C3C076@xda)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+
+<resources>
+
+    <string-array name="shortcut_icon_picker_labels" translatable="false">
+        <item>@string/shortcuts_icon_picker_alarm</item>
+        <item>@string/shortcuts_icon_picker_andy</item>
+        <item>@string/shortcuts_icon_picker_battery</item>
+        <item>@string/shortcuts_icon_picker_browser</item>
+        <item>@string/shortcuts_icon_picker_calculator</item>
+        <item>@string/shortcuts_icon_picker_calendar</item>
+        <item>@string/shortcuts_icon_picker_camera</item>
+        <item>@string/shortcuts_icon_picker_chrome</item>
+        <item>@string/shortcuts_icon_picker_cloud</item>
+        <item>@string/shortcuts_icon_picker_contact</item>
+        <item>@string/shortcuts_icon_picker_directdial</item>
+        <item>@string/shortcuts_icon_picker_directmessage</item>
+        <item>@string/shortcuts_icon_picker_drive</item>
+        <item>@string/shortcuts_icon_picker_dropbox</item>
+        <item>@string/shortcuts_icon_picker_email</item>
+        <item>@string/shortcuts_icon_picker_email2</item>
+        <item>@string/shortcuts_icon_picker_evernote</item>
+        <item>@string/shortcuts_icon_picker_facebook</item>
+        <item>@string/shortcuts_icon_picker_favorite</item>
+        <item>@string/shortcuts_icon_picker_file_browser</item>
+        <item>@string/shortcuts_icon_picker_file_browser2</item>
+        <item>@string/shortcuts_icon_picker_fitness</item>
+        <item>@string/shortcuts_icon_picker_gallery</item>
+        <item>@string/shortcuts_icon_picker_gears</item>
+        <item>@string/shortcuts_icon_picker_google_small</item>
+        <item>@string/shortcuts_icon_picker_gplus</item>
+        <item>@string/shortcuts_icon_picker_gtalk</item>
+        <item>@string/shortcuts_icon_picker_help</item>
+        <item>@string/shortcuts_icon_picker_joystick</item>
+        <item>@string/shortcuts_icon_picker_key</item>
+        <item>@string/shortcuts_icon_picker_laptop</item>
+        <item>@string/shortcuts_icon_picker_luggage</item>
+        <item>@string/shortcuts_icon_picker_maps</item>
+        <item>@string/shortcuts_icon_picker_market</item>
+        <item>@string/shortcuts_icon_picker_movie</item>
+        <item>@string/shortcuts_icon_picker_music</item>
+        <item>@string/shortcuts_icon_picker_nav</item>
+        <item>@string/shortcuts_icon_picker_notes</item>
+        <item>@string/shortcuts_icon_picker_package</item>
+        <item>@string/shortcuts_icon_picker_phone</item>
+        <item>@string/shortcuts_icon_picker_pinterest</item>
+        <item>@string/shortcuts_icon_picker_play</item>
+        <item>@string/shortcuts_icon_picker_pocket</item>
+        <item>@string/shortcuts_icon_picker_quicksettings</item>
+        <item>@string/shortcuts_icon_picker_rss</item>
+        <item>@string/shortcuts_icon_picker_sdcard</item>
+        <item>@string/shortcuts_icon_picker_search</item>
+        <item>@string/shortcuts_icon_picker_snapchat</item>
+        <item>@string/shortcuts_icon_picker_skype</item>
+        <item>@string/shortcuts_icon_picker_sms</item>
+        <item>@string/shortcuts_icon_picker_spotify</item>
+        <item>@string/shortcuts_icon_picker_tapatalk</item>
+        <item>@string/shortcuts_icon_picker_tasks</item>
+        <item>@string/shortcuts_icon_picker_terminal</item>
+        <item>@string/shortcuts_icon_picker_transit</item>
+        <item>@string/shortcuts_icon_picker_tv</item>
+        <item>@string/shortcuts_icon_picker_twitter</item>
+        <item>@string/shortcuts_icon_picker_unlock</item>
+        <item>@string/shortcuts_icon_picker_viber</item>
+        <item>@string/shortcuts_icon_picker_whatsapp</item>
+    </string-array>
+
+    <string-array name="shortcut_icon_picker_icons" translatable="false">
+        <item>@drawable/ic_shortcut_alarm</item>
+        <item>@drawable/ic_shortcut_andy</item>
+        <item>@drawable/ic_shortcut_battery</item>
+        <item>@drawable/ic_shortcut_browser</item>
+        <item>@drawable/ic_shortcut_calculator</item>
+        <item>@drawable/ic_shortcut_calendar</item>
+        <item>@drawable/ic_shortcut_camera</item>
+        <item>@drawable/ic_shortcut_chrome</item>
+        <item>@drawable/ic_shortcut_cloud</item>
+        <item>@drawable/ic_shortcut_contact</item>
+        <item>@drawable/ic_shortcut_directdial</item>
+        <item>@drawable/ic_shortcut_directmessage</item>
+        <item>@drawable/ic_shortcut_drive</item>
+        <item>@drawable/ic_shortcut_dropbox</item>
+        <item>@drawable/ic_shortcut_email</item>
+        <item>@drawable/ic_shortcut_email2</item>
+        <item>@drawable/ic_shortcut_evernote</item>
+        <item>@drawable/ic_shortcut_facebook</item>
+        <item>@drawable/ic_shortcut_favorite</item>
+        <item>@drawable/ic_shortcut_file_browser</item>
+        <item>@drawable/ic_shortcut_file_browser2</item>
+        <item>@drawable/ic_shortcut_fitness</item>
+        <item>@drawable/ic_shortcut_gallery</item>
+        <item>@drawable/ic_shortcut_gear</item>
+        <item>@drawable/ic_shortcut_google_small</item>
+        <item>@drawable/ic_shortcut_gplus</item>
+        <item>@drawable/ic_shortcut_gtalk</item>
+        <item>@drawable/ic_shortcut_help</item>
+        <item>@drawable/ic_shortcut_joystick</item>
+        <item>@drawable/ic_shortcut_key</item>
+        <item>@drawable/ic_shortcut_laptop</item>
+        <item>@drawable/ic_shortcut_luggage</item>
+        <item>@drawable/ic_shortcut_maps</item>
+        <item>@drawable/ic_shortcut_market</item>
+        <item>@drawable/ic_shortcut_movie</item>
+        <item>@drawable/ic_shortcut_music</item>
+        <item>@drawable/ic_shortcut_nav</item>
+        <item>@drawable/ic_shortcut_notes</item>
+        <item>@drawable/ic_shortcut_package</item>
+        <item>@drawable/ic_shortcut_phone</item>
+        <item>@drawable/ic_shortcut_pinterest</item>
+        <item>@drawable/ic_shortcut_play</item>
+        <item>@drawable/ic_shortcut_pocket</item>
+        <item>@drawable/ic_shortcut_quicksettings</item>
+        <item>@drawable/ic_shortcut_rss</item>
+        <item>@drawable/ic_shortcut_sdcard</item>
+        <item>@drawable/ic_shortcut_search</item>
+        <item>@drawable/ic_shortcut_snapchat</item>
+        <item>@drawable/ic_shortcut_skype</item>
+        <item>@drawable/ic_shortcut_sms</item>
+        <item>@drawable/ic_shortcut_spotify</item>
+        <item>@drawable/ic_shortcut_tapatalk</item>
+        <item>@drawable/ic_shortcut_tasks</item>
+        <item>@drawable/ic_shortcut_terminal</item>
+        <item>@drawable/ic_shortcut_transit</item>
+        <item>@drawable/ic_shortcut_tv</item>
+        <item>@drawable/ic_shortcut_twitter</item>
+        <item>@drawable/ic_shortcut_unlock</item>
+        <item>@drawable/ic_shortcut_viber</item>
+        <item>@drawable/ic_shortcut_whatsapp</item>
+    </string-array>
+
+</resources>

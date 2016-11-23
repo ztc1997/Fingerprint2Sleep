@@ -26,6 +26,7 @@ import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
+import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import org.jetbrains.anko.*
 import java.util.concurrent.TimeUnit
@@ -214,15 +215,15 @@ class FPQAService : Service() {
         return super.onStartCommand(intent, newFlags, startId)
     }
 
-    fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, true)
+    fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, IQuickActions.ActionType.SingleTap, true)
 
-    fun performFastSwipeAction() = performAction(SettingsActivity.PREF_ACTION_FAST_SWIPE)
+    fun performFastSwipeAction() = performAction(SettingsActivity.PREF_ACTION_FAST_SWIPE, IQuickActions.ActionType.FastSwipe)
 
-    fun performAction(key: String, restart: Boolean = false) {
+    fun performAction(key: String, type: IQuickActions.ActionType, restart: Boolean = false) {
         val action = defaultDPreference.getPrefString(key,
                 SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
 
-        NonXposedQuickActions.performQuickAction(action)
+        NonXposedQuickActions.performQuickAction(action, type)
 
         if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)
             if (action in SettingsActivity.DELAY_RESTART_ACTIONS)

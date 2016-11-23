@@ -11,6 +11,7 @@
         <item>@string/entries_pref_quick_action_expand_notifications_panel</item>
         <item>@string/entries_pref_quick_action_toggle_notifications_panel</item>
         <item>@string/entries_pref_quick_action_expand_quick_settings</item>
+        <item>@string/entries_pref_quick_action_launch_app</item>
     </string-array>
     <string-array name="values_pref_quick_action" translatable="false">
         <item>none</item>
@@ -23,6 +24,7 @@
         <item>expend_notifications_panel</item>
         <item>toggle_notifications_panel</item>
         <item>expand_quick_settings</item>
+        <item>launch_app</item>
     </string-array>
 
     <string-array name="entries_pref_screen_off_method">
