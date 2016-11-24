@@ -139,6 +139,8 @@ class SettingsActivity : Activity() {
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
 
+        private val loadAppsTask by lazy { LoadAppsTask() }
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
@@ -153,7 +155,12 @@ class SettingsActivity : Activity() {
 
             if (moduleActivated) nonXposedScreen.isEnabled = false
 
-            LoadApps().execute()
+            loadAppsTask.execute()
+        }
+
+        override fun onDestroy() {
+            super.onDestroy()
+            loadAppsTask.cancel(true)
         }
 
         override fun onResume() {
@@ -261,18 +268,21 @@ class SettingsActivity : Activity() {
             }
         }
 
-        private inner class LoadApps : AsyncTask<Unit, Unit, Unit>() {
+        private inner class LoadAppsTask : AsyncTask<Unit, Unit, Unit>() {
             private val appNames = ArrayList<CharSequence>()
             private val packageNames = ArrayList<CharSequence>()
-            private val packages = context.packageManager
-                    .getInstalledApplications(PackageManager.GET_META_DATA)
 
             override fun onPreExecute() {
                 blacklist.isEnabled = false
             }
 
             override fun doInBackground(vararg args: Unit) {
+                val packages = context.packageManager
+                        .getInstalledApplications(PackageManager.GET_META_DATA)
+
                 val sortedApps = packages.mapTo(ArrayList()) {
+                    if (isCancelled) return
+
                     arrayOf(it.packageName, it.loadLabel(context.packageManager)
                             .toString())
                 }
@@ -285,6 +295,8 @@ class SettingsActivity : Activity() {
                 sortedApps.sortWith(comparator)
 
                 for (i in sortedApps.indices) {
+                    if (isCancelled) return
+
                     appNames.add(sortedApps[i][1] + "\n" + "(" + sortedApps[i][0] + ")")
                     packageNames.add(sortedApps[i][0])
                 }
