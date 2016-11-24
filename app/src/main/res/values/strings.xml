@@ -81,11 +81,6 @@
     <string name="summary_pref_donate">Support the developer and remove ads</string>
     <string name="summary_pref_donate_purchased">Thank you for your donation</string>
 
-    <string name="title_pref_category_debug">Debug</string>
-
-    <string name="title_pref_notify_on_error">Notify on error</string>
-    <string name="summary_pref_notify_on_error">Show a toast message when fingerprint authentication errors</string>
-
     <!-- Icon picker -->
     <string name="icon_picker_choose_icon_title">Choose icon</string>
     <string name="shortcuts_icon_picker_alarm">Alarm</string>

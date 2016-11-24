@@ -18,6 +18,7 @@ import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
+import de.psdev.licensesdialog.LicensesDialog
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import java.text.Collator
@@ -44,6 +45,7 @@ class SettingsActivity : Activity() {
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
         const val PREF_ACTION_SINGLE_TAP_APP = "pref_action_single_tap_app"
         const val PREF_ACTION_FAST_SWIPE_APP = "pref_action_fast_swipe_app"
+        const val PREF_LICENSES = "pref_licenses"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -138,6 +140,7 @@ class SettingsActivity : Activity() {
         val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
+        val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
         private val loadAppsTask by lazy { LoadAppsTask() }
 
@@ -148,6 +151,15 @@ class SettingsActivity : Activity() {
             AppPickerPreference.settingsFragment = this
 
             val moduleActivated = XposedProbe.isModuleActivated()
+
+            licenses.setOnPreferenceClickListener {
+                LicensesDialog.Builder(act)
+                        .setNotices(R.raw.licenses)
+                        .setIncludeOwnLicense(false)
+                        .build()
+                        .show()
+                true
+            }
 
             FPQASwitch.summary = getString(if (moduleActivated)
                 R.string.summary_pref_enable_fingerprint_quick_action_xposed else

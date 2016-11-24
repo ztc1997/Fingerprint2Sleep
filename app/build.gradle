@@ -78,6 +78,10 @@ dependencies {
     compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
 
     provided 'de.robv.android.xposed:api:82'
+
+    compile('de.psdev.licensesdialog:licensesdialog:1.8.1') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 }
 
 andResGuard {

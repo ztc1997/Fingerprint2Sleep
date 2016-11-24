@@ -76,19 +76,14 @@
             android:title="@string/title_pref_action_fast_swipe_app" />
     </PreferenceCategory>
 
-    <!--<PreferenceCategory android:title="@string/title_pref_category_about">
+    <PreferenceCategory android:title="@string/title_pref_category_about">
         <Preference
+            android:key="pref_licenses"
+            android:title="@string/notices_title" />
+
+        <!--<Preference
             android:key="pref_donate"
             android:summary="@string/summary_pref_donate"
-            android:title="@string/title_pref_donate" />
-    </PreferenceCategory>-->
-
-    <PreferenceCategory android:title="@string/title_pref_category_debug">
-
-        <CheckBoxPreference
-            android:dependency="pref_enable_fingerprint_quick_action"
-            android:key="pref_notify_on_error"
-            android:summary="@string/summary_pref_notify_on_error"
-            android:title="@string/title_pref_notify_on_error" />
+            android:title="@string/title_pref_donate" />-->
     </PreferenceCategory>
 </PreferenceScreen>
