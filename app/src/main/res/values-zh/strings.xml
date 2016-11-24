@@ -40,13 +40,16 @@
     <string name="title_pref_foreground_service">前台服务</string>
     <string name="summary_pref_foreground_service">使用前台服务以防被系统杀死，这将显示一个通知</string>
 
-    <string name="title_pref_auto_retry">自动重试</string>
-    <string name="summary_pref_auto_retry">在适当的时候自动重试。关闭后，仍会在屏幕解锁时重试，您还可以通过点击通知重试。</string>
-
     <string name="title_pref_screen_off_method">关闭屏幕方法</string>
     <string name="entries_pref_screen_off_method_shorten_timeout">缩短超时（推荐）</string>
     <string name="entries_pref_screen_off_method_device_admin">设备管理器（可能导致指纹解锁不工作）</string>
     <string name="entries_pref_screen_off_method_power_button">模拟点按电源键（ROOT）</string>
+
+    <string name="title_pref_auto_retry">自动重试</string>
+    <string name="summary_pref_auto_retry">在适当的时候自动重试。关闭后，仍会在屏幕解锁时重试，您还可以通过点击通知重试。</string>
+
+    <string name="title_pref_black_list">黑名单</string>
+    <string name="summary_pref_black_list">被加入黑名单的应用在前台运行时，将不会自动重试，可防止冲突。</string>
 
     <string name="title_pref_category_quick_action">快捷操作</string>
 

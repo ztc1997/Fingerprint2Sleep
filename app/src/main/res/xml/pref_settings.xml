@@ -20,18 +20,28 @@
             android:summary="@string/summary_pref_foreground_service"
             android:title="@string/title_pref_foreground_service" />
 
-        <CheckBoxPreference
-            android:key="pref_auto_retry"
-            android:defaultValue="true"
-            android:summary="@string/summary_pref_auto_retry"
-            android:title="@string/title_pref_auto_retry" />
-
         <ListPreference
             android:defaultValue="shorten_timeout"
             android:entries="@array/entries_pref_screen_off_method"
             android:entryValues="@array/values_pref_screen_off_method"
             android:key="pref_screen_off_method"
             android:title="@string/title_pref_screen_off_method" />
+
+        <PreferenceCategory android:title="@string/title_pref_auto_retry">
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_auto_retry"
+                android:summary="@string/summary_pref_auto_retry"
+                android:title="@string/title_pref_auto_retry" />
+
+            <MultiSelectListPreference
+                android:dependency="pref_auto_retry"
+                android:key="pref_black_list"
+                android:summary="@string/summary_pref_black_list"
+                android:title="@string/title_pref_black_list" />
+
+        </PreferenceCategory>
 
     </PreferenceScreen>
 
@@ -47,10 +57,10 @@
             android:title="@string/title_pref_action_single_tap" />
 
         <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+            iconPickerEnabled="false"
             android:key="pref_action_single_tap_app"
-            android:title="@string/title_pref_action_single_tap_app"
             android:summary="@string/app_picker_none"
-            iconPickerEnabled="false" />
+            android:title="@string/title_pref_action_single_tap_app" />
 
         <ListPreference
             android:defaultValue="none"
@@ -60,10 +70,10 @@
             android:title="@string/title_pref_action_fast_swipe" />
 
         <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+            iconPickerEnabled="false"
             android:key="pref_action_fast_swipe_app"
-            android:title="@string/title_pref_action_fast_swipe_app"
             android:summary="@string/app_picker_none"
-            iconPickerEnabled="false" />
+            android:title="@string/title_pref_action_fast_swipe_app" />
     </PreferenceCategory>
 
     <!--<PreferenceCategory android:title="@string/title_pref_category_about">

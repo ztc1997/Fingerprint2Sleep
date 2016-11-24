@@ -5,12 +5,10 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.IBinder
-import android.preference.CheckBoxPreference
-import android.preference.ListPreference
-import android.preference.PreferenceFragment
-import android.preference.PreferenceScreen
+import android.preference.*
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
 import com.google.android.gms.ads.AdRequest
@@ -22,6 +20,8 @@ import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
+import java.text.Collator
+import java.util.*
 
 
 class SettingsActivity : Activity() {
@@ -35,6 +35,8 @@ class SettingsActivity : Activity() {
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
+        const val PREF_AUTO_RETRY = "pref_auto_retry"
+        const val PREF_BLACK_LIST = "pref_black_list"
         // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
@@ -61,10 +63,11 @@ class SettingsActivity : Activity() {
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
-                PREF_FOREGROUND_SERVICE)
+                PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY)
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
                 PREF_ACTION_FAST_SWIPE_APP)
+        val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
@@ -134,6 +137,7 @@ class SettingsActivity : Activity() {
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
         val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
+        val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -148,6 +152,8 @@ class SettingsActivity : Activity() {
                 R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
 
             if (moduleActivated) nonXposedScreen.isEnabled = false
+
+            LoadApps().execute()
         }
 
         override fun onResume() {
@@ -189,6 +195,9 @@ class SettingsActivity : Activity() {
 
                 in PREF_KEYS_STRING ->
                     activity.defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+
+                in PREF_KEYS_STRING_SET ->
+                    activity.defaultDPreference.setPrefStringSet(key, sharedPreferences.getStringSet(key, emptySet()))
             }
 
             try {
@@ -251,5 +260,47 @@ class SettingsActivity : Activity() {
                 }
             }
         }
+
+        private inner class LoadApps : AsyncTask<Unit, Unit, Unit>() {
+            private val appNames = ArrayList<CharSequence>()
+            private val packageNames = ArrayList<CharSequence>()
+            private val packages = context.packageManager
+                    .getInstalledApplications(PackageManager.GET_META_DATA)
+
+            override fun onPreExecute() {
+                blacklist.isEnabled = false
+            }
+
+            override fun doInBackground(vararg args: Unit) {
+                val sortedApps = packages.mapTo(ArrayList()) {
+                    arrayOf(it.packageName, it.loadLabel(context.packageManager)
+                            .toString())
+                }
+
+                val comparator = object : Comparator<Array<String>> {
+                    val collator = Collator.getInstance()
+                    override fun compare(o1: Array<String>, o2: Array<String>)
+                            = collator.compare(o1[1], o2[1])
+                }
+                sortedApps.sortWith(comparator)
+
+                for (i in sortedApps.indices) {
+                    appNames.add(sortedApps[i][1] + "\n" + "(" + sortedApps[i][0] + ")")
+                    packageNames.add(sortedApps[i][0])
+                }
+            }
+
+            override fun onPostExecute(result: Unit) {
+                val appNamesList = appNames
+                        .toTypedArray()
+                val packageNamesList = packageNames
+                        .toTypedArray()
+
+                blacklist.entries = appNamesList
+                blacklist.entryValues = packageNamesList
+                blacklist.isEnabled = true
+            }
+        }
+
     }
 }

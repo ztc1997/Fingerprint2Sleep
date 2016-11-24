@@ -244,7 +244,9 @@ class FPQAService : Service() {
 
             Bus.observe<ActivityChangedEvent>()
                     .doOnEach { lastPkgName = (it.value as ActivityChangedEvent).event.packageName.toString() }
+                    .filter { defaultDPreference.getPrefBoolean(SettingsActivity.PREF_AUTO_RETRY, true) }
                     .filter { it.event.packageName.toString() != errorPkgName }
+                    .filter { it.event.packageName !in defaultDPreference.getPrefStringSet(SettingsActivity.PREF_BLACK_LIST, emptySet()) }
                     .filter { it.event.className !in CLASS_BLACK_LIST }
                     // .filter { !delayIsScanning }
                     .throttleLast(200, TimeUnit.MILLISECONDS)
