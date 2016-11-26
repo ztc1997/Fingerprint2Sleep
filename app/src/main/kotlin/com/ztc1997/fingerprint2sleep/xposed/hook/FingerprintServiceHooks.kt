@@ -82,7 +82,8 @@ object FingerprintServiceHooks : IHooks {
 
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
-                        if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+                        if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
+                                !dPreference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
                             Bus.send(StartScanningEvent)
                         else if (!(cancellationSignal?.isCanceled ?: true))
                             cancellationSignal?.cancel()

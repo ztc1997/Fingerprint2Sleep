@@ -10,6 +10,12 @@
         android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
         android:title="@string/title_pref_response_enrolled_fingerprint_only" />
 
+    <CheckBoxPreference
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:enabled="false"
+        android:key="pref_force_non_xposed_mode"
+        android:title="@string/title_pref_force_non_xposed_mode" />
+
     <PreferenceScreen
         android:dependency="pref_enable_fingerprint_quick_action"
         android:key="pref_screen_non_xposed_mode"

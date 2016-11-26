@@ -164,6 +164,11 @@ class FPQAService : Service() {
                     if (defaultDPreference.getPrefString(key, SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
                             SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
                         checkAndStartRoot()
+
+                SettingsActivity.PREF_FORCE_NON_XPOSED_MODE ->
+                    if (!defaultDPreference
+                            .getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
+                        stopFPQA()
             }
         }
 

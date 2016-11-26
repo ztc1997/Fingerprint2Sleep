@@ -34,6 +34,7 @@ class SettingsActivity : Activity() {
 
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
+        const val PREF_FORCE_NON_XPOSED_MODE = "pref_force_non_xposed_mode"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_AUTO_RETRY = "pref_auto_retry"
@@ -65,10 +66,12 @@ class SettingsActivity : Activity() {
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
-                PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY)
+                PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY, PREF_FORCE_NON_XPOSED_MODE)
+
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
                 PREF_ACTION_FAST_SWIPE_APP)
+
         val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
@@ -133,6 +136,7 @@ class SettingsActivity : Activity() {
 
         // val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
+        val forceNonXposed by lazy { findPreference(PREF_FORCE_NON_XPOSED_MODE) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionSingleTapApp by lazy { findPreference(PREF_ACTION_SINGLE_TAP_APP) as AppPickerPreference }
@@ -161,11 +165,13 @@ class SettingsActivity : Activity() {
                 true
             }
 
-            FPQASwitch.summary = getString(if (moduleActivated)
-                R.string.summary_pref_enable_fingerprint_quick_action_xposed else
-                R.string.summary_pref_enable_fingerprint_quick_action_non_xposed)
+            forceNonXposed.isEnabled = moduleActivated
+            forceNonXposed.summary = getString(if (moduleActivated)
+                R.string.summary_pref_screen_xposed_mode_activated else
+                R.string.summary_pref_screen_xposed_mode_inactivated)
 
-            if (moduleActivated) nonXposedScreen.isEnabled = false
+            nonXposedScreen.isEnabled = !moduleActivated or
+                    defaultSharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false)
 
             loadAppsTask.execute()
         }
@@ -195,28 +201,14 @@ class SettingsActivity : Activity() {
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
             when (key) {
-                PREF_ACTION_SINGLE_TAP -> {
-                    actionSingleTap.summary = actionSingleTap.entry
-                    actionSingleTapApp.isEnabled = sharedPreferences.getString(key,
-                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
-                }
-                PREF_ACTION_FAST_SWIPE -> {
-                    actionFastSwipe.summary = actionFastSwipe.entry
-                    actionFastSwipeApp.isEnabled = sharedPreferences.getString(key,
-                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
-                }
-                PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
-            }
-
-            when (key) {
                 in PREF_KEYS_BOOLEAN ->
-                    activity.defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+                    defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
 
                 in PREF_KEYS_STRING ->
-                    activity.defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+                    defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
 
                 in PREF_KEYS_STRING_SET ->
-                    activity.defaultDPreference.setPrefStringSet(key, sharedPreferences.getStringSet(key, emptySet()))
+                    defaultDPreference.setPrefStringSet(key, sharedPreferences.getStringSet(key, emptySet()))
             }
 
             try {
@@ -227,9 +219,37 @@ class SettingsActivity : Activity() {
 
             when (key) {
                 PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> {
-                    if (XposedProbe.isModuleActivated())
+                    if (XposedProbe.isModuleActivated() and
+                            !sharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false))
                         activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
-                    else if (sharedPreferences.getBoolean(key, false))
+                    else if (sharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+                        StartFPQAActivity.startActivity(ctx)
+                }
+
+                PREF_ACTION_SINGLE_TAP -> {
+                    actionSingleTap.summary = actionSingleTap.entry
+                    actionSingleTapApp.isEnabled = sharedPreferences.getString(key,
+                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                }
+
+                PREF_ACTION_FAST_SWIPE -> {
+                    actionFastSwipe.summary = actionFastSwipe.entry
+                    actionFastSwipeApp.isEnabled = sharedPreferences.getString(key,
+                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                }
+
+                PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
+
+                PREF_FORCE_NON_XPOSED_MODE -> {
+                    val forceNonXposed = sharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false)
+
+                    nonXposedScreen.isEnabled = !XposedProbe.isModuleActivated() or
+                            forceNonXposed
+
+                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
+
+                    if (sharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
+                            forceNonXposed)
                         StartFPQAActivity.startActivity(ctx)
                 }
             }
@@ -280,20 +300,17 @@ class SettingsActivity : Activity() {
             }
         }
 
-        private inner class LoadAppsTask : AsyncTask<Unit, Unit, Unit>() {
-            private val appNames = ArrayList<CharSequence>()
-            private val packageNames = ArrayList<CharSequence>()
-
+        private inner class LoadAppsTask : AsyncTask<Unit, Unit, Pair<Array<CharSequence>, Array<CharSequence>>?>() {
             override fun onPreExecute() {
                 blacklist.isEnabled = false
             }
 
-            override fun doInBackground(vararg args: Unit) {
+            override fun doInBackground(vararg args: Unit): Pair<Array<CharSequence>, Array<CharSequence>>? {
                 val packages = context.packageManager
                         .getInstalledApplications(PackageManager.GET_META_DATA)
 
                 val sortedApps = packages.mapTo(ArrayList()) {
-                    if (isCancelled) return
+                    if (isCancelled) return null
 
                     arrayOf(it.packageName, it.loadLabel(context.packageManager)
                             .toString())
@@ -306,22 +323,27 @@ class SettingsActivity : Activity() {
                 }
                 sortedApps.sortWith(comparator)
 
-                for (i in sortedApps.indices) {
-                    if (isCancelled) return
+                val appNamesList = mutableListOf<CharSequence>()
+                val packageNamesList = mutableListOf<CharSequence>()
 
-                    appNames.add(sortedApps[i][1] + "\n" + "(" + sortedApps[i][0] + ")")
-                    packageNames.add(sortedApps[i][0])
+                for (i in sortedApps.indices) {
+                    if (isCancelled) return null
+
+                    appNamesList.add(sortedApps[i][1] + "\n" + "(" + sortedApps[i][0] + ")")
+                    packageNamesList.add(sortedApps[i][0])
                 }
+
+                val appNames = appNamesList.toTypedArray()
+                val packageNames = packageNamesList.toTypedArray()
+
+                return appNames to packageNames
             }
 
-            override fun onPostExecute(result: Unit) {
-                val appNamesList = appNames
-                        .toTypedArray()
-                val packageNamesList = packageNames
-                        .toTypedArray()
+            override fun onPostExecute(result: Pair<Array<CharSequence>, Array<CharSequence>>?) {
+                if (result == null) return
 
-                blacklist.entries = appNamesList
-                blacklist.entryValues = packageNamesList
+                blacklist.entries = result.first
+                blacklist.entryValues = result.second
                 blacklist.isEnabled = true
             }
         }

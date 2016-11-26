@@ -1,12 +1,14 @@
 package com.ztc1997.fingerprint2sleep
 
 import android.app.Application
+import android.app.Fragment
 import android.content.Context
 import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import me.dozen.dpreference.DPreference
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.defaultSharedPreferences
 
 class App : Application() {
@@ -34,3 +36,6 @@ val Context.app: App
 
 val Context.defaultDPreference: DPreference
     get() = app.defaultDPreference
+
+val Fragment.defaultDPreference: DPreference
+    get() = ctx.defaultDPreference

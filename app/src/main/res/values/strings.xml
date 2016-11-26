@@ -28,11 +28,13 @@
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
-    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Running in Xposed mode</string>
-    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Running in non-Xposed mode</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Respond to enrolled fingerprints only</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">If enabled, fingerprint authentication will cancel after 4 failed attempts</string>
+
+    <string name="title_pref_force_non_xposed_mode">Force non-Xposed mode</string>
+    <string name="summary_pref_screen_xposed_mode_inactivated">The Xposed module is not activated</string>
+    <string name="summary_pref_screen_xposed_mode_activated">The Xposed module is activated</string>
 
     <string name="title_pref_screen_non_xposed_mode">Non-Xposed mode settings</string>
 
