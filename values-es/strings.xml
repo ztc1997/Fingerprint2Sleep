@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Realiza acciones rápidas al tocar/deslizar sobre el sensor de huellas. Activar el módulo Xposed será más estable.</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action está activado</string>
+    <string name="notification_content_text_error">Error de autenticación de Fingerprint, se reiniciará en breve</string>
+    <string name="toast_failed_to_collapse_panel">Fallo en colapso de paneles</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Este dispositivo no soporta autenticación mediante huellas</string>
+    <string name="toast_root_access_failed">No se pudo conseguir acceso root</string>
+
+    <!-- RequirePermissionActivity -->
+    <string name="explanation_device_admin">Sleep device necesita activar un administrador de dispositivo para funcionar</string>
+    <string name="description_accessibility">Fingerprint Quick Action necesita accesibilidad para detectar cambio de interfaz y realizar varias acciones</string>
+    <string name="toast_device_admin_failed">Fallo de activación de administrador de dispositivo</string>
+    <string name="toast_accessibility_failed">Fallo de activación de Accesibilidad</string>
+
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">Desbloquea mediante sensor de huellas</string>
+    <string name="toast_window_overlay_permission_failed">No se consiguió permiso para cubrir ventanas</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Activar Fingerprint Quick Action</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Ejecutando en modo Xposed</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Ejecutando en modo no-Xposed</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Responder sólo a huellas registradas</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Si está activado, la autenticación por huella se cancelará tras 4 intentos fallidos</string>
+
+    <string name="title_pref_screen_non_xposed_mode">Configuración del modo No-Xposed</string>
+
+    <string name="title_pref_screen_xposed_mode">Configuración del modo Xposed</string>
+
+    <string name="title_pref_foreground_service">Service en primer plano</string>
+    <string name="summary_pref_foreground_service">Usa un servicio en primer plano para evitar que Fingerprint Quick Action sea terminado por el sistema (esto mostrará una notificación permanente)</string>
+
+    <string name="title_pref_screen_off_method">Método de apagado de pantalla</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">Acortar el tiempo de espera (Recomendado)</string>
+    <string name="entries_pref_screen_off_method_device_admin">Administrador de dispositivo (Puede provocar que el desbloqueo por huella no funcione)</string>
+    <string name="entries_pref_screen_off_method_power_button">Simulación de botón de apagado (ROOT)</string>
+
+    <string name="title_pref_category_quick_action">Acción Rápida</string>
+
+    <string name="title_pref_action_single_tap">Toque único</string>
+
+    <string name="title_pref_action_fast_swipe">Deslizado rápido</string>
+
+    <string name="entries_pref_quick_action_none">Ninguno</string>
+    <string name="entries_pref_quick_action_sleep">Apagar</string>
+    <string name="entries_pref_quick_action_back">Atrás</string>
+    <string name="entries_pref_quick_action_home">Pantalla principal</string>
+    <string name="entries_pref_quick_action_recents">Muestra aplicaciones recientes</string>
+    <string name="entries_pref_quick_action_power_dialog">Mostrar menú de encendido/apagado</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Alternar pantalla dividida</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Expandir panel de notificaciones</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Alternar panel de notificaciones</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Expandir configuración rápida</string>
+
+    <string name="title_pref_category_about">Acerca de</string>
+
+    <string name="title_pref_donate">Donar</string>
+    <string name="title_pref_donate_purchased">Donado</string>
+    <string name="summary_pref_donate">Apoya al desarrollador y quita anuncios</string>
+    <string name="summary_pref_donate_purchased">Gracias por tu donación</string>
+
+    <string name="title_pref_category_debug">Depurar</string>
+
+    <string name="title_pref_notify_on_error">Notificar error</string>
+    <string name="summary_pref_notify_on_error">Muestra un mensaje cuando la autenticación de huella falle</string>
+
+</resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Perform quick actions via tap/swipe on fingerprint sensor. Activating the Xposed module mode will be more stable.</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
@@ -11,6 +14,7 @@
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">This device doesn\'t support fingerprint authentication</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
+    <string name="toast_xposed_version_mismatched">The Xposed module is activated, but does not match the current program version. Recommend to reboot to refresh the module</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
@@ -18,17 +22,29 @@
     <string name="toast_device_admin_failed">Failed to activate a device administrator</string>
     <string name="toast_accessibility_failed">Failed to turn on Accessibility</string>
 
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">Unlock via Fingerprint</string>
+    <string name="toast_window_overlay_permission_failed">Couldn\'t get window overlay permission</string>
+
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
-
-    <string name="title_pref_foreground_service">Foreground service</string>
-    <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Running in Xposed mode</string>
+    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Running in non-Xposed mode</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Respond to enrolled fingerprints only</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">If enabled, fingerprint authentication will cancel after 4 failed attempts</string>
 
-    <string name="title_pref_lock_screen_with_power_button_as_root">Work-around for Fingerprint to Unlock</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">Requires root. Switches off the screen (simulating a power button press).</string>
+    <string name="title_pref_screen_non_xposed_mode">Non-Xposed mode settings</string>
+
+    <string name="title_pref_screen_xposed_mode">Xposed mode settings</string>
+
+    <string name="title_pref_foreground_service">Foreground service</string>
+    <string name="summary_pref_foreground_service">Use a foreground service to prevent Fingerprint Quick Action from being killed by system (this will display a persistent notification)</string>
+
+    <string name="title_pref_screen_off_method">Screen off method</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">Shorten timeout (Recommended)</string>
+    <string name="entries_pref_screen_off_method_device_admin">Device admin (May cause fingerprint to unlock does not work)</string>
+    <string name="entries_pref_screen_off_method_power_button">Simulating a power button press (ROOT)</string>
 
     <string name="title_pref_category_quick_action">Quick Action</string>
 
@@ -50,7 +66,9 @@
     <string name="title_pref_category_about">About</string>
 
     <string name="title_pref_donate">Donate</string>
-    <string name="summary_pref_donate">If you like this app, consider buying me a cup of coffee.</string>
+    <string name="title_pref_donate_purchased">Donated</string>
+    <string name="summary_pref_donate">Support the developer and remove ads</string>
+    <string name="summary_pref_donate_purchased">Thank you for your donation</string>
 
     <string name="title_pref_category_debug">Debug</string>
 
