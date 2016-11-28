@@ -53,7 +53,8 @@
 
     <PreferenceCategory
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:title="@string/title_pref_category_quick_action">
+        android:title="@string/title_pref_category_single_tap"
+        android:key="pref_category_single_tap">
 
         <ListPreference
             android:defaultValue="none"
@@ -67,6 +68,12 @@
             android:key="pref_action_single_tap_app"
             android:summary="@string/app_picker_none"
             android:title="@string/title_pref_action_single_tap_app" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:title="@string/title_pref_category_fast_swipe"
+        android:key="pref_category_fast_swipe">
 
         <ListPreference
             android:defaultValue="none"

@@ -54,13 +54,15 @@
     <string name="title_pref_black_list">Blacklist</string>
     <string name="summary_pref_black_list">When blacklisted apps running in foreground will not automatically retry to prevent conflicts.</string>
 
-    <string name="title_pref_category_quick_action">Quick Action</string>
+    <string name="title_pref_category_single_tap">Single tap</string>
 
-    <string name="title_pref_action_single_tap">Single tap</string>
+    <string name="title_pref_action_single_tap">Single tap action</string>
 
     <string name="title_pref_action_single_tap_app">Single tap app or shortcut</string>
 
-    <string name="title_pref_action_fast_swipe">Fast swipe</string>
+    <string name="title_pref_category_fast_swipe">Fast swipe &amp; Quick tap</string>
+
+    <string name="title_pref_action_fast_swipe">Fast swipe &amp; Quick tap action</string>
 
     <string name="title_pref_action_fast_swipe_app">Fast swipe app or shortcut</string>
 

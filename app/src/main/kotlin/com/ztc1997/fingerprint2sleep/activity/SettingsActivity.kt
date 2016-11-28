@@ -41,7 +41,9 @@ class SettingsActivity : Activity() {
         const val PREF_BLACK_LIST = "pref_black_list"
         // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
+        const val PREF_CATEGORY_SINGLE_TAP = "pref_category_single_tap"
         const val PREF_ACTION_SINGLE_TAP = "pref_quick_action"
+        const val PREF_CATEGORY_FAST_SWIPE = "pref_category_fast_swipe"
         const val PREF_ACTION_FAST_SWIPE = "pref_action_fast_swipe"
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
         const val PREF_ACTION_SINGLE_TAP_APP = "pref_action_single_tap_app"
@@ -138,12 +140,18 @@ class SettingsActivity : Activity() {
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
         val forceNonXposed by lazy { findPreference(PREF_FORCE_NON_XPOSED_MODE) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
+
+        val categorySingleTap by lazy { findPreference(PREF_CATEGORY_SINGLE_TAP) as PreferenceCategory }
         val actionSingleTap by lazy { findPreference(PREF_ACTION_SINGLE_TAP) as ListPreference }
         val actionSingleTapApp by lazy { findPreference(PREF_ACTION_SINGLE_TAP_APP) as AppPickerPreference }
+
+        val categoryFastSwipe by lazy { findPreference(PREF_CATEGORY_FAST_SWIPE) as PreferenceCategory }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
         val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
+
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
+
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
         private val loadAppsTask by lazy { LoadAppsTask() }
@@ -185,12 +193,18 @@ class SettingsActivity : Activity() {
             super.onResume()
             defaultSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
+            val singleTapAction = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
+                    VALUES_PREF_QUICK_ACTION_NONE)
             actionSingleTap.summary = actionSingleTap.entry
-            actionSingleTapApp.isEnabled = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
-                    VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+            actionSingleTapApp.isEnabled = singleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+            updateActionSingleTapAppVisibility(singleTapAction)
+
+            val fastSwipeAction = defaultSharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
+                    VALUES_PREF_QUICK_ACTION_NONE)
             actionFastSwipe.summary = actionFastSwipe.entry
-            actionFastSwipeApp.isEnabled = defaultSharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
-                    VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+            actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+            updateActionFastSwipeAppVisibility(fastSwipeAction)
+
             screenOffMethod.summary = screenOffMethod.entry
         }
 
@@ -227,15 +241,19 @@ class SettingsActivity : Activity() {
                 }
 
                 PREF_ACTION_SINGLE_TAP -> {
+                    val singleTapAction = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
+                            VALUES_PREF_QUICK_ACTION_NONE)
                     actionSingleTap.summary = actionSingleTap.entry
-                    actionSingleTapApp.isEnabled = sharedPreferences.getString(key,
-                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                    actionSingleTapApp.isEnabled = singleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                    updateActionSingleTapAppVisibility(singleTapAction)
                 }
 
                 PREF_ACTION_FAST_SWIPE -> {
+                    val fastSwipeAction = sharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
+                            VALUES_PREF_QUICK_ACTION_NONE)
                     actionFastSwipe.summary = actionFastSwipe.entry
-                    actionFastSwipeApp.isEnabled = sharedPreferences.getString(key,
-                            VALUES_PREF_QUICK_ACTION_NONE) == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                    actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                    updateActionFastSwipeAppVisibility(fastSwipeAction)
                 }
 
                 PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
@@ -253,6 +271,20 @@ class SettingsActivity : Activity() {
                         StartFPQAActivity.startActivity(ctx)
                 }
             }
+        }
+
+        private fun updateActionSingleTapAppVisibility(value: String)
+                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionSingleTapApp, categorySingleTap)
+
+        private fun updateActionFastSwipeAppVisibility(value: String)
+                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionFastSwipeApp, categoryFastSwipe)
+
+
+        private fun updateActionVisibility(visibility: Boolean, preference: Preference, parent: PreferenceGroup) {
+            if (visibility)
+                parent.addPreference(preference)
+            else
+                parent.removePreference(preference)
         }
 
         var shortcutHandler: ShortcutHandler? = null
