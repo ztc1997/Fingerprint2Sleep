@@ -29,9 +29,6 @@ class SettingsActivity : Activity() {
     companion object {
         private const val REQ_OBTAIN_SHORTCUT = 0
 
-        @Deprecated("No longer use", replaceWith = ReplaceWith("PREF_ENABLE_FINGERPRINT_QUICK_ACTION"))
-        const val PREF_ENABLE_FINGERPRINT2SLEEP = "pref_enable_fingerprint2sleep"
-
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_FORCE_NON_XPOSED_MODE = "pref_force_non_xposed_mode"

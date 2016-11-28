@@ -5,11 +5,9 @@ import android.app.Fragment
 import android.content.Context
 import com.orhanobut.logger.LogLevel
 import com.orhanobut.logger.Logger
-import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.defaultSharedPreferences
 
 class App : Application() {
 
@@ -19,13 +17,6 @@ class App : Application() {
         super.onCreate()
 
         NonXposedQuickActions.inject(this)
-
-        if (defaultSharedPreferences.contains(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP)) {
-            defaultSharedPreferences.edit().putBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
-                    defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP, false))
-                    .remove(SettingsActivity.PREF_ENABLE_FINGERPRINT2SLEEP)
-                    .apply()
-        }
 
         Logger.init().logLevel(if (BuildConfig.DEBUG) LogLevel.FULL else LogLevel.NONE)
     }
