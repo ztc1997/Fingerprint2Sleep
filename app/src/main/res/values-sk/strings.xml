@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string name="app_name">Fingerprint Quick Action</string>
 
     <string name="xposed_description">Vykonáva rýchle akcie pomocou priloženia/potiahnutia cez senzor odtlačkov prstov. Aktivovaním Xposed modulu zaistíte väčšiu stabilitu</string>
@@ -10,9 +11,11 @@
     <string name="notification_content_text_error">Overenie odtlačku prsta zlyhalo</string>
     <string name="toast_failed_to_collapse_panel">Nepodarilo sa rozbaliť panel</string>
 
-    <!-- SettingsActivity -->
+    <!-- SettingsActivity -->    
+    <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nemusí podporovať autorizáciu pomocou odtlačku prsta. Niektoré zariadenia majú senzor, ale neposkytujú štandardné API Androidu, tieto zariadenia nemusia byť schopné používať túto aplikáciu.</string>
     <string name="toast_root_access_failed">Nepodarilo sa získať root prístup</string>
     <string name="toast_xposed_version_mismatched">Xposed modul je aktivovaný, ale nesúhlasí s aktuálnou verziou aplikácie. Odporúčame reštartovať zariadenie pre obnovenie modulu</string>
+    <string name="btn_do_not_detect_hardware_again">Nezisťovať znovu hardvér</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Uspanie zariadenia vyžaduje povolenie správcu zariadenia</string>
@@ -26,11 +29,13 @@
 
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Povoliť Fingerprint Quick Action</string>
-    <string name="summary_pref_enable_fingerprint_quick_action_xposed">Beží v režime s Xposed</string>
-    <string name="summary_pref_enable_fingerprint_quick_action_non_xposed">Beží v režime bez Xposed</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Odpovedať iba na pridané odtlačky</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">Ak je povolené, overenie pomocou odtlačku skončí po 4 neúspešných pokusoch</string>
+    
+    <string name="title_pref_force_non_xposed_mode">Vynútiť režim bez Xposed</string>
+    <string name="summary_pref_screen_xposed_mode_inactivated">Xposed modul nie je aktivovaný</string>
+    <string name="summary_pref_screen_xposed_mode_activated">Xposed modul je aktivovaný</string>
 
     <string name="title_pref_screen_non_xposed_mode">Nastavenia režimu bez Xposed</string>
 
@@ -43,12 +48,26 @@
     <string name="entries_pref_screen_off_method_shorten_timeout">Kratší časový limit (odporúčané)</string>
     <string name="entries_pref_screen_off_method_device_admin">Správca zariadenia (odomknutie pomocou odtlačku prsta nemusí fungovať)</string>
     <string name="entries_pref_screen_off_method_power_button">Simulácia stlačenia tlačidla napájania (ROOT)</string>
+  
+    <string name="title_pref_auto_retry">Automatické opakovanie</string>
+    <string name="summary_pref_auto_retry">Automaticky opakovať vo vhodnom čase. Ak je zakázané, bude stále opakovať, keď je obrazovka odomknutá, môžete tiež opakovať kliknutím na upozornenie.</string>
 
-    <string name="title_pref_category_quick_action">Rýchla akcia</string>
+    <string name="title_pref_black_list">Čierna listina</string>
+    <string name="summary_pref_black_list">Ak je aplikácia z čiernej listiny spustená, nebude sa pokúšať o automatické opakovanie pre zabránenie konfliktom.</string>
 
-    <string name="title_pref_action_single_tap">Priloženie</string>
+    <string name="title_pref_category_single_tap">Priloženie</string>
 
-    <string name="title_pref_action_fast_swipe">Rýchle potiahnutie</string>
+    <string name="title_pref_action_single_tap">Akcia priloženia</string>
+
+    <string name="title_pref_action_single_tap_app">Aplikácia alebo odkaz pre priloženie</string>
+
+    <string name="title_pref_category_fast_swipe">Rýchle potiahnutie a rýchle priloženie</string>
+
+    <string name="title_pref_action_fast_swipe">Akcia pre rýchle potiahnutie a rýchle priloženie</string>
+
+    <string name="toast_pref_action_fast_swipe">Rýchle potiahnutie a rýchle priloženie závisí na hardvéri a nemusí byť dostupné na každom zariadení</string>
+
+    <string name="title_pref_action_fast_swipe_app">Aplikácia alebo odkaz pre rýchle potiahnutie</string>
 
     <string name="entries_pref_quick_action_none">Nič</string>
     <string name="entries_pref_quick_action_sleep">Uspať</string>
@@ -60,17 +79,99 @@
     <string name="entries_pref_quick_action_expand_notifications_panel">Rozbaliť panel s upozorneniami</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">Prepnúť panel s upozorneniami</string>
     <string name="entries_pref_quick_action_expand_quick_settings">Rozbaliť panel s rýchlymi nastaveniami</string>
+    <string name="entries_pref_quick_action_launch_app">Spustiť aplikáciu alebo odkaz</string>
 
     <string name="title_pref_category_about">O aplikácii</string>
+
+    <string name="title_matters_need_attention">Záležitosti vyžadujúce pozornosť</string>
+    <string name="content_matters_need_attention">
+1. Ak iná aplikácia senzor, po nejakom čase, aplikácia prestane pracovať aby sa zabránilo konfliktom.\n\n
+2. Ak váš systém má funkciu čistenia pamäte alebo manažér aplikácii pri štarte, preosím, pridajte túto aplikáciu do výnimiek, inak aplikácia nemusí fungovať správne.\n\n
+3. Vibrácia pri použití senzora je vytváraná systémom. Použitie neregistrovaného odtlačku opakovane, vedie k dočasnej nedostupnosti senzora, toto je systémové opatrenie, aplikácia to nemôže ovládať.\n\n
+4. Niektoré zariadenia majú senzor, ale výrobcovia neposkytujú štandardné API Androidu, takže aplikácia nemusí fungovať správne.\n\n
+5. Preklad poskytovaný dobrovoľníkmi môže byť chybný. Prosím, berte na vedomie.
+        </string>
+    <string name="btn_matters_need_attention">OK. Rozumiem.</string>
 
     <string name="title_pref_donate">Podporiť</string>
     <string name="title_pref_donate_purchased">Podporené</string>
     <string name="summary_pref_donate">Podporte vývojára a odstráňte reklamy</string>
     <string name="summary_pref_donate_purchased">Ďakujem za vašu podporu</string>
 
-    <string name="title_pref_category_debug">Ladenie</string>
+    <!-- Icon picker -->
+    <string name="icon_picker_choose_icon_title">Choose icon</string>
+    <string name="shortcuts_icon_picker_alarm">Alarm</string>
+    <string name="shortcuts_icon_picker_andy">Andy</string>
+    <string name="shortcuts_icon_picker_battery">Battery</string>
+    <string name="shortcuts_icon_picker_browser">Browser</string>
+    <string name="shortcuts_icon_picker_calendar">Calendar</string>
+    <string name="shortcuts_icon_picker_camera">Camera</string>
+    <string name="shortcuts_icon_picker_cloud">Cloud</string>
+    <string name="shortcuts_icon_picker_contact">Contact</string>
+    <string name="shortcuts_icon_picker_directdial">Direct Dial</string>
+    <string name="shortcuts_icon_picker_directmessage">Direct Message</string>
+    <string name="shortcuts_icon_picker_drive">Drive</string>
+    <string name="shortcuts_icon_picker_dropbox">Dropbox</string>
+    <string name="shortcuts_icon_picker_email">Email</string>
+    <string name="shortcuts_icon_picker_email2">Email Alternate</string>
+    <string name="shortcuts_icon_picker_evernote">Evernote</string>
+    <string name="shortcuts_icon_picker_facebook">Facebook</string>
+    <string name="shortcuts_icon_picker_favorite">Favorite</string>
+    <string name="shortcuts_icon_picker_file_browser">File Browser</string>
+    <string name="shortcuts_icon_picker_file_browser2">File Browser Alternate</string>
+    <string name="shortcuts_icon_picker_fitness">Fitness</string>
+    <string name="shortcuts_icon_picker_gallery">Gallery</string>
+    <string name="shortcuts_icon_picker_gears">Gears</string>
+    <string name="shortcuts_icon_picker_google_small">Google</string>
+    <string name="shortcuts_icon_picker_gplus">Google Plus</string>
+    <string name="shortcuts_icon_picker_gtalk">Hangouts</string>
+    <string name="shortcuts_icon_picker_help">Help</string>
+    <string name="shortcuts_icon_picker_joystick">Joystick</string>
+    <string name="shortcuts_icon_picker_key">Keys/Accounts</string>
+    <string name="shortcuts_icon_picker_laptop">Laptop</string>
+    <string name="shortcuts_icon_picker_notes">Notes</string>
+    <string name="shortcuts_icon_picker_luggage">Travel</string>
+    <string name="shortcuts_icon_picker_maps">Maps</string>
+    <string name="shortcuts_icon_picker_market">Market</string>
+    <string name="shortcuts_icon_picker_movie">Movies</string>
+    <string name="shortcuts_icon_picker_music">Music</string>
+    <string name="shortcuts_icon_picker_nav">Navigation</string>
+    <string name="shortcuts_icon_picker_phone">Phone</string>
+    <string name="shortcuts_icon_picker_package">Package</string>
+    <string name="shortcuts_icon_picker_pinterest">Pinterest</string>
+    <string name="shortcuts_icon_picker_play">Play</string>
+    <string name="shortcuts_icon_picker_pocket">Pocket</string>
+    <string name="shortcuts_icon_picker_quicksettings">Quick Settings</string>
+    <string name="shortcuts_icon_picker_rss">RSS Feed</string>
+    <string name="shortcuts_icon_picker_sdcard">SDCard</string>
+    <string name="shortcuts_icon_picker_search">Search</string>
+    <string name="shortcuts_icon_picker_sms">Messaging</string>
+    <string name="shortcuts_icon_picker_tasks">Tasks</string>
+    <string name="shortcuts_icon_picker_terminal">Terminal</string>
+    <string name="shortcuts_icon_picker_transit">Transit</string>
+    <string name="shortcuts_icon_picker_tv">TV</string>
+    <string name="shortcuts_icon_picker_twitter">Twitter</string>
+    <string name="shortcuts_icon_picker_unlock">Unlock</string>
+    <string name="shortcuts_icon_picker_viber">Viber</string>
+    <string name="shortcuts_icon_picker_skype">Skype</string>
+    <string name="shortcuts_icon_picker_calculator">Calculator</string>
+    <string name="shortcuts_icon_picker_snapchat">Snapchat</string>
+    <string name="shortcuts_icon_picker_spotify">Spotify</string>
+    <string name="shortcuts_icon_picker_tapatalk">Tapatalk</string>
+    <string name="shortcuts_icon_picker_whatsapp">Whatsapp</string>
+    <string name="shortcuts_icon_picker_chrome">Chrome</string>
 
-    <string name="title_pref_notify_on_error">Upozorniť pri chybe</string>
-    <string name="summary_pref_notify_on_error">Zobraziť toast upozornenie pri chybe overenia odtlačku</string>
+    <!-- AppPickerPreference -->
+    <string name="app_picker_search">Hľadať</string>
+    <string name="app_picker_none">(Žiadna)</string>
+
+    <!-- AppPicker: icon pick cancelled -->
+    <string name="app_picker_icon_pick_cancelled">Výber ikony bol zrušený cieľovou aplikáciou</string>
+
+    <!-- AppPickerPreference: shortcut support -->
+    <string name="app_picker_applications">Aplikácie</string>
+    <string name="app_picker_shortcuts">Odkazy</string>
+    <string name="app_picker_shortcut_null_intent">Nebolo možné vytvoriť spustiteľný odkaz pretože aktivita nevrátila zámer odkazu</string>
+    <string name="app_picker_shortcut_cancelled">Vytváranie odkazu bolo zrušené cieľovou aplikáciou</string>
 
 </resources>
