@@ -17,6 +17,12 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>GravityBox</name>
+        <url>https://github.com/GravityBox/GravityBox</url>
+        <copyright>Copyright (C) 2015 Peter Gregus (xgravitybox@gmail.com)</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>kotlin</name>
         <url>http://kotlinlang.org/</url>
         <copyright>Copyright 2010-2016 JetBrains s.r.o.</copyright>
