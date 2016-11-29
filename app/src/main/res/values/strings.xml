@@ -65,6 +65,8 @@
 
     <string name="title_pref_action_fast_swipe">Fast swipe &amp; Quick tap action</string>
 
+    <string name="toast_pref_action_fast_swipe">Fast swipe &amp; Quick tap detection is hardware-dependent and may not available on all devices</string>
+
     <string name="title_pref_action_fast_swipe_app">Fast swipe app or shortcut</string>
 
     <string name="entries_pref_quick_action_none">None</string>

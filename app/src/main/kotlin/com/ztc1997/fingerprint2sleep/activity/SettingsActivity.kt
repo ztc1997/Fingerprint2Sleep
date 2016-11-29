@@ -266,6 +266,7 @@ class SettingsActivity : Activity() {
                     actionFastSwipe.summary = actionFastSwipe.entry
                     actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
                     updateActionFastSwipeAppVisibility(fastSwipeAction)
+                    toast(R.string.toast_pref_action_fast_swipe)
                 }
 
                 PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
