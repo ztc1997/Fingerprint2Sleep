@@ -9,7 +9,6 @@
     <string name="toast_failed_to_collapse_panel">Не удалось свернуть панели</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">Данное устройство не поддерживает аутентификацию по отпечаткам пальцев</string>
     <string name="toast_root_access_failed">Не удалось получить root права</string>
 
     <!-- RequirePermissionActivity -->

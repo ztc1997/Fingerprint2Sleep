@@ -9,7 +9,6 @@
     <string name="toast_failed_to_collapse_panel">Falha ao fechar os paineis</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">O dispositivo não suporta autenticação de impressão digital</string>
     <string name="toast_root_access_failed">Não foi possível obter acesso root</string>
 
     <!-- RequirePermissionActivity -->

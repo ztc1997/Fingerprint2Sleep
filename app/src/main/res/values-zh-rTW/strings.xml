@@ -11,7 +11,7 @@
     <string name="toast_failed_to_collapse_panel">收起面板失敗</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">裝置不支持指紋認證</string>
+    <string name="msg_dialog_device_does_not_support_fingerprint">此設備可能不支持指紋認證。部分設備雖然有指紋傳感器，但未提供 Android 標準 API，這些設備可能無法使用本應用。</string>
     <string name="toast_root_access_failed">無法取得 Root 權限</string>
     <string name="toast_xposed_version_mismatched">Xposed 模組已啟動，但與當前程式版本不匹配，建議重啟以刷新模組</string>
 

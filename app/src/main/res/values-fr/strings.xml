@@ -9,7 +9,6 @@
     <string name="toast_failed_to_collapse_panel">Echec de l\’abaissement du panneau</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">Cet appareil n\'est pas compatible avec l\’authentification par empreinte digitale</string>
     <string name="toast_root_access_failed">Accès root non disponible</string>
 
     <!-- RequirePermissionActivity -->

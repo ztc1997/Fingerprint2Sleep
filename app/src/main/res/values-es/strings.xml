@@ -12,7 +12,6 @@
     <string name="toast_failed_to_collapse_panel">Fallo en colapso de paneles</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">Este dispositivo no soporta autenticación mediante huellas</string>
     <string name="toast_root_access_failed">No se pudo conseguir acceso root</string>
 
     <!-- RequirePermissionActivity -->

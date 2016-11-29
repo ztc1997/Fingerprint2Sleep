@@ -9,7 +9,6 @@
     <string name="toast_failed_to_collapse_panel">Nepodařilo se rozbalit panel</string>
 
     <!-- SettingsActivity -->
-    <string name="msg_dialog_device_does_not_support_fingerprint">Toto zařízení nepodporuje ověření pomocí otisku prstu</string>
     <string name="toast_root_access_failed">Nepodařilo se získat root přístup</string>
 
     <!-- RequirePermissionActivity -->
