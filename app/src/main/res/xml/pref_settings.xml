@@ -91,6 +91,10 @@
 
     <PreferenceCategory android:title="@string/title_pref_category_about">
         <Preference
+            android:key="pref_matters_need_attention"
+            android:title="@string/title_matters_need_attention" />
+
+        <Preference
             android:key="pref_licenses"
             android:title="@string/notices_title" />
 

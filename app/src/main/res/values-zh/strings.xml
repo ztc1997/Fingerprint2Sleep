@@ -14,6 +14,7 @@
     <string name="msg_dialog_device_does_not_support_fingerprint">此设备可能不支持指纹授权。部分设备虽然有指纹传感器，但未提供 Android 标准 API，这些设备可能无法使用本应用。</string>
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
     <string name="toast_xposed_version_mismatched">Xposed 模块已激活，但与当前程序版本不匹配，建议重启以刷新模块</string>
+    <string name="btn_do_not_detect_hardware_again">不再检测硬件</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">休眠设备需要设备管理器才能工作</string>
@@ -78,6 +79,16 @@
     <string name="entries_pref_quick_action_launch_app">启动应用或快捷方式</string>
 
     <string name="title_pref_category_about">关于</string>
+
+    <string name="title_matters_need_attention">注意事项</string>
+    <string name="content_matters_need_attention">
+1. 当其他应用使用指纹传感器，及其后一段时间，本应用会暂停工作，以避免冲突。\n\n
+2. 如果您的系统有内存清理，或者开机自启动限制功能，请将本应用加入白名单，否则本应用将无法正常运行。\n\n
+3. 点按传感器时的振动是由系统发出的，多次使用未注册的指纹，会导致指纹传感器暂时不可用，这是系统的安全措施，本应用无法控制。\n\n
+4. 某些设备虽然具有指纹传感器，但由于制造商未提供 Android 标准的指纹 API，本应用可能无法正常工作。\n\n
+5. 本项目翻译由志愿者提供，可能存在缺陷，请谅解。
+        </string>
+    <string name="btn_matters_need_attention">我明白了</string>
 
     <string name="title_pref_donate">捐赠</string>
     <string name="title_pref_donate_purchased">已捐赠</string>

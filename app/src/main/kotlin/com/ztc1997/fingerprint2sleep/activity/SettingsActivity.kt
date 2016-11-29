@@ -12,6 +12,7 @@ import android.preference.*
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
 import com.google.android.gms.ads.AdRequest
+import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.defaultDPreference
@@ -45,7 +46,10 @@ class SettingsActivity : Activity() {
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
         const val PREF_ACTION_SINGLE_TAP_APP = "pref_action_single_tap_app"
         const val PREF_ACTION_FAST_SWIPE_APP = "pref_action_fast_swipe_app"
+        const val PREF_MATTERS_NEED_ATTENTION = "pref_matters_need_attention"
         const val PREF_LICENSES = "pref_licenses"
+
+        const val PREF_DO_NOT_DETECT_HARDWARE_AGAIN = "pref_do_not_detect_hardware_again"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -100,10 +104,13 @@ class SettingsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        if (!fingerprintManager.isHardwareDetected) {
+        if (defaultDPreference.getPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, -1) != BuildConfig.VERSION_CODE &&
+                !fingerprintManager.isHardwareDetected) {
             alert(R.string.msg_dialog_device_does_not_support_fingerprint) {
-                positiveButton(android.R.string.ok) { finish() }
-                onCancel { finish() }
+                negativeButton(R.string.btn_do_not_detect_hardware_again) {
+                    defaultDPreference.setPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, BuildConfig.VERSION_CODE)
+                }
+                positiveButton(android.R.string.ok) {}
                 show()
             }
         }
@@ -149,6 +156,7 @@ class SettingsActivity : Activity() {
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
 
+        val attention: Preference by lazy { findPreference(PREF_MATTERS_NEED_ATTENTION) }
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
         private val loadAppsTask by lazy { LoadAppsTask() }
@@ -169,6 +177,13 @@ class SettingsActivity : Activity() {
                         .show()
                 true
             }
+
+            attention.setOnPreferenceClickListener {
+                showAttention()
+                true
+            }
+            if (defaultDPreference.getPrefInt(PREF_MATTERS_NEED_ATTENTION, -1) < 0)
+                showAttention()
 
             forceNonXposed.isEnabled = moduleActivated
             forceNonXposed.summary = getString(if (moduleActivated)
@@ -267,6 +282,15 @@ class SettingsActivity : Activity() {
                             forceNonXposed)
                         StartFPQAActivity.startActivity(ctx)
                 }
+            }
+        }
+
+        private fun showAttention() {
+            alert(R.string.content_matters_need_attention, R.string.title_matters_need_attention) {
+                positiveButton(R.string.btn_matters_need_attention) {
+                    defaultDPreference.setPrefInt(PREF_MATTERS_NEED_ATTENTION, BuildConfig.VERSION_CODE)
+                }
+                show()
             }
         }
 

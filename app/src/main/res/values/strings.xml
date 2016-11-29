@@ -15,6 +15,7 @@
     <string name="msg_dialog_device_does_not_support_fingerprint">This device may not support fingerprint authorization. Some devices have a fingerprint sensor, but do not provide Android standard API, these devices may not be able to use this application.</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
     <string name="toast_xposed_version_mismatched">The Xposed module is activated, but does not match the current program version. Recommend to reboot to refresh the module</string>
+    <string name="btn_do_not_detect_hardware_again">Do not detect hardware again</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
@@ -79,6 +80,16 @@
     <string name="entries_pref_quick_action_launch_app">Launch app or shortcut</string>
 
     <string name="title_pref_category_about">About</string>
+
+    <string name="title_matters_need_attention">Matters need attention</string>
+    <string name="content_matters_need_attention">
+1. When other applications use fingerprint sensors, and after a period of time, the application will suspend work to avoid conflict.\n\n
+2. If your system has memory cleanup, or autostart manager, please add this application to the white list, otherwise the application will not work properly.\n\n
+3. The vibration when the sensor is tapped is emitted by the system, the use of unregistered fingerprints repeatedly, will lead to the fingerprint sensor temporary unavailable, this is the system security measures, the application can not control.\n\n
+4. Some devices have a fingerprint sensor, but the manufacturer does not provide the Android standard fingerprint API, so the application may not work properly\n\n
+5. The translation provided by the volunteer may be defective. Please understand.
+        </string>
+    <string name="btn_matters_need_attention">OK. I got it.</string>
 
     <string name="title_pref_donate">Donate</string>
     <string name="title_pref_donate_purchased">Donated</string>
