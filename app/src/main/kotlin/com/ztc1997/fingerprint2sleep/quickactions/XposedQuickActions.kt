@@ -44,7 +44,7 @@ class XposedQuickActions(override val ctx: Context, override val dPreference: DP
     }
 
     override fun actionRecents() {
-        tryAndPrintStackTrace { XposedHelpers.callMethod(statusBarService, "toggleRecentApps") }
+        tryAndPrintStackTrace { injectKey(ctx, KeyEvent.KEYCODE_APP_SWITCH) }
     }
 
     override fun actionPowerDialog() {
