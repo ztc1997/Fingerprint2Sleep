@@ -46,6 +46,10 @@ class SettingsActivity : Activity() {
         const val PREF_SCREEN_NON_XPOSED_MODE = "pref_screen_non_xposed_mode"
         const val PREF_ACTION_SINGLE_TAP_APP = "pref_action_single_tap_app"
         const val PREF_ACTION_FAST_SWIPE_APP = "pref_action_fast_swipe_app"
+        const val PREF_CATEGORY_DOUBLE_TAP = "pref_category_double_tap"
+        const val PREF_ENABLE_DOUBLE_TAP = "pref_enable_double_tap"
+        const val PREF_ACTION_DOUBLE_TAP = "pref_action_double_tap"
+        const val PREF_ACTION_DOUBLE_TAP_APP = "pref_action_double_tap_app"
         const val PREF_MATTERS_NEED_ATTENTION = "pref_matters_need_attention"
         const val PREF_LICENSES = "pref_licenses"
 
@@ -69,11 +73,12 @@ class SettingsActivity : Activity() {
 
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
-                PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY, PREF_FORCE_NON_XPOSED_MODE)
+                PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY, PREF_FORCE_NON_XPOSED_MODE,
+                PREF_ENABLE_DOUBLE_TAP)
 
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
-                PREF_ACTION_FAST_SWIPE_APP)
+                PREF_ACTION_FAST_SWIPE_APP, PREF_ACTION_DOUBLE_TAP, PREF_ACTION_DOUBLE_TAP_APP)
 
         val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST)
 
@@ -81,8 +86,7 @@ class SettingsActivity : Activity() {
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
                 VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN, VALUES_PREF_QUICK_ACTION_LAUNCH_APP)
 
-        val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_RECENTS,
-                VALUES_PREF_QUICK_ACTION_SLEEP)
+        val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_SLEEP)
     }
 
     private var bgService: IFPQAService? = null
@@ -104,7 +108,7 @@ class SettingsActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        if (defaultDPreference.getPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, -1) != BuildConfig.VERSION_CODE &&
+        if (defaultDPreference.getPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, -1) < 18 &&
                 !fingerprintManager.isHardwareDetected) {
             alert(R.string.msg_dialog_device_does_not_support_fingerprint) {
                 negativeButton(R.string.btn_do_not_detect_hardware_again) {
@@ -152,6 +156,10 @@ class SettingsActivity : Activity() {
         val categoryFastSwipe by lazy { findPreference(PREF_CATEGORY_FAST_SWIPE) as PreferenceCategory }
         val actionFastSwipe by lazy { findPreference(PREF_ACTION_FAST_SWIPE) as ListPreference }
         val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
+
+        val categoryDoubleTap by lazy { findPreference(PREF_CATEGORY_DOUBLE_TAP) as PreferenceCategory }
+        val actionDoubleTap by lazy { findPreference(PREF_ACTION_DOUBLE_TAP) as ListPreference }
+        val actionDoubleTapApp by lazy { findPreference(PREF_ACTION_DOUBLE_TAP_APP) as AppPickerPreference }
 
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
@@ -217,6 +225,12 @@ class SettingsActivity : Activity() {
             actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             updateActionFastSwipeAppVisibility(fastSwipeAction)
 
+            val doubleTapAction = defaultSharedPreferences.getString(PREF_ACTION_DOUBLE_TAP,
+                    VALUES_PREF_QUICK_ACTION_NONE)
+            actionDoubleTap.summary = actionDoubleTap.entry
+            actionDoubleTapApp.isEnabled = doubleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+            updateActionDoubleTapAppVisibility(doubleTapAction)
+
             screenOffMethod.summary = screenOffMethod.entry
         }
 
@@ -269,6 +283,14 @@ class SettingsActivity : Activity() {
                     toast(R.string.toast_pref_action_fast_swipe)
                 }
 
+                PREF_ACTION_DOUBLE_TAP -> {
+                    val doubleTapAction = defaultSharedPreferences.getString(PREF_ACTION_DOUBLE_TAP,
+                            VALUES_PREF_QUICK_ACTION_NONE)
+                    actionDoubleTap.summary = actionDoubleTap.entry
+                    actionDoubleTapApp.isEnabled = doubleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
+                    updateActionDoubleTapAppVisibility(doubleTapAction)
+                }
+
                 PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
 
                 PREF_FORCE_NON_XPOSED_MODE -> {
@@ -300,6 +322,9 @@ class SettingsActivity : Activity() {
 
         private fun updateActionFastSwipeAppVisibility(value: String)
                 = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionFastSwipeApp, categoryFastSwipe)
+
+        private fun updateActionDoubleTapAppVisibility(value: String)
+                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionDoubleTapApp, categoryDoubleTap)
 
 
         private fun updateActionVisibility(visibility: Boolean, preference: Preference, parent: PreferenceGroup) {

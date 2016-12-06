@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.extra.GestureAuthenticationCallback.EventType
+
 import me.dozen.dpreference.DPreference
 
-
+@Suppress("NON_EXHAUSTIVE_WHEN")
 interface IQuickActions {
-    enum class ActionType {
-        SingleTap,
-        FastSwipe,
-    }
 
     val ctx: Context
 
@@ -37,7 +35,26 @@ interface IQuickActions {
 
     fun goToSleep()
 
-    fun performQuickAction(action: String, type: ActionType) {
+    fun performQuickAction(type: EventType): String {
+        dPreference?.let {
+            val key = when (type) {
+                EventType.SingleTap -> SettingsActivity.PREF_ACTION_SINGLE_TAP
+                EventType.FastSwipe -> SettingsActivity.PREF_ACTION_FAST_SWIPE
+                EventType.DoubleTap -> SettingsActivity.PREF_ACTION_DOUBLE_TAP
+                else -> throw IllegalStateException("Unsupported event")
+            }
+
+            val action = it.getPrefString(key, SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
+
+            performQuickAction(action, type)
+
+            return action
+        }
+
+        return SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE
+    }
+
+    fun performQuickAction(action: String, type: EventType) {
         when (action) {
             SettingsActivity.VALUES_PREF_QUICK_ACTION_SLEEP ->
                 goToSleep()
@@ -70,11 +87,12 @@ interface IQuickActions {
         }
     }
 
-    private fun launchAppOrShortcut(type: ActionType) {
+    private fun launchAppOrShortcut(type: EventType) {
         dPreference?.let {
             when (type) {
-                ActionType.SingleTap -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP_APP, ""))
-                ActionType.FastSwipe -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE_APP, ""))
+                EventType.SingleTap -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP_APP, ""))
+                EventType.FastSwipe -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE_APP, ""))
+                EventType.DoubleTap -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_DOUBLE_TAP_APP, ""))
             }
         }
     }

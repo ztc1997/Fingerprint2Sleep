@@ -21,8 +21,6 @@ import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.extension.getScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
-import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
-import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import kotlinx.android.synthetic.main.activity_shorten_time_out.view.*
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.onUiThread
@@ -66,15 +64,6 @@ class ShortenTimeOutActivity : Activity() {
     val screenOffReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             finishWithoutAnim()
-        }
-    }
-
-    val collapsePanelsRunnable = object : Runnable {
-        override fun run() {
-            if (FPQAAccessibilityService.isRunning) {
-                NonXposedQuickActions.collapsePanels()
-            }
-            view?.postDelayed(this, 100)
         }
     }
 
@@ -157,8 +146,6 @@ class ShortenTimeOutActivity : Activity() {
         windowManager.addView(view, params)
 
         viewAdded = true
-
-        view?.post(collapsePanelsRunnable)
 
         fingerprintManager.authenticate(null, null, 0, authenticationCallback, null)
 

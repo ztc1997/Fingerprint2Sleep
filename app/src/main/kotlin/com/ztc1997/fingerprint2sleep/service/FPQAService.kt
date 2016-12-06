@@ -7,11 +7,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import android.os.IBinder
 import com.eightbitlab.rxbus.Bus
-import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -22,11 +20,7 @@ import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
-import com.ztc1997.fingerprint2sleep.extra.ActivityChangedEvent
-import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
-import com.ztc1997.fingerprint2sleep.extra.IsScanningChangedEvent
-import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
-import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
+import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import org.jetbrains.anko.*
 import java.util.concurrent.TimeUnit
@@ -83,24 +77,17 @@ class FPQAService : Service() {
 
     var lastPkgName = ""
 
+    var lastClassName = ""
+
     var errorPkgName = ""
 
     var cancellationSignal = CancellationSignal()
 
     var lastIntent: Intent? = null
 
-    val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
-        override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
-            super.onAuthenticationSucceeded(result)
-            isScanning = false
-            performSingleTapAction()
-        }
+    val quickActions = NonXposedQuickActions(ctx)
 
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            if (!defaultDPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
-                performSingleTapAction()
-        }
+    val authenticationCallback = object : GestureAuthenticationCallback(quickActions) {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             super.onAuthenticationError(errorCode, errString)
@@ -115,13 +102,13 @@ class FPQAService : Service() {
             errorPkgName = lastPkgName
         }
 
-        override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            super.onAuthenticationHelp(helpCode, helpString)
+        override fun restartScanning(action: String?) {
+            isScanning = false
 
-            Logger.d("helpCode = $helpCode, helpString = $helpString")
+            if (action in SettingsActivity.DONT_RESTART_ACTIONS)
+                return
 
-            // if (helpCode == FingerprintManager.FINGERPRINT_ACQUIRED_TOO_FAST)
-            performFastSwipeAction()
+            StartFPQAActivity.startActivity(ctx)
         }
     }
 
@@ -220,23 +207,6 @@ class FPQAService : Service() {
         return super.onStartCommand(intent, newFlags, startId)
     }
 
-    fun performSingleTapAction() = performAction(SettingsActivity.PREF_ACTION_SINGLE_TAP, IQuickActions.ActionType.SingleTap, true)
-
-    fun performFastSwipeAction() = performAction(SettingsActivity.PREF_ACTION_FAST_SWIPE, IQuickActions.ActionType.FastSwipe)
-
-    fun performAction(key: String, type: IQuickActions.ActionType, restart: Boolean = false) {
-        val action = defaultDPreference.getPrefString(key,
-                SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE)
-
-        NonXposedQuickActions.performQuickAction(action, type)
-
-        if (restart && action !in SettingsActivity.DONT_RESTART_ACTIONS)
-            if (action in SettingsActivity.DELAY_RESTART_ACTIONS)
-                Bus.send(RestartScanningDelayedEvent)
-            else
-                StartFPQAActivity.startActivity(ctx)
-    }
-
     fun startFPQA() {
         if (!isRunning) {
             isRunning = true
@@ -248,7 +218,11 @@ class FPQAService : Service() {
             registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
 
             Bus.observe<ActivityChangedEvent>()
-                    .doOnEach { lastPkgName = (it.value as ActivityChangedEvent).event.packageName.toString() }
+                    .doOnEach {
+                        val event = (it.value as ActivityChangedEvent).event
+                        lastPkgName = event.packageName.toString()
+                        lastClassName = event.className.toString()
+                    }
                     .filter { defaultDPreference.getPrefBoolean(SettingsActivity.PREF_AUTO_RETRY, true) }
                     .filter { it.event.packageName.toString() != errorPkgName }
                     .filter { it.event.packageName !in defaultDPreference.getPrefStringSet(SettingsActivity.PREF_BLACK_LIST, emptySet()) }
@@ -270,7 +244,7 @@ class FPQAService : Service() {
             Bus.observe<RestartScanningDelayedEvent>()
                     .delay(200, TimeUnit.MILLISECONDS)
                     .filter { !isScanning && isRunning }
-                    .subscribe { StartFPQAActivity.startActivity(ctx, true) }
+                    .subscribe { StartFPQAActivity.startActivity(ctx) }
         }
     }
 

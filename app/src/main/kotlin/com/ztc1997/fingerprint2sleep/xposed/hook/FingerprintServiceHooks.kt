@@ -4,11 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.hardware.fingerprint.FingerprintManager
 import android.os.CancellationSignal
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.extra.GestureAuthenticationCallback
 import com.ztc1997.fingerprint2sleep.extra.StartScanningEvent
 import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.XposedQuickActions
@@ -25,32 +25,8 @@ object FingerprintServiceHooks : IHooks {
     val ACTION_START_SCANNING = FingerprintServiceHooks::class.java.name + ".ACTION_START_SCANNING"
     val ACTION_ENABLED_STATE_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_ENABLED_STATE_CHANGED"
 
-    object MyAuthenticationCallback : FingerprintManager.AuthenticationCallback() {
-        override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
-            super.onAuthenticationSucceeded(result)
-            FPQAModule.log("onAuthenticationSucceeded($result)")
-            quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP,
-                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.SingleTap)
-        }
-
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-            super.onAuthenticationError(errorCode, errString)
-            FPQAModule.log("onAuthenticationError($errString)")
-        }
-
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            FPQAModule.log("onAuthenticationFailed()")
-            if (!dPreference.getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false))
-                quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP,
-                        SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.SingleTap)
-        }
-
-        override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-            super.onAuthenticationHelp(helpCode, helpString)
-            FPQAModule.log("onAuthenticationHelp($helpCode, $helpString)")
-            quickActions.performQuickAction(dPreference.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE,
-                    SettingsActivity.VALUES_PREF_QUICK_ACTION_NONE), IQuickActions.ActionType.FastSwipe)
+    class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
+        override fun restartScanning(action: String?) {
         }
     }
 
@@ -59,6 +35,7 @@ object FingerprintServiceHooks : IHooks {
     private lateinit var context: Context
     private lateinit var quickActions: IQuickActions
     private lateinit var dPreference: DPreference
+    private val callback by lazy { Callback(quickActions) }
 
     private var forceAccessOnce = false
 
@@ -131,7 +108,7 @@ object FingerprintServiceHooks : IHooks {
             cancellationSignal = CancellationSignal()
 
             forceAccessOnce = true
-            context.fingerprintManager.authenticate(null, cancellationSignal, 0, MyAuthenticationCallback, null)
+            context.fingerprintManager.authenticate(null, cancellationSignal, 0, callback, null)
             forceAccessOnce = false
 
             FPQAModule.log("startScanning")

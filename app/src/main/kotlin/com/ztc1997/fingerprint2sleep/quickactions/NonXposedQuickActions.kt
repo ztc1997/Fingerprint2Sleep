@@ -4,11 +4,11 @@ import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
 import android.content.Context
 import com.eightbitlab.rxbus.Bus
-import com.ztc1997.fingerprint2sleep.App
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
+import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.execute
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
@@ -20,29 +20,21 @@ import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 
-object NonXposedQuickActions : IQuickActions {
-    override val ctx: Context
-        get() = app
+class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
 
     override val dPreference: DPreference
-        get() = app.defaultDPreference
-
-    private lateinit var app: App
+        get() = ctx.defaultDPreference
 
     private val POWER_KEY_CMD = "input keyevent 26"
 
-    fun inject(app: App) {
-        this.app = app
-    }
-
     override fun collapsePanels() {
         try {
-            val service = app.getSystemService("statusbar")
+            val service = ctx.getSystemService("statusbar")
             val statusBarManager = Class.forName("android.app.StatusBarManager")
             val method = statusBarManager.getMethod("collapsePanels")
             method.invoke(service)
         } catch (e: Exception) {
-            app.toast(R.string.toast_failed_to_collapse_panel)
+            ctx.toast(R.string.toast_failed_to_collapse_panel)
         }
     }
 
@@ -82,17 +74,17 @@ object NonXposedQuickActions : IQuickActions {
     }
 
     override fun goToSleep() {
-        when (app.defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
+        when (ctx.defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
                 SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT)) {
             SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT ->
-                ShortenTimeOutActivity.startActivity(app)
+                ShortenTimeOutActivity.startActivity(ctx)
 
             SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_DEVICE_ADMIN -> {
-                val componentName = ComponentName(app, AdminReceiver::class.java)
-                if (app.devicePolicyManager.isAdminActive(componentName))
-                    app.devicePolicyManager.lockNow()
+                val componentName = ComponentName(ctx, AdminReceiver::class.java)
+                if (ctx.devicePolicyManager.isAdminActive(componentName))
+                    ctx.devicePolicyManager.lockNow()
                 else
-                    RequireAdminActivity.startActivity(app)
+                    RequireAdminActivity.startActivity(ctx)
             }
             SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON -> pressPowerButton()
         }
@@ -103,7 +95,7 @@ object NonXposedQuickActions : IQuickActions {
             if (root.isStarted)
                 root.execute(POWER_KEY_CMD)
             else
-                app.onUiThread { app.toast(R.string.toast_root_access_failed) }
+                ctx.onUiThread { ctx.toast(R.string.toast_root_access_failed) }
         }
     }
 }

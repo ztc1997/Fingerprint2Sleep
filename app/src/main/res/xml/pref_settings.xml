@@ -6,12 +6,6 @@
 
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:key="pref_response_enrolled_fingerprint_only"
-        android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
-        android:title="@string/title_pref_response_enrolled_fingerprint_only" />
-
-    <CheckBoxPreference
-        android:dependency="pref_enable_fingerprint_quick_action"
         android:enabled="false"
         android:key="pref_force_non_xposed_mode"
         android:title="@string/title_pref_force_non_xposed_mode" />
@@ -53,8 +47,14 @@
 
     <PreferenceCategory
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:title="@string/title_pref_category_single_tap"
-        android:key="pref_category_single_tap">
+        android:key="pref_category_single_tap"
+        android:title="@string/title_pref_category_single_tap">
+
+        <CheckBoxPreference
+            android:dependency="pref_enable_fingerprint_quick_action"
+            android:key="pref_response_enrolled_fingerprint_only"
+            android:summary="@string/summary_pref_response_enrolled_fingerprint_only"
+            android:title="@string/title_pref_response_enrolled_fingerprint_only" />
 
         <ListPreference
             android:defaultValue="none"
@@ -72,8 +72,8 @@
 
     <PreferenceCategory
         android:dependency="pref_enable_fingerprint_quick_action"
-        android:title="@string/title_pref_category_fast_swipe"
-        android:key="pref_category_fast_swipe">
+        android:key="pref_category_fast_swipe"
+        android:title="@string/title_pref_category_fast_swipe">
 
         <ListPreference
             android:defaultValue="none"
@@ -87,6 +87,33 @@
             android:key="pref_action_fast_swipe_app"
             android:summary="@string/app_picker_none"
             android:title="@string/title_pref_action_fast_swipe_app" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:key="pref_category_double_tap"
+        android:title="@string/title_pref_category_double_tap">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_enable_double_tap"
+            android:summary="@string/summary_pref_enable_double_tap"
+            android:title="@string/title_pref_enable_double_tap" />
+
+        <ListPreference
+            android:defaultValue="none"
+            android:dependency="pref_enable_double_tap"
+            android:entries="@array/entries_pref_quick_action"
+            android:entryValues="@array/values_pref_quick_action"
+            android:key="pref_action_double_tap"
+            android:title="@string/title_pref_action_double_tap" />
+
+        <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
+            iconPickerEnabled="false"
+            android:dependency="pref_enable_double_tap"
+            android:key="pref_action_double_tap_app"
+            android:summary="@string/app_picker_none"
+            android:title="@string/title_pref_action_double_tap_app" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_pref_category_about">

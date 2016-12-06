@@ -37,7 +37,7 @@ object AuthenticationCallbackHooks : IHooks {
         KXposedHelpers.findAndHookMethod(FingerprintManager.AuthenticationCallback::class.java,
                 "onAuthenticationError", Int::class.java, CharSequence::class.java) {
             afterHookedMethod {
-                if (it.thisObject is FingerprintServiceHooks.MyAuthenticationCallback) return@afterHookedMethod
+                if (it.thisObject is FingerprintServiceHooks.Callback) return@afterHookedMethod
                 sendBroadcast(it.thisObject)
             }
         }

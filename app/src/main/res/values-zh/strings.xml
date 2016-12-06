@@ -68,6 +68,15 @@
 
     <string name="title_pref_action_fast_swipe_app">快速轻扫应用或快捷方式</string>
 
+    <string name="title_pref_category_double_tap">双击</string>
+
+    <string name="title_pref_enable_double_tap">启用双击</string>
+    <string name="summary_pref_enable_double_tap">启用双击会导致其他操作出现更高的延迟。双击对硬件有一定要求，不一定在所有设备上正常工作。</string>
+
+    <string name="title_pref_action_double_tap">双击操作</string>
+
+    <string name="title_pref_action_double_tap_app">双击应用或快捷方式</string>
+
     <string name="entries_pref_quick_action_none">无</string>
     <string name="entries_pref_quick_action_sleep">休眠</string>
     <string name="entries_pref_quick_action_back">返回</string>
