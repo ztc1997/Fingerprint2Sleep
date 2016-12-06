@@ -61,7 +61,7 @@
 
     <string name="title_pref_action_single_tap_app">Single tap app or shortcut</string>
 
-    <string name="title_pref_category_fast_swipe">Fast swipe &amp; Quick tap</string>
+    <string name="title_pref_category_fast_swipe">Fast swipe &amp; Quick tap (Experimental)</string>
 
     <string name="title_pref_action_fast_swipe">Fast swipe &amp; Quick tap action</string>
 
@@ -69,7 +69,7 @@
 
     <string name="title_pref_action_fast_swipe_app">Fast swipe app or shortcut</string>
 
-    <string name="title_pref_category_double_tap">Double tap</string>
+    <string name="title_pref_category_double_tap">Double tap (Experimental)</string>
 
     <string name="title_pref_enable_double_tap">Enable double tap</string>
     <string name="summary_pref_enable_double_tap">Enabling double tap results in a higher delay for other actions. Double tap on the hardware have certain requirements, not necessarily in all devices work properly.</string>

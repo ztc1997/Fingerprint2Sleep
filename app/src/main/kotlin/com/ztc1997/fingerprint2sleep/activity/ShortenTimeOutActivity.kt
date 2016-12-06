@@ -157,5 +157,5 @@ class ShortenTimeOutActivity : Activity() {
                 }
     }
 
-    object RestartScanningEvent
+    private object RestartScanningEvent
 }

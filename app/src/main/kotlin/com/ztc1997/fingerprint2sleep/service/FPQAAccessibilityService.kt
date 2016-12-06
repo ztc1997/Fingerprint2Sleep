@@ -54,7 +54,7 @@ class FPQAAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
 
-            if (!FPQAService.isServiceRunning &&
+            if (!FPQAService.isRunning &&
                     defaultDPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
                 StartFPQAActivity.startActivity(ctx)
 

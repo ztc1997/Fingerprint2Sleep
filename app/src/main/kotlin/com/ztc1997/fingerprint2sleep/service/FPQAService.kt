@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.os.CancellationSignal
 import android.os.IBinder
 import com.eightbitlab.rxbus.Bus
+import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -47,11 +48,9 @@ class FPQAService : Service() {
             )
         }
 
-        var isServiceRunning = false
+        var isRunning = false
             private set
     }
-
-    var isRunning = false
 
     // var delayIsScanning = false
 
@@ -82,8 +81,6 @@ class FPQAService : Service() {
     var errorPkgName = ""
 
     var cancellationSignal = CancellationSignal()
-
-    var lastIntent: Intent? = null
 
     val quickActions = NonXposedQuickActions(ctx)
 
@@ -159,41 +156,23 @@ class FPQAService : Service() {
             }
         }
 
-        override fun isRunning() = this@FPQAService.isRunning
+        override fun isRunning() = FPQAService.isRunning
     }
 
     override fun onCreate() {
         super.onCreate()
-        isServiceRunning = true
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         stopFPQA()
-
-        isServiceRunning = false
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startFPQA()
 
-        if (cancellationSignal.isCanceled) cancellationSignal = CancellationSignal()
-
-        if (!isScanning) {
-            fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
-            isScanning = true
-        }
-
-        Bus.send(FinishStartFPQAActivityEvent)
-
-        isError = false
-
-        lastIntent?.let {
-            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(it)
-            lastIntent = null
-        }
+        restartScanning()
 
         if (!FPQAAccessibilityService.isRunning)
             RequireAccessibilityActivity.startActivity(this)
@@ -205,6 +184,20 @@ class FPQAService : Service() {
 
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
+    }
+
+    fun restartScanning() {
+        if (cancellationSignal.isCanceled) cancellationSignal = CancellationSignal()
+
+        if (!isScanning) {
+            fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
+            isScanning = true
+        }
+        Logger.d(System.currentTimeMillis())
+
+        Bus.send(FinishStartFPQAActivityEvent)
+
+        isError = false
     }
 
     fun startFPQA() {
@@ -245,6 +238,8 @@ class FPQAService : Service() {
                     .delay(200, TimeUnit.MILLISECONDS)
                     .filter { !isScanning && isRunning }
                     .subscribe { StartFPQAActivity.startActivity(ctx) }
+
+            Bus.observe<RestartScanningEvent>().subscribe { restartScanning() }
         }
     }
 

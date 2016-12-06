@@ -6,6 +6,8 @@ object FinishStartFPQAActivityEvent
 
 object RestartScanningDelayedEvent
 
+object RestartScanningEvent
+
 object StartScanningEvent
 
 data class ActivityChangedEvent(val event: AccessibilityEvent)
