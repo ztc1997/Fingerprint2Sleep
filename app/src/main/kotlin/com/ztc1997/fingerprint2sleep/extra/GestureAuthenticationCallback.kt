@@ -2,6 +2,7 @@ package com.ztc1997.fingerprint2sleep.extra
 
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
@@ -16,7 +17,7 @@ abstract class GestureAuthenticationCallback(val quickActions: IQuickActions) : 
 
     private var pendingEvent: EventType? = null
 
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
 
     private val runnable = Runnable {
         handleEvent(pendingEvent)
