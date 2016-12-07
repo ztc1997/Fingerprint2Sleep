@@ -61,13 +61,22 @@
 
     <string name="title_pref_action_single_tap_app">Aplikácia alebo odkaz pre priloženie</string>
 
-    <string name="title_pref_category_fast_swipe">Rýchle potiahnutie a rýchle priloženie</string>
+    <string name="title_pref_category_fast_swipe">Rýchle potiahnutie a rýchle priloženie (experimentálne)</string>
 
     <string name="title_pref_action_fast_swipe">Akcia pre rýchle potiahnutie a rýchle priloženie</string>
 
     <string name="toast_pref_action_fast_swipe">Rýchle potiahnutie a rýchle priloženie závisí na hardvéri a nemusí byť dostupné na každom zariadení</string>
 
     <string name="title_pref_action_fast_swipe_app">Aplikácia alebo odkaz pre rýchle potiahnutie</string>
+  
+    <string name="title_pref_category_double_tap">Dvojité poklepanie (experimentálne)</string>
+
+    <string name="title_pref_enable_double_tap">Povoliť dvojité poklepanie</string>
+    <string name="summary_pref_enable_double_tap">Povolenie dvojitého poklepania spôsobí väčšie oneskorenie pre iné akcie. Dvojité poklepanie má určité požiadavky na hardvér, nemusí fungovať na všetkých zariadeniach.</string>
+
+    <string name="title_pref_action_double_tap">Akcia dvojitého poklepania</string>
+
+    <string name="title_pref_action_double_tap_app">Aplikácia alebo odkaz pre dvojité poklepanie</string>
 
     <string name="entries_pref_quick_action_none">Nič</string>
     <string name="entries_pref_quick_action_sleep">Uspať</string>
