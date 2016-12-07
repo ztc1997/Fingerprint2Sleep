@@ -9,9 +9,14 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.*
+import android.view.View
+import android.widget.RelativeLayout
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -24,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import java.text.Collator
 import java.util.*
-
 
 class SettingsActivity : Activity() {
     companion object {
@@ -122,10 +126,25 @@ class SettingsActivity : Activity() {
         if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
             toast(R.string.toast_xposed_version_mismatched)
 
-        val adRequest = AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build()
-        adView.loadAd(adRequest)
+        AdView(this).apply {
+            val lps = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+            lps.alignParentBottom()
+            layoutParams = lps
+            container.addView(this)
+            adSize = AdSize.BANNER
+            adUnitId = "ca-app-pub-2250118750843932/8752209602"
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    backgroundColor = getColor(android.R.color.background_light)
+                }
+            }
+            val adRequest = AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build()
+            loadAd(adRequest)
+        }
+
+        tvAdZone.postDelayed({ if (!isFinishing) tvAdZone.visibility = View.VISIBLE }, 10000)
     }
 
     override fun onResume() {

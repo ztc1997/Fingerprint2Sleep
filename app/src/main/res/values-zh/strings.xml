@@ -15,6 +15,7 @@
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
     <string name="toast_xposed_version_mismatched">Xposed 模块已激活，但与当前程序版本不匹配，建议重启以刷新模块</string>
     <string name="btn_do_not_detect_hardware_again">不再检测硬件</string>
+    <string name="tv_ad_zone">这是广告区域，是本开源项目的主要收入。如果你使用了广告屏蔽工具，请将本应用加入白名单。</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">休眠设备需要设备管理器才能工作</string>
