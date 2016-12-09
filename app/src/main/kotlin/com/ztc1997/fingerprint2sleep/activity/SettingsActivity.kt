@@ -238,8 +238,7 @@ class SettingsActivity : Activity() {
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
         val listPreferences by lazy {
-            arrayOf(actionSingleTap, actionFastSwipe,
-                    doubleTapInterval, actionDoubleTap, screenOffMethod)
+            arrayOf(actionSingleTap, doubleTapInterval, actionDoubleTap, screenOffMethod)
         }
 
         private val loadAppsTask by lazy { LoadAppsTask() }
@@ -316,6 +315,8 @@ class SettingsActivity : Activity() {
             updateActionDoubleTapAppVisibility(doubleTapAction)
 
             listPreferences.forEach { it.summary = it.entry }
+            actionFastSwipe.summary = getString(R.string.summary_pref_action_fast_swipe) +
+                    "\n" + actionFastSwipe.entry
         }
 
         override fun onPause() {
@@ -362,7 +363,8 @@ class SettingsActivity : Activity() {
                             VALUES_PREF_QUICK_ACTION_NONE)
                     actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
                     updateActionFastSwipeAppVisibility(fastSwipeAction)
-                    toast(R.string.toast_pref_action_fast_swipe)
+                    actionFastSwipe.summary = getString(R.string.summary_pref_action_fast_swipe) +
+                            "\n" + actionFastSwipe.entry
                 }
 
                 PREF_ACTION_DOUBLE_TAP -> {

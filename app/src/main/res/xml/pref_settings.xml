@@ -80,6 +80,7 @@
             android:entries="@array/entries_pref_quick_action"
             android:entryValues="@array/values_pref_quick_action"
             android:key="pref_action_fast_swipe"
+            android:summary="@string/summary_pref_action_fast_swipe"
             android:title="@string/title_pref_action_fast_swipe" />
 
         <com.ceco.marshmallow.gravitybox.preference.AppPickerPreference

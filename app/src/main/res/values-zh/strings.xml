@@ -65,7 +65,7 @@
 
     <string name="title_pref_action_fast_swipe">快速轻扫 &amp; 快速点击操作</string>
 
-    <string name="toast_pref_action_fast_swipe">快速轻扫 &amp; 快速点击侦测依赖于硬件，不一定在所有设备上可用</string>
+    <string name="summary_pref_action_fast_swipe">快速轻扫 &amp; 快速点击侦测依赖于硬件，不一定在所有设备上可用。</string>
 
     <string name="title_pref_action_fast_swipe_app">快速轻扫应用或快捷方式</string>
 

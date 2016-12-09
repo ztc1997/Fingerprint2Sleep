@@ -66,7 +66,7 @@
 
     <string name="title_pref_action_fast_swipe">Akcia pre rýchle potiahnutie a rýchle priloženie</string>
 
-    <string name="toast_pref_action_fast_swipe">Rýchle potiahnutie a rýchle priloženie závisí na hardvéri a nemusí byť dostupné na každom zariadení</string>
+    <string name="summary_pref_action_fast_swipe">Rýchle potiahnutie a rýchle priloženie závisí na hardvéri a nemusí byť dostupné na každom zariadení</string>
 
     <string name="title_pref_action_fast_swipe_app">Aplikácia alebo odkaz pre rýchle potiahnutie</string>
   
