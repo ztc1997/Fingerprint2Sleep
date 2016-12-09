@@ -5,7 +5,9 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.*
@@ -16,6 +18,7 @@ import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHa
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
@@ -60,6 +63,8 @@ class SettingsActivity : Activity() {
         const val PREF_DOUBLE_TAP_INTERVAL = "pref_double_tap_interval"
         const val PREF_ACTION_DOUBLE_TAP = "pref_action_double_tap"
         const val PREF_ACTION_DOUBLE_TAP_APP = "pref_action_double_tap_app"
+
+        const val PREF_CONTACT_DEVELOPER = "pref_contact_developer"
         const val PREF_MATTERS_NEED_ATTENTION = "pref_matters_need_attention"
         const val PREF_LICENSES = "pref_licenses"
 
@@ -151,7 +156,7 @@ class SettingsActivity : Activity() {
         }
 
         if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
-            toast(R.string.toast_xposed_version_mismatched)
+            longToast(R.string.toast_xposed_version_mismatched)
 
         loadAd()
 
@@ -234,6 +239,7 @@ class SettingsActivity : Activity() {
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
         val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
 
+        val contact: Preference by lazy { findPreference(PREF_CONTACT_DEVELOPER) }
         val attention: Preference by lazy { findPreference(PREF_MATTERS_NEED_ATTENTION) }
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
@@ -287,6 +293,29 @@ class SettingsActivity : Activity() {
                     }
                     true
                 }
+            }
+
+            contact.setOnPreferenceClickListener {
+                val contactIntent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse("mailto:ztc2011@gmail.com")
+                    putExtra(Intent.EXTRA_SUBJECT, "Fingerprint Quick Action - Feedback")
+
+                    val pref = GsonBuilder().setPrettyPrinting().create().toJson(defaultSharedPreferences.all)
+
+                    val text = """Please write your feedback:
+
+
+Information:
+app version: ${BuildConfig.VERSION_NAME}
+system version: ${Build.VERSION.RELEASE}
+device manufacturer: ${Build.MANUFACTURER}
+device model: ${Build.MODEL}
+device details: ${Build.FINGERPRINT}
+app preference: $pref"""
+                    putExtra(Intent.EXTRA_TEXT, text)
+                }
+                startActivity(contactIntent)
+                true
             }
         }
 

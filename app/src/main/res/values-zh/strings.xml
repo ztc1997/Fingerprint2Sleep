@@ -94,6 +94,9 @@
 
     <string name="title_pref_category_about">关于</string>
 
+    <string name="title_rate">评分</string>
+    <string name="summary_rate">能给5星就太好啦 &gt;﹏&lt;</string>
+
     <string name="title_matters_need_attention">注意事项</string>
     <string name="content_matters_need_attention">
 1. 当其他应用使用指纹传感器，及其后一段时间，本应用会暂停工作，以避免冲突。\n\n
@@ -103,6 +106,8 @@
 5. 本项目翻译由志愿者提供，可能存在缺陷，请谅解。
         </string>
     <string name="btn_matters_need_attention">我明白了</string>
+
+    <string name="title_source_code">源代码</string>
 
     <string name="title_pref_donate">捐赠</string>
     <string name="title_pref_donate_purchased">已捐赠</string>

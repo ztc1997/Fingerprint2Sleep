@@ -95,6 +95,12 @@
 
     <string name="title_pref_category_about">About</string>
 
+    <string name="title_pref_contact_developer">Contact the developer</string>
+    <string name="summary_pref_contact_developer">If you meet problems, please contact me</string>
+
+    <string name="title_rate">Rate me</string>
+    <string name="summary_rate">I\'ll be happy if you give me 5 stars</string>
+
     <string name="title_matters_need_attention">Matters need attention</string>
     <string name="content_matters_need_attention">
 1. When other applications use fingerprint sensors, and after a period of time, the application will suspend work to avoid conflict.\n\n
@@ -104,6 +110,9 @@
 5. The translation provided by the volunteer may be defective. Please understand.
         </string>
     <string name="btn_matters_need_attention">OK. I got it.</string>
+
+    <string name="title_source_code">Source code</string>
+    <string name="summary_source_code" translatable="false">https://github.com/ztc1997/Fingerprint2Sleep</string>
 
     <string name="title_pref_donate">Donate</string>
     <string name="title_pref_donate_purchased">Donated</string>
