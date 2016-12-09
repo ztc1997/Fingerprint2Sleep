@@ -94,6 +94,12 @@
     <string name="entries_pref_quick_action_launch_app">Spustiť aplikáciu alebo odkaz</string>
 
     <string name="title_pref_category_about">O aplikácii</string>
+  
+    <string name="title_pref_contact_developer">Kontaktovať vývojára</string>
+    <string name="summary_pref_contact_developer">Ak máte problémy s aplikáciou, prosím, kontaktujte ma</string>
+
+    <string name="title_rate">Ohodnotiť</string>
+    <string name="summary_rate">Budem rád, ak mi dáte 5 hviezdičiek</string>
 
     <string name="title_matters_need_attention">Záležitosti vyžadujúce pozornosť</string>
     <string name="content_matters_need_attention">
@@ -104,6 +110,9 @@
 5. Preklad poskytovaný dobrovoľníkmi môže byť chybný. Prosím, berte na vedomie.
         </string>
     <string name="btn_matters_need_attention">OK. Rozumiem.</string>
+  
+    <string name="title_source_code">Zdrojový kód</string>
+    <string name="summary_source_code" translatable="false">https://github.com/ztc1997/Fingerprint2Sleep</string>
 
     <string name="title_pref_donate">Podporiť</string>
     <string name="title_pref_donate_purchased">Podporené</string>
