@@ -223,6 +223,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.content_matters_need_attention -> com.ztc1997.fingerprint2sleep.R.string.dm
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_quick_action_launch_app -> com.ztc1997.fingerprint2sleep.R.string.ad
     com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint -> com.ztc1997.fingerprint2sleep.R.string.am
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_action_fast_swipe -> com.ztc1997.fingerprint2sleep.R.string.e2
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_auto_retry -> com.ztc1997.fingerprint2sleep.R.string.k
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_black_list -> com.ztc1997.fingerprint2sleep.R.string.a3
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_double_tap -> com.ztc1997.fingerprint2sleep.R.string.dv
@@ -238,16 +239,21 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_double_tap -> com.ztc1997.fingerprint2sleep.R.string.dy
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_fast_swipe -> com.ztc1997.fingerprint2sleep.R.string.dq
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_single_tap -> com.ztc1997.fingerprint2sleep.R.string.dr
+    com.ztc1997.fingerprint2sleep.R.string.title_pref_double_tap_interval -> com.ztc1997.fingerprint2sleep.R.string.e1
     com.ztc1997.fingerprint2sleep.R.string.title_pref_enable_double_tap -> com.ztc1997.fingerprint2sleep.R.string.dz
     com.ztc1997.fingerprint2sleep.R.string.title_pref_force_non_xposed_mode -> com.ztc1997.fingerprint2sleep.R.string.ds
-    com.ztc1997.fingerprint2sleep.R.string.toast_pref_action_fast_swipe -> com.ztc1997.fingerprint2sleep.R.string.dt
     com.ztc1997.fingerprint2sleep.R.string.toast_xposed_version_mismatched -> com.ztc1997.fingerprint2sleep.R.string.i
     com.ztc1997.fingerprint2sleep.R.string.tv_ad_zone -> com.ztc1997.fingerprint2sleep.R.string.e0
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text_retry -> com.ztc1997.fingerprint2sleep.R.string.j
-    com.ztc1997.fingerprint2sleep.R.string.title_pref_double_tap_interval -> com.ztc1997.fingerprint2sleep.R.string.e1
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_contact_developer -> com.ztc1997.fingerprint2sleep.R.string.e3
+    com.ztc1997.fingerprint2sleep.R.string.summary_rate -> com.ztc1997.fingerprint2sleep.R.string.e4
+    com.ztc1997.fingerprint2sleep.R.string.title_pref_contact_developer -> com.ztc1997.fingerprint2sleep.R.string.e5
+    com.ztc1997.fingerprint2sleep.R.string.title_rate -> com.ztc1997.fingerprint2sleep.R.string.e6
+    com.ztc1997.fingerprint2sleep.R.string.title_source_code -> com.ztc1997.fingerprint2sleep.R.string.e7
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu
     com.ztc1997.fingerprint2sleep.R.string.notices_default_style -> com.ztc1997.fingerprint2sleep.R.string.du
+    com.ztc1997.fingerprint2sleep.R.string.summary_source_code -> com.ztc1997.fingerprint2sleep.R.string.e8
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.as
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_debug -> com.ztc1997.fingerprint2sleep.R.string.ax
     com.ztc1997.fingerprint2sleep.R.string.title_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.b3
