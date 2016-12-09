@@ -1,7 +1,11 @@
 package com.ztc1997.fingerprint2sleep.util;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+
+import rx.functions.Func1;
 
 /**
  * Created by thom on 15/10/13.
@@ -12,22 +16,23 @@ public class XposedUtils {
 
     }
 
-    public static void disableXposed(Class<?> clazz) {
+    public static void disableXposedModules(Func1<String, Boolean> filter) {
         try {
+            Class<?> clazz = Class.forName("de.robv.android.xposed.XposedBridge", false, ClassLoader.getSystemClassLoader());
             Field field = clazz.getDeclaredField("sHookedMethodCallbacks");
             field.setAccessible(true);
             Map sHookedMethodCallbacks = (Map) field.get(null);
-            Object doNothing = Class.forName("de.robv.android.xposed.XC_MethodReplacement", false, clazz.getClassLoader()).getField("DO_NOTHING").get(null);
             for (Object callbacks : sHookedMethodCallbacks.values()) {
                 field = callbacks.getClass().getDeclaredField("elements");
                 field.setAccessible(true);
                 Object[] elements = (Object[]) field.get(callbacks);
-                for (int i = 0; i < elements.length; ++i) {
-                    elements[i] = doNothing;
+                HashSet<?> newElements = new HashSet<>(Arrays.asList(elements));
+                for (Object element : elements) {
+                    if (filter.call(element.getClass().getName())) newElements.remove(element);
                 }
+                field.set(callbacks, newElements.toArray());
             }
-        } catch (Throwable t) { // NOSONAR
-            // do nothing
+        } catch (Throwable ignored) {
         }
     }
 

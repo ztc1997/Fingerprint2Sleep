@@ -98,6 +98,9 @@ class SettingsActivity : Activity() {
                 VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN, VALUES_PREF_QUICK_ACTION_LAUNCH_APP)
 
         val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_SLEEP)
+
+        val XPOSED_MODULE_BLACKLIST = listOf("tw.fatminmin.xposed.minminguard",
+                "com.aviraxp.adblocker.continued", "pl.cinek.adblocker")
     }
 
     private var bgService: IFPQAService? = null
@@ -115,20 +118,14 @@ class SettingsActivity : Activity() {
         }
     }
 
+    init {
+        XposedUtils.disableXposedModules { name ->
+            XPOSED_MODULE_BLACKLIST.any { name.startsWith(it) }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Logger.d("activatedModuleVersion = ${XposedProbe.activatedModuleVersion}")
-
-        try {
-            val clazz = Class.forName("de.robv.android.xposed.XposedBridge", false, ClassLoader.getSystemClassLoader())
-            val field = clazz.getDeclaredField("disableHooks")
-            field.isAccessible = true
-            field.set(null, true)
-            XposedUtils.disableXposed(clazz)
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        }
 
         setContentView(R.layout.activity_settings)
 
