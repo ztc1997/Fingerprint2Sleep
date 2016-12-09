@@ -75,6 +75,8 @@
     <string name="title_pref_enable_double_tap">Enable double tap</string>
     <string name="summary_pref_enable_double_tap">Enabling double tap results in a higher delay for other actions. Double tap on the hardware have certain requirements, not necessarily in all devices work properly.</string>
 
+    <string name="title_pref_double_tap_interval">Double tap interval time</string>
+
     <string name="title_pref_action_double_tap">Double tap action</string>
 
     <string name="title_pref_action_double_tap_app">Double tap app or shortcut</string>

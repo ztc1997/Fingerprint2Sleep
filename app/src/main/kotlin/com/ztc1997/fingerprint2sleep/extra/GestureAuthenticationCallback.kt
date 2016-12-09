@@ -31,6 +31,10 @@ abstract class GestureAuthenticationCallback(val quickActions: IQuickActions) : 
         getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false)
     } ?: false
 
+    open val doubleTapInterval: Long get() = quickActions.dPreference?.run {
+        getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
+    } ?: 500
+
     override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
         super.onAuthenticationSucceeded(result)
         onEvent(EventType.SingleTap)
@@ -54,7 +58,7 @@ abstract class GestureAuthenticationCallback(val quickActions: IQuickActions) : 
                 restartScanning(action)
         } else if (pendingEvent == null) {
             pendingEvent = event
-            handler.postDelayed(runnable, 350)
+            handler.postDelayed(runnable, doubleTapInterval)
             if (event == EventType.SingleTap)
                 restartScanning(null)
         } else {

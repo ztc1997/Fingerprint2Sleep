@@ -24,8 +24,15 @@ import java.util.concurrent.TimeUnit
 object FingerprintServiceHooks : IHooks {
     val ACTION_START_SCANNING = FingerprintServiceHooks::class.java.name + ".ACTION_START_SCANNING"
     val ACTION_ENABLED_STATE_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_ENABLED_STATE_CHANGED"
+    val ACTION_DOUBLE_TAP_PARAMS_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_DOUBLE_TAP_PARAMS_CHANGED"
 
     class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
+        override var doubleTapInterval =
+                dPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
+
+        override var doubleTapEnabled =
+                dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
+
         override fun restartScanning(action: String?) {
         }
     }
@@ -59,17 +66,26 @@ object FingerprintServiceHooks : IHooks {
 
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
-                        if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
-                                !dPreference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
-                            Bus.send(StartScanningEvent)
-                        else if (!(cancellationSignal?.isCanceled ?: true))
-                            cancellationSignal?.cancel()
+                        if (intent?.action in
+                                arrayOf(ACTION_START_SCANNING, ACTION_ENABLED_STATE_CHANGED, Intent.ACTION_USER_PRESENT)) {
+                            if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
+                                    !dPreference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
+                                Bus.send(StartScanningEvent)
+                            else if (!(cancellationSignal?.isCanceled ?: true))
+                                cancellationSignal?.cancel()
+                        } else if (intent?.action == ACTION_DOUBLE_TAP_PARAMS_CHANGED) {
+                            callback.doubleTapEnabled =
+                                    dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
+                            callback.doubleTapInterval =
+                                    dPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
+                        }
                     }
                 }
 
                 val intentFilter = IntentFilter()
                 intentFilter.addAction(ACTION_ENABLED_STATE_CHANGED)
                 intentFilter.addAction(ACTION_START_SCANNING)
+                intentFilter.addAction(ACTION_DOUBLE_TAP_PARAMS_CHANGED)
                 intentFilter.addAction(Intent.ACTION_USER_PRESENT)
 
                 context.registerReceiver(receiver, intentFilter)

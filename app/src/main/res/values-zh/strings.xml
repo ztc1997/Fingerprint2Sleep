@@ -74,6 +74,8 @@
     <string name="title_pref_enable_double_tap">启用双击</string>
     <string name="summary_pref_enable_double_tap">启用双击会导致其他操作出现更高的延迟。双击对硬件有一定要求，不一定在所有设备上正常工作。</string>
 
+    <string name="title_pref_double_tap_interval">双击间隔时间</string>
+
     <string name="title_pref_action_double_tap">双击操作</string>
 
     <string name="title_pref_action_double_tap_app">双击应用或快捷方式</string>

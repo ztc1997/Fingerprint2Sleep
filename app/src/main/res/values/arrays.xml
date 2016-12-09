@@ -38,4 +38,16 @@
         <item>device_admin</item>
         <item>power_button</item>
     </string-array>
+
+    <string-array name="entries_pref_double_tap_interval" translatable="false">
+        <item>350ms</item>
+        <item>500ms</item>
+        <item>750ms</item>
+    </string-array>
+
+    <string-array name="values_pref_double_tap_interval" translatable="false">
+        <item>350</item>
+        <item>500</item>
+        <item>750</item>
+    </string-array>
 </resources>

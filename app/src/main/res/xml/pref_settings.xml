@@ -101,6 +101,14 @@
             android:title="@string/title_pref_enable_double_tap" />
 
         <ListPreference
+            android:defaultValue="500"
+            android:dependency="pref_enable_double_tap"
+            android:entries="@array/entries_pref_double_tap_interval"
+            android:entryValues="@array/values_pref_double_tap_interval"
+            android:key="pref_double_tap_interval"
+            android:title="@string/title_pref_double_tap_interval" />
+
+        <ListPreference
             android:defaultValue="none"
             android:dependency="pref_enable_double_tap"
             android:entries="@array/entries_pref_quick_action"

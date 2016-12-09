@@ -57,6 +57,7 @@ class SettingsActivity : Activity() {
         const val PREF_ACTION_FAST_SWIPE_APP = "pref_action_fast_swipe_app"
         const val PREF_CATEGORY_DOUBLE_TAP = "pref_category_double_tap"
         const val PREF_ENABLE_DOUBLE_TAP = "pref_enable_double_tap"
+        const val PREF_DOUBLE_TAP_INTERVAL = "pref_double_tap_interval"
         const val PREF_ACTION_DOUBLE_TAP = "pref_action_double_tap"
         const val PREF_ACTION_DOUBLE_TAP_APP = "pref_action_double_tap_app"
         const val PREF_MATTERS_NEED_ATTENTION = "pref_matters_need_attention"
@@ -87,7 +88,8 @@ class SettingsActivity : Activity() {
 
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
-                PREF_ACTION_FAST_SWIPE_APP, PREF_ACTION_DOUBLE_TAP, PREF_ACTION_DOUBLE_TAP_APP)
+                PREF_ACTION_FAST_SWIPE_APP, PREF_ACTION_DOUBLE_TAP, PREF_ACTION_DOUBLE_TAP_APP,
+                PREF_DOUBLE_TAP_INTERVAL)
 
         val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST)
 
@@ -228,6 +230,7 @@ class SettingsActivity : Activity() {
         val actionFastSwipeApp by lazy { findPreference(PREF_ACTION_FAST_SWIPE_APP) as AppPickerPreference }
 
         val categoryDoubleTap by lazy { findPreference(PREF_CATEGORY_DOUBLE_TAP) as PreferenceCategory }
+        val doubleTapInterval by lazy { findPreference(PREF_DOUBLE_TAP_INTERVAL) as ListPreference }
         val actionDoubleTap by lazy { findPreference(PREF_ACTION_DOUBLE_TAP) as ListPreference }
         val actionDoubleTapApp by lazy { findPreference(PREF_ACTION_DOUBLE_TAP_APP) as AppPickerPreference }
 
@@ -236,6 +239,11 @@ class SettingsActivity : Activity() {
 
         val attention: Preference by lazy { findPreference(PREF_MATTERS_NEED_ATTENTION) }
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
+
+        val listPreferences by lazy {
+            arrayOf(actionSingleTap, actionFastSwipe,
+                    doubleTapInterval, actionDoubleTap, screenOffMethod)
+        }
 
         private val loadAppsTask by lazy { LoadAppsTask() }
 
@@ -272,6 +280,18 @@ class SettingsActivity : Activity() {
                     defaultSharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false)
 
             loadAppsTask.execute()
+
+            listPreferences.forEach {
+                it.setOnPreferenceChangeListener { preference, any ->
+                    if (preference is ListPreference && any is String) {
+                        val index = preference.findIndexOfValue(any)
+
+                        preference.summary = if (index >= 0)
+                            preference.entries[index] else null
+                    }
+                    true
+                }
+            }
         }
 
         override fun onDestroy() {
@@ -285,23 +305,20 @@ class SettingsActivity : Activity() {
 
             val singleTapAction = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
                     VALUES_PREF_QUICK_ACTION_NONE)
-            actionSingleTap.summary = actionSingleTap.entry
             actionSingleTapApp.isEnabled = singleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             updateActionSingleTapAppVisibility(singleTapAction)
 
             val fastSwipeAction = defaultSharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
                     VALUES_PREF_QUICK_ACTION_NONE)
-            actionFastSwipe.summary = actionFastSwipe.entry
             actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             updateActionFastSwipeAppVisibility(fastSwipeAction)
 
             val doubleTapAction = defaultSharedPreferences.getString(PREF_ACTION_DOUBLE_TAP,
                     VALUES_PREF_QUICK_ACTION_NONE)
-            actionDoubleTap.summary = actionDoubleTap.entry
             actionDoubleTapApp.isEnabled = doubleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
             updateActionDoubleTapAppVisibility(doubleTapAction)
 
-            screenOffMethod.summary = screenOffMethod.entry
+            listPreferences.forEach { it.summary = it.entry }
         }
 
         override fun onPause() {
@@ -339,7 +356,6 @@ class SettingsActivity : Activity() {
                 PREF_ACTION_SINGLE_TAP -> {
                     val singleTapAction = defaultSharedPreferences.getString(PREF_ACTION_SINGLE_TAP,
                             VALUES_PREF_QUICK_ACTION_NONE)
-                    actionSingleTap.summary = actionSingleTap.entry
                     actionSingleTapApp.isEnabled = singleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
                     updateActionSingleTapAppVisibility(singleTapAction)
                 }
@@ -347,7 +363,6 @@ class SettingsActivity : Activity() {
                 PREF_ACTION_FAST_SWIPE -> {
                     val fastSwipeAction = sharedPreferences.getString(PREF_ACTION_FAST_SWIPE,
                             VALUES_PREF_QUICK_ACTION_NONE)
-                    actionFastSwipe.summary = actionFastSwipe.entry
                     actionFastSwipeApp.isEnabled = fastSwipeAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
                     updateActionFastSwipeAppVisibility(fastSwipeAction)
                     toast(R.string.toast_pref_action_fast_swipe)
@@ -356,12 +371,15 @@ class SettingsActivity : Activity() {
                 PREF_ACTION_DOUBLE_TAP -> {
                     val doubleTapAction = defaultSharedPreferences.getString(PREF_ACTION_DOUBLE_TAP,
                             VALUES_PREF_QUICK_ACTION_NONE)
-                    actionDoubleTap.summary = actionDoubleTap.entry
                     actionDoubleTapApp.isEnabled = doubleTapAction == VALUES_PREF_QUICK_ACTION_LAUNCH_APP
                     updateActionDoubleTapAppVisibility(doubleTapAction)
                 }
 
-                PREF_SCREEN_OFF_METHOD -> screenOffMethod.summary = screenOffMethod.entry
+                PREF_ENABLE_DOUBLE_TAP ->
+                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_DOUBLE_TAP_PARAMS_CHANGED))
+
+                PREF_DOUBLE_TAP_INTERVAL ->
+                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_DOUBLE_TAP_PARAMS_CHANGED))
 
                 PREF_FORCE_NON_XPOSED_MODE -> {
                     val forceNonXposed = sharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false)

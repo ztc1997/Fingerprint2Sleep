@@ -21,6 +21,7 @@ import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
+import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
 import org.jetbrains.anko.*
 import java.util.concurrent.TimeUnit
@@ -83,30 +84,7 @@ class FPQAService : Service() {
 
     val quickActions = NonXposedQuickActions(ctx)
 
-    val authenticationCallback = object : GestureAuthenticationCallback(quickActions) {
-
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-            super.onAuthenticationError(errorCode, errString)
-            if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
-                errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
-
-            this@FPQAService.errString = errString?.toString().orEmpty()
-
-            isError = true
-            isScanning = false
-
-            errorPkgName = lastPkgName
-        }
-
-        override fun restartScanning(action: String?) {
-            isScanning = false
-
-            if (action in SettingsActivity.DONT_RESTART_ACTIONS)
-                return
-
-            StartFPQAActivity.startActivity(ctx)
-        }
-    }
+    val authenticationCallback by lazy { Callback(quickActions) }
 
     val presentReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
@@ -152,6 +130,14 @@ class FPQAService : Service() {
                     if (!defaultDPreference
                             .getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
                         stopFPQA()
+
+                SettingsActivity.PREF_ENABLE_DOUBLE_TAP ->
+                    authenticationCallback.doubleTapEnabled =
+                            defaultDPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
+
+                SettingsActivity.PREF_DOUBLE_TAP_INTERVAL ->
+                    authenticationCallback.doubleTapInterval =
+                            defaultDPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
             }
         }
 
@@ -311,4 +297,35 @@ class FPQAService : Service() {
     }
 
     object OnAuthenticationErrorEvent
+
+    inner class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
+
+        override var doubleTapEnabled =
+                defaultDPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
+
+        override var doubleTapInterval =
+                defaultDPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
+
+        override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
+            super.onAuthenticationError(errorCode, errString)
+            if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
+                errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
+
+            this@FPQAService.errString = errString?.toString().orEmpty()
+
+            isError = true
+            isScanning = false
+
+            errorPkgName = lastPkgName
+        }
+
+        override fun restartScanning(action: String?) {
+            isScanning = false
+
+            if (action in SettingsActivity.DONT_RESTART_ACTIONS)
+                return
+
+            StartFPQAActivity.startActivity(ctx)
+        }
+    }
 }
