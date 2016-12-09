@@ -31,7 +31,7 @@ class FPQAModule : IXposedHookLoadPackage {
         } else if (lpp.packageName == BuildConfig.APPLICATION_ID) {
             tryAndPrintStackTrace {
                 XposedHelpers.findAndHookMethod(XposedProbe::class.java.name, lpp.classLoader,
-                        XposedProbe::activatedModuleVersion.name,
+                        "activatedModuleVersion",
                         XC_MethodReplacement.returnConstant(BuildConfig.VERSION_CODE))
             }
         }

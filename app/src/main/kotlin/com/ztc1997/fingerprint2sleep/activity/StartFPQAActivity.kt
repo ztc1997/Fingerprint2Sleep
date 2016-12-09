@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import com.eightbitlab.rxbus.Bus
-import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extra.FinishStartFPQAActivityEvent
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningEvent
@@ -18,8 +17,6 @@ import org.jetbrains.anko.startService
 class StartFPQAActivity : Activity() {
     companion object {
         fun startActivity(context: Context) {
-            Logger.d(System.currentTimeMillis())
-
             if (XposedProbe.isModuleActivated() and
                     !context.defaultDPreference
                             .getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))

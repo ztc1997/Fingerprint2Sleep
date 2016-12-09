@@ -10,7 +10,6 @@ import android.content.IntentFilter
 import android.os.CancellationSignal
 import android.os.IBinder
 import com.eightbitlab.rxbus.Bus
-import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -193,7 +192,6 @@ class FPQAService : Service() {
             fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
             isScanning = true
         }
-        Logger.d(System.currentTimeMillis())
 
         Bus.send(FinishStartFPQAActivityEvent)
 

@@ -10,25 +10,30 @@ import android.os.Bundle
 import android.os.IBinder
 import android.preference.*
 import android.view.View
-import android.widget.RelativeLayout
+import android.view.ViewGroup
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
+import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
+import com.ztc1997.fingerprint2sleep.util.XposedUtils
+import com.ztc1997.fingerprint2sleep.util.isAdmobHostBanned
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import de.psdev.licensesdialog.LicensesDialog
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
+import java.io.File
 import java.text.Collator
 import java.util.*
+
 
 class SettingsActivity : Activity() {
     companion object {
@@ -110,7 +115,30 @@ class SettingsActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Logger.d("activatedModuleVersion = ${XposedProbe.activatedModuleVersion}")
+
+        try {
+            val clazz = Class.forName("de.robv.android.xposed.XposedBridge", false, ClassLoader.getSystemClassLoader())
+            val field = clazz.getDeclaredField("disableHooks")
+            field.isAccessible = true
+            field.set(null, true)
+            XposedUtils.disableXposed(clazz)
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        }
+
         setContentView(R.layout.activity_settings)
+
+        async() {
+            if (isAdmobHostBanned/* && !isFinishing*/) {
+                // uiThread { showAdBlockerDetected() }
+                val etc_hosts_content = File("/etc/hosts").readText()
+                val bundle = Bundle()
+                bundle.putString("etc_hosts_content", etc_hosts_content)
+                FirebaseAnalytics.getInstance(app).logEvent("AdmobHostBanned", bundle)
+            }
+        }
 
         if (defaultDPreference.getPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, -1) < 18 &&
                 !fingerprintManager.isHardwareDetected) {
@@ -126,23 +154,7 @@ class SettingsActivity : Activity() {
         if (XposedProbe.isModuleActivated() && !XposedProbe.isModuleVersionMatched())
             toast(R.string.toast_xposed_version_mismatched)
 
-        AdView(this).apply {
-            val lps = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-            lps.alignParentBottom()
-            layoutParams = lps
-            container.addView(this)
-            adSize = AdSize.BANNER
-            adUnitId = "ca-app-pub-2250118750843932/8752209602"
-            adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    backgroundColor = getColor(android.R.color.background_light)
-                }
-            }
-            val adRequest = AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .build()
-            loadAd(adRequest)
-        }
+        loadAd()
 
         tvAdZone.postDelayed({ if (!isFinishing) tvAdZone.visibility = View.VISIBLE }, 10000)
     }
@@ -150,6 +162,7 @@ class SettingsActivity : Activity() {
     override fun onResume() {
         super.onResume()
         bindService(Intent(this, FPQAService::class.java), conn, BIND_AUTO_CREATE)
+        adView.resume()
 
         // if (billingProcessor.isPurchased(IAP_SKU_DONATE))
         //     adView.visibility = View.GONE
@@ -158,6 +171,44 @@ class SettingsActivity : Activity() {
     override fun onPause() {
         super.onPause()
         unbindService(conn)
+        adView.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adView.destroy()
+    }
+
+    fun loadAd() {
+        with(adView) {
+            if ((layoutParams.height < 50 && layoutParams.height >= 0) || visibility != View.VISIBLE)
+                showAdBlockerDetected()
+
+            val adRequest = AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build()
+
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    backgroundColor = getColor(android.R.color.background_light)
+                }
+
+                override fun onAdFailedToLoad(p0: Int) {
+                    Logger.d("onAdFailedToLoad($p0)")
+                }
+            }
+
+            loadAd(adRequest)
+        }
+    }
+
+    fun showAdBlockerDetected() {
+        Logger.d("Ad blocker detected")
+        tvAdZone.visibility = View.VISIBLE
+        tvAdZone.textSize = 25f
+        val tvlps = tvAdZone.layoutParams
+        tvlps.height = ViewGroup.LayoutParams.MATCH_PARENT
+        tvAdZone.layoutParams = tvlps
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
