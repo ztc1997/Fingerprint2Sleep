@@ -94,6 +94,9 @@
 
     <string name="title_pref_category_about">关于</string>
 
+    <string name="title_pref_contact_developer">联系开发者</string>
+    <string name="summary_pref_contact_developer">如果您遇到问题，请联系我</string>
+
     <string name="title_rate">评分</string>
     <string name="summary_rate">能给5星就太好啦 &gt;﹏&lt;</string>
 
