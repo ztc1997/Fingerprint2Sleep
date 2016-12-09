@@ -74,6 +74,8 @@
 
     <string name="title_pref_enable_double_tap">Povoliť dvojité poklepanie</string>
     <string name="summary_pref_enable_double_tap">Povolenie dvojitého poklepania spôsobí väčšie oneskorenie pre iné akcie. Dvojité poklepanie má určité požiadavky na hardvér, nemusí fungovať na všetkých zariadeniach.</string>
+  
+    <string name="title_pref_double_tap_interval">Interval dvojitého poklepania</string>
 
     <string name="title_pref_action_double_tap">Akcia dvojitého poklepania</string>
 
