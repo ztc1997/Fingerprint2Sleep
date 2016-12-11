@@ -33,7 +33,6 @@ import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import de.psdev.licensesdialog.LicensesDialog
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
-import java.io.File
 import java.text.Collator
 import java.util.*
 
@@ -136,11 +135,8 @@ class SettingsActivity : Activity() {
 
         async() {
             if (isAdmobHostBanned/* && !isFinishing*/) {
-                // uiThread { showAdBlockerDetected() }
-                val etc_hosts_content = File("/etc/hosts").readText()
-                val bundle = Bundle()
-                bundle.putString("etc_hosts_content", etc_hosts_content)
-                FirebaseAnalytics.getInstance(app).logEvent("AdmobHostBanned", bundle)
+                uiThread { showAdBlockerDetected() }
+                FirebaseAnalytics.getInstance(app).logEvent("AdmobHostBanned", null)
             }
         }
 
