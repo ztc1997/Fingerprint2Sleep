@@ -8,13 +8,15 @@
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Hata\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action çalışıyor</string>
-    <string name="notification_content_text_error">Parmak izi kimlik doğrulama hatası, daha sonra tekrar deneyin</string>
+    <string name="notification_content_text_retry">Yeniden denemek için buraya dokunun. </string>
     <string name="toast_failed_to_collapse_panel">Panelleri daraltma başarısız oldu</string>
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">Bu cihaz parmak izi kimlik doğrulamayı desteklemiyor olabilir. Bazı cihazlar parmak izi sensörüne sahiptir, ancak Android standart API sağlamadığından bu cihazlar bu uygulamayı kullanamayabilir.</string>
     <string name="toast_root_access_failed">Root erişimi alınamadı</string>
     <string name="toast_xposed_version_mismatched">Xposed modülü etkinleştirildi, ancak geçerli program sürümüyle uyuşmuyor. Modülü yenilemek için yeniden başlatmanızı öneririz.</string>
+    <string name="btn_do_not_detect_hardware_again">Donanımı tekrar algılama</string>
+    <string name="tv_ad_zone">Reklamlar bu açık kaynak projenin ana geliridir. Reklam engelleme aracı kullanıyorsanız, lütfen bu uygulamayı beyaz listeye ekleyin.</string>
 
     <!-- RequirePermissionActivity -->
     <string name="explanation_device_admin">Cihazı uyutmanın çalışması için cihaz yöneticisini etkinleştirmek gerekiyor</string>
@@ -33,6 +35,10 @@
 
     <string name="title_pref_response_enrolled_fingerprint_only">Yalnızca kayıtlı parmak izlerine yanıt ver</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">Etkinleştirilirse, parmak izi kimlik doğrulaması 4 başarısız denemeden sonra iptal edilir</string>
+    
+    <string name="title_pref_force_non_xposed_mode">"Xposed'sız modu zorla"</string>
+    <string name="summary_pref_screen_xposed_mode_inactivated">Xposed modülü etkinleştirilmedi</string>
+    <string name="summary_pref_screen_xposed_mode_activated">Xposed modülü etkinleştirildi</string>
 
     <string name="title_pref_screen_non_xposed_mode">Xposed\'sız mod ayarları</string>
 
@@ -50,17 +56,32 @@
     <string name="summary_pref_auto_retry">Uygun zamanda otomatik olarak tekrar dene. Kapalıyken, ekran kilidi açıldığında hala denemeye devam edecektir, bildirime tıklayarak da deneyebilirsiniz.</string>
     
         <string name="title_pref_black_list">Kara liste</string>
-    <string name="summary_pref_black_list">Kara listeye alınmış ön planda çalışan uygulamalar çakışmaları önlemek için otomatik olarak tekrar denenmez.</string>
+    <string name="summary_pref_black_list">Kara listeye alınmış ön planda çalışan uygulamalar, çakışmaları önlemek için otomatik olarak tekrar denenmez.</string>
+    
+    <string name="title_pref_category_single_tap">Tek dokunma</string>
 
-    <string name="title_pref_category_quick_action">Hızlı Eylem</string>
-
-    <string name="title_pref_action_single_tap">Tek Dokunma</string>
+    <string name="title_pref_action_single_tap">Tek dokunma eylemi</string>
 
     <string name="title_pref_action_single_tap_app">Tek dokunma uyg veya kısayolu</string>
 
-    <string name="title_pref_action_fast_swipe">Hızlı Kaydırma</string>
+    <string name="title_pref_category_fast_swipe">Hızlı kaydırma &amp; Hızlı dokunma (Deneysel)</string>
+
+    <string name="title_pref_action_fast_swipe">Hızlı kaydırma &amp; Hızlı dokunma eylemi</string>
     
-        <string name="title_pref_action_fast_swipe_app">Hızlı kaydırma uyg veya kısayolu</string>
+        <string name="summary_pref_action_fast_swipe">Hızlı kaydırma &amp; Hızlı dokunma algılaması donanıma bağlıdır ve tüm cihazlarda bulunmayabilir.</string>
+
+    <string name="title_pref_action_fast_swipe_app">Hızlı kaydırma uyg veya kısayolu</string>
+
+    <string name="title_pref_category_double_tap">Çift dokunma (Deneysel)</string>
+
+    <string name="title_pref_enable_double_tap">Çift dokunmayı etkinleştir</string>
+    <string name="summary_pref_enable_double_tap">Çift tıklamayı etkinleştirme, diğer eylemler için daha yüksek bir gecikmeye neden olur. Donanım üzerinde iki kez hafifçe vurmak belirli gerekliliklere sahiptir, tüm cihazlarda düzgün çalışmayabilir.</string>
+
+    <string name="title_pref_double_tap_interval">Çift dokunma zaman aralığı</string>
+
+    <string name="title_pref_action_double_tap">Çift dokunma eylemi</string>
+
+    <string name="title_pref_action_double_tap_app">Çift dokunma uyg veya kısayolu</string>
 
     <string name="entries_pref_quick_action_none">Hiçbiri</string>
     <string name="entries_pref_quick_action_sleep">Uykuya al</string>
@@ -75,6 +96,25 @@
         <string name="entries_pref_quick_action_launch_app">Uygulama veya kısayol başlat</string>
 
     <string name="title_pref_category_about">Hakkında</string>
+    
+    <string name="title_pref_contact_developer">Geliştiriciyle iletişim kur</string>
+    <string name="summary_pref_contact_developer">Sorunlarınız varsa, lütfen benimle iletişime geçin</string>
+
+    <string name="title_rate">Beni oyla</string>
+    <string name="summary_rate">5 yıldız verirseniz mutlu olurum</string>
+
+    <string name="title_matters_need_attention">Dikkat edilmesi gereken konular</string>
+    <string name="content_matters_need_attention">
+1. Diğer uygulamalar parmak izi algılayıcıları kullandığında, ve bir süre sonra, uygulama çakışmayı önlemek için çalışmayı askıya alacaktır.\n\n
+2. Sisteminizde bellek temizleme veya otomatik başlatma yöneticisi varsa, lütfen bu uygulamayı beyaz listeye ekleyin, aksi takdirde uygulama düzgün çalışmayacaktır.\n\n
+3. Algılayıcıya dokunulduğunda titreşim sistem tarafından verilir, kayıtsız parmak izlerinin art arda kullanılması, parmak izi sensörünün geçici olarak kullanılamamasına neden olur, bunlar sistemin güvenlik önlemleridir, uygulama kontrol edemez.\n\n
+4. Bazı cihazların bir parmak izi algılayıcısı var, ancak üretici Android standart parmak izi API\'sini sağlamıyor, bu nedenle uygulama düzgün çalışmayabilir.\n\n
+5. Gönüllü tarafından yapılan çeviri kusurlu olabilir. Lütfen anlayış gösterin.
+        </string>
+    <string name="btn_matters_need_attention">TAMAM. Anladım.</string>
+
+    <string name="title_source_code">Kaynak kodu</string>
+    <string name="summary_source_code" translatable="false">https://github.com/ztc1997/Fingerprint2Sleep</string>
 
     <string name="title_pref_donate">Bağış yap</string>
     <string name="title_pref_donate_purchased">Bağış yapıldı</string>
@@ -156,11 +196,5 @@
     <string name="app_picker_shortcuts">Kısayollar</string>
     <string name="app_picker_shortcut_null_intent">Etkinlik kısayol amacına geri dönmediği için başlatılabilir kısayol oluşturmak imkansız</string>
     <string name="app_picker_shortcut_cancelled">Kısayol oluşturma hedef uygulama tarafından iptal edildi</string>
-
-    <string name="title_pref_category_debug">Hata ayıklama</string>
-
-    <string name="title_pref_notify_on_error">Hata bildirimi</string>
-    <string name="summary_pref_notify_on_error">Parmak izi doğrulama hatası olduğunda bir hata mesajı göster</string>
-      
 
 </resources>
