@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 21
-        versionName "0.10.1"
+        versionCode 22
+        versionName "0.10.2"
     }
 
     signingConfigs {
@@ -82,6 +82,8 @@ dependencies {
     compile('de.psdev.licensesdialog:licensesdialog:1.8.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 }
 
 andResGuard {
@@ -138,7 +140,7 @@ andResGuard {
             "resources.arsc"
     ]
     sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.1.13'
+        artifact = 'com.tencent.mm:SevenZip:1.1.16'
         //path = "/usr/local/bin/7za"
     }
 }
@@ -149,7 +151,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.13'
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.1.16'
     }
 }
 
