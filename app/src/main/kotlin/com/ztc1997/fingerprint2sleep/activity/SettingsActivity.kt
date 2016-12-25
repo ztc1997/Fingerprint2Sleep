@@ -1,5 +1,6 @@
 package com.ztc1997.fingerprint2sleep.activity
 
+import android.Manifest
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
@@ -20,6 +21,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
+import com.tbruyelle.rxpermissions.RxPermissions
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
@@ -155,8 +157,6 @@ class SettingsActivity : Activity() {
             longToast(R.string.toast_xposed_version_mismatched)
 
         loadAd()
-
-        tvAdZone.postDelayed({ if (!isFinishing) tvAdZone.visibility = View.VISIBLE }, 10000)
     }
 
     override fun onResume() {
@@ -195,6 +195,7 @@ class SettingsActivity : Activity() {
 
                 override fun onAdFailedToLoad(p0: Int) {
                     Logger.d("onAdFailedToLoad($p0)")
+                    tvAdZone.visibility = View.VISIBLE
                 }
             }
 
@@ -458,33 +459,47 @@ app preference: $pref"""
             super.onActivityResult(requestCode, resultCode, data)
             if (requestCode == REQ_OBTAIN_SHORTCUT && shortcutHandler != null) {
                 if (resultCode == Activity.RESULT_OK) {
-                    var localIconResName: String? = null
-                    var b: Bitmap? = null
-                    val siRes = data!!.getParcelableExtra<Intent.ShortcutIconResource>(Intent.EXTRA_SHORTCUT_ICON_RESOURCE)
+                    if (data == null) return
+
                     val shortcutIntent = data.getParcelableExtra<Intent>(Intent.EXTRA_SHORTCUT_INTENT)
-                    if (siRes != null) {
-                        if (shortcutIntent != null &&
-                                AppPickerPreference.ACTION_LAUNCH_ACTION == shortcutIntent.action) {
-                            localIconResName = siRes.resourceName
-                        } else {
-                            try {
-                                val extContext = activity.createPackageContext(
-                                        siRes.packageName, Context.CONTEXT_IGNORE_SECURITY)
-                                val extRes = extContext.resources
-                                val drawableResId = extRes.getIdentifier(siRes.resourceName, "drawable", siRes.packageName)
-                                b = BitmapFactory.decodeResource(extRes, drawableResId)
-                            } catch (e: PackageManager.NameNotFoundException) {
-                                //
+                    val handleShortcut = {
+                        var localIconResName: String? = null
+                        var b: Bitmap? = null
+                        val siRes = data.getParcelableExtra<Intent.ShortcutIconResource>(Intent.EXTRA_SHORTCUT_ICON_RESOURCE)
+                        if (siRes != null) {
+                            if (AppPickerPreference.ACTION_LAUNCH_ACTION == shortcutIntent?.action) {
+                                localIconResName = siRes.resourceName
+                            } else {
+                                try {
+                                    val extContext = activity.createPackageContext(
+                                            siRes.packageName, Context.CONTEXT_IGNORE_SECURITY)
+                                    val extRes = extContext.resources
+                                    val drawableResId = extRes.getIdentifier(siRes.resourceName, "drawable", siRes.packageName)
+                                    b = BitmapFactory.decodeResource(extRes, drawableResId)
+                                } catch (e: PackageManager.NameNotFoundException) {
+                                    //
+                                }
                             }
                         }
-                    }
-                    if (localIconResName == null && b == null) {
-                        b = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON)
+                        if (localIconResName == null && b == null) {
+                            b = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON)
+                        }
+
+                        shortcutHandler?.onHandleShortcut(shortcutIntent,
+                                data.getStringExtra(Intent.EXTRA_SHORTCUT_NAME),
+                                localIconResName, b)
                     }
 
-                    shortcutHandler?.onHandleShortcut(shortcutIntent,
-                            data.getStringExtra(Intent.EXTRA_SHORTCUT_NAME),
-                            localIconResName, b)
+                    if (shortcutIntent?.action == Intent.ACTION_CALL)
+                        RxPermissions(activity)
+                                .request(Manifest.permission.CALL_PHONE)
+                                .subscribe {
+                                    if (it) handleShortcut()
+                                    else
+                                        shortcutHandler?.onShortcutCancelled()
+                                }
+                    else
+                        handleShortcut()
                 } else {
                     shortcutHandler?.onShortcutCancelled()
                 }
