@@ -6,10 +6,10 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.*
+import android.os.AsyncTask
+import android.os.Bundle
+import android.os.IBinder
 import android.preference.*
-import android.util.Base64
 import android.view.View
 import android.view.ViewGroup
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
@@ -17,7 +17,6 @@ import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHa
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import com.tbruyelle.rxpermissions.RxPermissions
 import com.ztc1997.fingerprint2sleep.BuildConfig
@@ -155,17 +154,6 @@ class SettingsActivity : Activity() {
             longToast(R.string.toast_xposed_version_mismatched)
 
         loadAd()
-
-        val parcel = Parcel.obtain()
-        parcel.writeInterfaceToken("android.os.IPowerManager")
-        parcel.writeLong(SystemClock.uptimeMillis())
-        println(Base64.encodeToString(parcel.marshall(), Base64.DEFAULT))
-        parcel.recycle()
-        val cls = Class.forName("android.os.IPowerManager${"$"}Stub")
-        val declaredField = cls.getDeclaredField("TRANSACTION_goToSleep")
-        declaredField.isAccessible = true
-        val num = declaredField.getInt(cls)
-        Logger.d(num)
     }
 
     override fun onResume() {
@@ -299,29 +287,6 @@ class SettingsActivity : Activity() {
                     }
                     true
                 }
-            }
-
-            contact.setOnPreferenceClickListener {
-                val contactIntent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("mailto:ztc2011@gmail.com")
-                    putExtra(Intent.EXTRA_SUBJECT, "Fingerprint Quick Action - Feedback")
-
-                    val pref = GsonBuilder().setPrettyPrinting().create().toJson(defaultSharedPreferences.all)
-
-                    val text = """Please write your feedback:
-
-
-Information:
-app version: ${BuildConfig.VERSION_NAME}
-system version: ${Build.VERSION.RELEASE}
-device manufacturer: ${Build.MANUFACTURER}
-device model: ${Build.MODEL}
-device details: ${Build.FINGERPRINT}
-app preference: $pref"""
-                    putExtra(Intent.EXTRA_TEXT, text)
-                }
-                startActivity(contactIntent)
-                true
             }
         }
 

@@ -96,7 +96,7 @@
     <string name="title_pref_category_about">About</string>
 
     <string name="title_pref_contact_developer">Contact the developer</string>
-    <string name="summary_pref_contact_developer">If you meet problems, please contact me</string>
+    <string name="summary_pref_contact_developer">If you meet problems, please contact me. Please feedback via Github issues, I no longer receive email feedback.</string>
 
     <string name="title_rate">Rate me</string>
     <string name="summary_rate">I\'ll be happy if you give me 5 stars</string>

@@ -129,7 +129,11 @@
         <Preference
             android:key="pref_contact_developer"
             android:summary="@string/summary_pref_contact_developer"
-            android:title="@string/title_pref_contact_developer"></Preference>
+            android:title="@string/title_pref_contact_developer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ztc1997/Fingerprint2Sleep/issues" />
+        </Preference>
 
         <Preference
             android:summary="@string/summary_rate"
