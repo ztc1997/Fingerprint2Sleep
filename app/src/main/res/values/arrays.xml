@@ -30,7 +30,7 @@
     <string-array name="entries_pref_screen_off_method">
         <item>@string/entries_pref_screen_off_method_shorten_timeout</item>
         <item>@string/entries_pref_screen_off_method_device_admin</item>
-        <item>@string/entries_pref_screen_off_method_power_button</item>
+        <item>@string/entries_pref_screen_off_method_calling_hidden_api</item>
     </string-array>
 
     <string-array name="values_pref_screen_off_method" translatable="false">

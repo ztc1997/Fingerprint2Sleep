@@ -3,29 +3,26 @@ package com.ztc1997.fingerprint2sleep.quickactions
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
 import android.content.Context
+import android.os.SystemClock
 import com.eightbitlab.rxbus.Bus
+import com.ztc1997.anycall.Anycall
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.defaultDPreference
-import com.ztc1997.fingerprint2sleep.extension.execute
-import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import me.dozen.dpreference.DPreference
-import org.jetbrains.anko.async
 import org.jetbrains.anko.devicePolicyManager
-import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 
 class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
+    val anycall by lazy { Anycall(ctx) }
 
     override val dPreference: DPreference
         get() = ctx.defaultDPreference
-
-    private val POWER_KEY_CMD = "input keyevent 26"
 
     override fun collapsePanels() {
         try {
@@ -86,16 +83,21 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
                 else
                     RequireAdminActivity.startActivity(ctx)
             }
-            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON -> pressPowerButton()
+            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON -> callSystemGoToSleep()
         }
     }
 
-    fun pressPowerButton() {
-        async() {
-            if (root.isStarted)
-                root.execute(POWER_KEY_CMD)
-            else
-                ctx.onUiThread { ctx.toast(R.string.toast_root_access_failed) }
-        }
+    fun callSystemGoToSleep() {
+        anycall.callMethod("android.os.IPowerManager", Context.POWER_SERVICE, "goToSleep",
+                SystemClock.uptimeMillis(), Anycall.CallMethodResultListener { resultCode, reply ->
+            if (resultCode != 0) ctx.toast("")
+            try {
+                reply.readException()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            true
+        })
     }
 }

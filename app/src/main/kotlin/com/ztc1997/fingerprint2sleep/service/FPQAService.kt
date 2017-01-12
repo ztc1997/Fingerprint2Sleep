@@ -18,12 +18,13 @@ import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
-import com.ztc1997.fingerprint2sleep.extension.root
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
@@ -285,10 +286,8 @@ class FPQAService : Service() {
     }
 
     fun checkAndStartRoot() {
-        async() {
-            if (!root.isStarted && !root.startShell()) {
-                uiThread { toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed) }
-            }
+        quickActions.anycall.startShell {
+            if (!it) toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed)
         }
     }
 
