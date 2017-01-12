@@ -1,18 +1,18 @@
 res path mapping:
-    res/drawable -> r/e
-    res/xml -> r/a0
-    res/mipmap-xxhdpi-v4 -> r/y
     res/color -> r/b
-    res/drawable-hdpi-v4 -> r/f
-    res/mipmap-xhdpi-v4 -> r/x
-    res/raw -> r/a
-    res/mipmap-hdpi-v4 -> r/v
-    res/mipmap-xxxhdpi-v4 -> r/z
-    res/mipmap-mdpi-v4 -> r/w
     res/drawable-mdpi-v4 -> r/m
     res/layout -> r/t
     res/drawable-xhdpi-v4 -> r/q
+    res/drawable-hdpi-v4 -> r/f
+    res/drawable -> r/e
+    res/mipmap-xxhdpi-v4 -> r/y
+    res/mipmap-hdpi-v4 -> r/v
+    res/xml -> r/a0
+    res/mipmap-mdpi-v4 -> r/w
+    res/mipmap-xhdpi-v4 -> r/x
     res/drawable-xxhdpi-v4 -> r/r
+    res/raw -> r/a
+    res/mipmap-xxxhdpi-v4 -> r/z
 
 
 res id mapping:
@@ -201,7 +201,6 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.notices_close -> com.ztc1997.fingerprint2sleep.R.string.x
     com.ztc1997.fingerprint2sleep.R.string.notices_title -> com.ztc1997.fingerprint2sleep.R.string.y
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_device_admin -> com.ztc1997.fingerprint2sleep.R.string.a
-    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_power_button -> com.ztc1997.fingerprint2sleep.R.string.b
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_shorten_timeout -> com.ztc1997.fingerprint2sleep.R.string.c
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_donate_purchased -> com.ztc1997.fingerprint2sleep.R.string.g
     com.ztc1997.fingerprint2sleep.R.string.title_pref_donate_purchased -> com.ztc1997.fingerprint2sleep.R.string.h
@@ -251,13 +250,16 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.toast_xposed_version_mismatched -> com.ztc1997.fingerprint2sleep.R.string.i
     com.ztc1997.fingerprint2sleep.R.string.tv_ad_zone -> com.ztc1997.fingerprint2sleep.R.string.e0
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text_retry -> com.ztc1997.fingerprint2sleep.R.string.j
+    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_calling_hidden_api -> com.ztc1997.fingerprint2sleep.R.string.dt
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
+    com.ztc1997.fingerprint2sleep.R.string.btn_go_to_sleep -> com.ztc1997.fingerprint2sleep.R.string.e9
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu
     com.ztc1997.fingerprint2sleep.R.string.notices_default_style -> com.ztc1997.fingerprint2sleep.R.string.du
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.as
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_debug -> com.ztc1997.fingerprint2sleep.R.string.ax
     com.ztc1997.fingerprint2sleep.R.string.title_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.b3
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text_error -> com.ztc1997.fingerprint2sleep.R.string.ao
+    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_power_button -> com.ztc1997.fingerprint2sleep.R.string.b
     com.ztc1997.fingerprint2sleep.R.string.icon_picker_choose_icon_title -> com.ztc1997.fingerprint2sleep.R.string.bb
     com.ztc1997.fingerprint2sleep.R.string.shortcuts_icon_picker_alarm -> com.ztc1997.fingerprint2sleep.R.string.bc
     com.ztc1997.fingerprint2sleep.R.string.shortcuts_icon_picker_andy -> com.ztc1997.fingerprint2sleep.R.string.bd
