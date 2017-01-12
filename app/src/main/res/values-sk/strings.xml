@@ -48,7 +48,7 @@
     <string name="title_pref_screen_off_method">Metóda vypnutia obrazovky</string>
     <string name="entries_pref_screen_off_method_shorten_timeout">Kratší časový limit (odporúčané)</string>
     <string name="entries_pref_screen_off_method_device_admin">Správca zariadenia (odomknutie pomocou odtlačku prsta nemusí fungovať)</string>
-    <string name="entries_pref_screen_off_method_power_button">Simulácia stlačenia tlačidla napájania (ROOT)</string>
+    <string name="entries_pref_screen_off_method_calling_hidden_api">Použiť skryté API (ROOT)</string>
   
     <string name="title_pref_auto_retry">Automatické opakovanie</string>
     <string name="summary_pref_auto_retry">Automaticky opakovať vo vhodnom čase. Ak je zakázané, bude stále opakovať, keď je obrazovka odomknutá, môžete tiež opakovať kliknutím na upozornenie.</string>
@@ -96,7 +96,7 @@
     <string name="title_pref_category_about">O aplikácii</string>
   
     <string name="title_pref_contact_developer">Kontaktovať vývojára</string>
-    <string name="summary_pref_contact_developer">Ak máte problémy s aplikáciou, prosím, kontaktujte ma</string>
+    <string name="summary_pref_contact_developer">Ak máte problémy s aplikáciou, prosím, kontaktujte ma. Prosím, použite Github, už neprijímam spätnú väzbu cez e-mail.</string>
 
     <string name="title_rate">Ohodnotiť</string>
     <string name="summary_rate">Budem rád, ak mi dáte 5 hviezdičiek</string>
