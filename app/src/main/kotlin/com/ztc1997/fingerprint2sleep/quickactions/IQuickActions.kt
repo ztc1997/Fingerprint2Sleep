@@ -33,6 +33,8 @@ interface IQuickActions {
 
     fun actionQuickSettings()
 
+    fun actionTakeScreenshot()
+
     fun goToSleep()
 
     fun performQuickAction(type: EventType): String {
@@ -82,6 +84,9 @@ interface IQuickActions {
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN ->
                 actionToggleSplitScreen()
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_TAKE_SCREENSHOT ->
+                actionTakeScreenshot()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_LAUNCH_APP -> launchAppOrShortcut(type)
         }

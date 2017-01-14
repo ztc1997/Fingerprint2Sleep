@@ -10,6 +10,10 @@
     <string name="notification_content_text_retry">点击此处重试。</string>
     <string name="toast_failed_to_collapse_panel">收起面板失败</string>
 
+    <!-- Screenshot -->
+    <string name="screenshot_notification_content">截屏已保存</string>
+    <string name="screenshot_notification_action_delete">删除</string>
+
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">此设备可能不支持指纹认证。部分设备虽然有指纹传感器，但未提供 Android 标准 API，这些设备可能无法使用本应用。</string>
     <string name="toast_root_access_failed">无法取得 Root 权限</string>
@@ -90,6 +94,7 @@
     <string name="entries_pref_quick_action_expand_notifications_panel">展开通知面板</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">切换通知面板</string>
     <string name="entries_pref_quick_action_expand_quick_settings">展开快速设置</string>
+    <string name="entries_pref_quick_action_take_screenshot">截屏</string>
     <string name="entries_pref_quick_action_launch_app">启动应用或快捷方式</string>
 
     <string name="title_pref_category_about">关于</string>

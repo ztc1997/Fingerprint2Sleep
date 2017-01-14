@@ -59,6 +59,10 @@ class XposedQuickActions(override val ctx: Context, override val dPreference: DP
         tryAndPrintStackTrace { XposedHelpers.callMethod(statusBar, "expandSettingsPanel") }
     }
 
+    override fun actionTakeScreenshot() {
+        // TODO: Implement take screenshot for Xposed mode
+    }
+
     override fun goToSleep() {
         val pm = ctx.powerManager
         tryAndPrintStackTrace { XposedHelpers.callMethod(pm, "goToSleep", SystemClock.uptimeMillis()) }

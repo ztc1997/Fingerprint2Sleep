@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--<uses-permission android:name="com.android.vending.BILLING" />-->
 
@@ -59,6 +60,12 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Translucent" />
 
+        <activity
+            android:name=".activity.ScreenshotActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.Translucent" />
+
         <service
             android:name=".service.FPQAService"
             android:enabled="true"
@@ -97,6 +104,21 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service" />
         </service>
+
+        <service
+            android:name=".service.ScreenshotService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

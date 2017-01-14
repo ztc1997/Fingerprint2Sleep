@@ -78,6 +78,7 @@ class SettingsActivity : Activity() {
         const val VALUES_PREF_QUICK_ACTION_EXPEND_NOTIFICATIONS_PANEL = "expend_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_TOGGLE_NOTIFICATIONS_PANEL = "toggle_notifications_panel"
         const val VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS = "expand_quick_settings"
+        const val VALUES_PREF_QUICK_ACTION_TAKE_SCREENSHOT = "take_screenshot"
         const val VALUES_PREF_QUICK_ACTION_LAUNCH_APP = "launch_app"
 
         const val VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT = "shorten_timeout"

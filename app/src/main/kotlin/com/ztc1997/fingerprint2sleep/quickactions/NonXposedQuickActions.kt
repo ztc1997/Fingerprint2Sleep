@@ -8,6 +8,7 @@ import com.eightbitlab.rxbus.Bus
 import com.ztc1997.anycall.Anycall
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
+import com.ztc1997.fingerprint2sleep.activity.ScreenshotActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
 import com.ztc1997.fingerprint2sleep.defaultDPreference
@@ -68,6 +69,10 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
 
     override fun actionQuickSettings() {
         Bus.send(PerformGlobalActionEvent(AccessibilityService.GLOBAL_ACTION_QUICK_SETTINGS))
+    }
+
+    override fun actionTakeScreenshot() {
+        ScreenshotActivity.startActivity(ctx)
     }
 
     override fun goToSleep() {
