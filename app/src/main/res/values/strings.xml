@@ -17,9 +17,11 @@
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">This device may not support fingerprint authorization. Some devices have a fingerprint sensor, but do not provide Android standard API, these devices may not be able to use this application.</string>
+    <string name="msg_dialog_has_not_enrolled_fingerprints">The device does not have a fingerprint already enrolled. This may cause problems with the application. It is recommended that you enroll a fingerprint in the settings.</string>
     <string name="toast_root_access_failed">Couldn\'t get root access</string>
     <string name="toast_xposed_version_mismatched">The Xposed module is activated, but does not match the current program version. Recommend to reboot to refresh the module</string>
     <string name="btn_do_not_detect_hardware_again">Do not detect hardware again</string>
+    <string name="btn_do_not_check_fingerprints_again">Do not check next time</string>
     <string name="tv_ad_zone">Ads is the main revenue of this open source project. If you use the ad blocking tool, whitelist this app please.</string>
 
     <!-- RequirePermissionActivity -->

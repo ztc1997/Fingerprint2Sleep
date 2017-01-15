@@ -65,6 +65,7 @@ class SettingsActivity : Activity() {
         const val PREF_LICENSES = "pref_licenses"
 
         const val PREF_DO_NOT_DETECT_HARDWARE_AGAIN = "pref_do_not_detect_hardware_again"
+        const val PREF_DO_NOT_CHECK_FINGERPRINTS_AGAIN = "pref_do_not_check_fingerprints_again"
 
         const val VALUES_PREF_QUICK_ACTION_NONE = "none"
         const val VALUES_PREF_QUICK_ACTION_SLEEP = "sleep"
@@ -144,6 +145,17 @@ class SettingsActivity : Activity() {
             alert(R.string.msg_dialog_device_does_not_support_fingerprint) {
                 negativeButton(R.string.btn_do_not_detect_hardware_again) {
                     defaultDPreference.setPrefInt(PREF_DO_NOT_DETECT_HARDWARE_AGAIN, BuildConfig.VERSION_CODE)
+                }
+                positiveButton(android.R.string.ok) {}
+                show()
+            }
+        }
+
+        if (defaultDPreference.getPrefInt(PREF_DO_NOT_CHECK_FINGERPRINTS_AGAIN, -1) < 18 &&
+                !fingerprintManager.hasEnrolledFingerprints()) {
+            alert(R.string.msg_dialog_has_not_enrolled_fingerprints) {
+                negativeButton(R.string.btn_do_not_check_fingerprints_again) {
+                    defaultDPreference.setPrefInt(PREF_DO_NOT_CHECK_FINGERPRINTS_AGAIN, BuildConfig.VERSION_CODE)
                 }
                 positiveButton(android.R.string.ok) {}
                 show()
