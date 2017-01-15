@@ -101,7 +101,8 @@ class SettingsActivity : Activity() {
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
                 VALUES_PREF_QUICK_ACTION_TOGGLE_SPLIT_SCREEN, VALUES_PREF_QUICK_ACTION_LAUNCH_APP)
 
-        val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_SLEEP)
+        val DONT_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_SLEEP,
+                VALUES_PREF_QUICK_ACTION_RECENTS)
 
         val XPOSED_MODULE_BLACKLIST = listOf("tw.fatminmin.xposed.minminguard",
                 "com.aviraxp.adblocker.continued", "pl.cinek.adblocker")
