@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.tbruyelle.rxpermissions.RxPermissions
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
-import com.ztc1997.fingerprint2sleep.service.ScreenshotService
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.mediaProjectionManager
 import org.jetbrains.anko.startService
 
@@ -39,7 +39,8 @@ class ScreenshotActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_CREATE_SCREEN_CAPTURE && resultCode == RESULT_OK && data != null) {
-            startService<ScreenshotService>("resultCode" to resultCode, "data" to data)
+            startService<FPQAService>("take screenshot" to true,
+                    "resultCode" to resultCode, "data" to data)
         }
         finishWithoutAnim()
     }

@@ -1,5 +1,6 @@
 package com.ztc1997.fingerprint2sleep.service
 
+import android.app.Activity
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
@@ -7,9 +8,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.PixelFormat
+import android.graphics.Point
+import android.graphics.drawable.Icon
+import android.hardware.display.DisplayManager
+import android.media.ImageReader
+import android.media.MediaScannerConnection
+import android.net.Uri
+import android.os.Build
 import android.os.CancellationSignal
+import android.os.Environment
 import android.os.IBinder
+import android.support.v4.content.FileProvider
 import com.eightbitlab.rxbus.Bus
+import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
 import com.ztc1997.fingerprint2sleep.activity.RequireAccessibilityActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
@@ -18,19 +31,31 @@ import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
+import com.ztc1997.fingerprint2sleep.extension.saveImage
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.fingerprintManager
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class FPQAService : Service() {
     companion object {
-        const val NOTIFICATION_ID = 1
-        const val NOTIFICATION_PENDING_INTENT_CONTENT = 0
+        val DIR_SCREENSHOTS = Environment.getExternalStorageDirectory().absolutePath +
+                "${File.separator}Pictures${File.separator}Screenshots"
+
+        private const val NOTIFICATION_ID_FPQA = 1
+        private const val NOTIFICATION_ID_TAKE_SCREENSHOT = 2
+
+        private const val NOTIFICATION_INTENT_FPQA_CONTENT = 0
+        private const val NOTIFICATION_INTENT_TAKE_SCREENSHOT_DELETE = 1
+        private const val NOTIFICATION_INTENT_TAKE_SCREENSHOT_OPEN = 2
+
+        private val ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE = FPQAService::class.java.name +
+                ".intent.ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE"
 
         val ACTION_RESTART_SCANNING = FPQAService::class.java.name + "ACTION_RESTART_SCANNING"
 
@@ -87,29 +112,44 @@ class FPQAService : Service() {
 
     val authenticationCallback by lazy { Callback(quickActions) }
 
-    val presentReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            isScanning = false
-            StartFPQAActivity.startActivity(ctx)
+    val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null) return
 
-            Bus.send(RestartScanningDelayedEvent)
+            val restartScanning = {
+                isScanning = false
+                StartFPQAActivity.startActivity(ctx)
 
-            val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
-            if (screenTimeout > 0)
-                setScreenTimeOut(screenTimeout)
-            defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
-        }
-    }
+                Bus.send(RestartScanningDelayedEvent)
 
-    val screenOffReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            cancellationSignal.cancel()
-            isScanning = false
+                val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+                if (screenTimeout > 0)
+                    setScreenTimeOut(screenTimeout)
+                defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+            }
 
-            val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
-            if (screenTimeout > 0)
-                setScreenTimeOut(screenTimeout)
-            defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+            when (intent.action) {
+                Intent.ACTION_SCREEN_OFF -> {
+                    cancellationSignal.cancel()
+                    isScanning = false
+
+                    val screenTimeout = defaultDPreference.getPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+                    if (screenTimeout > 0)
+                        setScreenTimeOut(screenTimeout)
+                    defaultDPreference.setPrefInt(ShortenTimeOutActivity.PREF_ORIGINAL_SCREEN_OFF_TIMEOUT, -1)
+                }
+
+                Intent.ACTION_USER_PRESENT -> restartScanning()
+                ACTION_RESTART_SCANNING -> restartScanning()
+                ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE -> try {
+                    notificationManager.cancel(NOTIFICATION_ID_TAKE_SCREENSHOT)
+                    val path = intent.getSerializableExtra("path") as File
+                    path.delete()
+                    MediaScannerConnection.scanFile(context, arrayOf(path.path), null, null)
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
@@ -156,17 +196,21 @@ class FPQAService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startFPQA()
+        if (intent != null && intent.getBooleanExtra("take screenshot", false)) {
+            takeScreenshot(intent)
+        } else {
+            startFPQA()
 
-        restartScanning()
+            restartScanning()
 
-        if (!FPQAAccessibilityService.isRunning)
-            RequireAccessibilityActivity.startActivity(this)
+            if (!FPQAAccessibilityService.isRunning)
+                RequireAccessibilityActivity.startActivity(this)
 
-        if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
-                SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
-                SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
-            checkAndStartRoot()
+            if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
+                    SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
+                    SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
+                checkAndStartRoot()
+        }
 
         val newFlags = flags or START_STICKY
         return super.onStartCommand(intent, newFlags, startId)
@@ -189,11 +233,11 @@ class FPQAService : Service() {
         if (!isRunning) {
             isRunning = true
 
-            val restartIntentFilter = IntentFilter(Intent.ACTION_USER_PRESENT)
-            restartIntentFilter.addAction(ACTION_RESTART_SCANNING)
-            registerReceiver(presentReceiver, restartIntentFilter)
-
-            registerReceiver(screenOffReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+            val filter = IntentFilter()
+            filter.addAction(Intent.ACTION_USER_PRESENT)
+            filter.addAction(Intent.ACTION_SCREEN_OFF)
+            filter.addAction(ACTION_RESTART_SCANNING)
+            registerReceiver(receiver, filter)
 
             Bus.observe<ActivityChangedEvent>()
                     .doOnEach {
@@ -232,8 +276,7 @@ class FPQAService : Service() {
         if (isRunning) {
             isRunning = false
 
-            unregisterReceiver(presentReceiver)
-            unregisterReceiver(screenOffReceiver)
+            unregisterReceiver(receiver)
 
             Bus.unregister(this)
             // delayIsScanning = isScanning
@@ -255,7 +298,7 @@ class FPQAService : Service() {
                 generateNotification(getString(R.string.notification_content_text_retry) + errString, true)
             else generateNotification(R.string.notification_content_text)
 
-            startForeground(NOTIFICATION_ID, notification)
+            startForeground(NOTIFICATION_ID_FPQA, notification)
         } else {
             stopForeground(true)
         }
@@ -267,11 +310,11 @@ class FPQAService : Service() {
     fun generateNotification(text: CharSequence, restart: Boolean = false): Notification {
         val pendingIntent = if (restart)
             PendingIntent.getBroadcast(app,
-                    NOTIFICATION_PENDING_INTENT_CONTENT, Intent(ACTION_RESTART_SCANNING),
+                    NOTIFICATION_INTENT_FPQA_CONTENT, Intent(ACTION_RESTART_SCANNING),
                     PendingIntent.FLAG_UPDATE_CURRENT)
         else
             PendingIntent.getActivity(app,
-                    NOTIFICATION_PENDING_INTENT_CONTENT, Intent(app, SettingsActivity::class.java),
+                    NOTIFICATION_INTENT_FPQA_CONTENT, Intent(app, SettingsActivity::class.java),
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = Notification.Builder(applicationContext)
@@ -287,8 +330,100 @@ class FPQAService : Service() {
 
     fun checkAndStartRoot() {
         quickActions.anycall.startShell {
-            if (!it) toast(com.ztc1997.fingerprint2sleep.R.string.toast_root_access_failed)
+            if (!it) onUiThread { toast(R.string.toast_root_access_failed) }
         }
+    }
+
+    fun takeScreenshot(intent: Intent) {
+        val resultCode = intent.getIntExtra("resultCode", Activity.RESULT_OK)
+        val data = intent.getParcelableExtra<Intent>("data")
+
+        val mp = mediaProjectionManager.getMediaProjection(resultCode, data)
+
+        val point = Point()
+        windowManager.defaultDisplay.getRealSize(point)
+        val reader = ImageReader.newInstance(point.x, point.y, PixelFormat.RGBA_8888, 2)
+
+        val vd = mp.createVirtualDisplay("screenshot", reader.width,
+                reader.height, resources.displayMetrics.densityDpi,
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, reader.surface, null, null)
+
+        reader.setOnImageAvailableListener({
+            val image = it.acquireLatestImage()
+
+            val planes = image.planes
+            val buffer = planes[0].buffer
+            val pixelStride = planes[0].pixelStride
+            val rowStride = planes[0].rowStride
+            val rowPadding = rowStride - pixelStride * it.width
+            // create bitmap
+            var bmp = Bitmap.createBitmap(it.width + rowPadding / pixelStride,
+                    it.height, Bitmap.Config.ARGB_8888)
+            bmp.copyPixelsFromBuffer(buffer)
+            image.close()
+            it.close()
+            vd.release()
+            mp.stop()
+
+            if (bmp.width > it.width) {
+                val raw = bmp
+                bmp = Bitmap.createBitmap(raw, 0, 0, it.width, it.height, null, false)
+                raw.recycle()
+            }
+
+            val formatter = SimpleDateFormat("yyyyMMdd-HHmmss")
+            val curDate = Date(System.currentTimeMillis())
+            val timeStr = formatter.format(curDate)
+            val path = File(DIR_SCREENSHOTS, "Screenshot_$timeStr.jpg")
+
+            bmp.saveImage(path)
+            MediaScannerConnection.scanFile(this, arrayOf(path.path), null, null)
+            showTakeScreenshotNotification(bmp, path)
+
+            bmp.recycle()
+        }, null)
+    }
+
+    private fun showTakeScreenshotNotification(pic: Bitmap, path: File) {
+        val deleteIntent = PendingIntent.getBroadcast(this, NOTIFICATION_INTENT_TAKE_SCREENSHOT_DELETE,
+                Intent(ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE).putExtra("path", path),
+                PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val openIntent = Intent(Intent.ACTION_VIEW)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            openIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            val contentUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID +
+                    ".fileProvider", path)
+            openIntent.setDataAndType(contentUri, "image/*")
+        } else {
+            openIntent.setDataAndType(Uri.fromFile(path), "image/*")
+            openIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        val openPendingIntent = PendingIntent.getActivity(this, NOTIFICATION_INTENT_TAKE_SCREENSHOT_OPEN,
+                openIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val notif = Notification.Builder(this)
+                .setAutoCancel(true)
+                .setContentTitle(getString(R.string.screenshot_notification_content))
+                .setSmallIcon(R.drawable.ic_photo_white_24dp)
+                .setLargeIcon(pic)
+                .setStyle(Notification.BigPictureStyle()
+                        .bigPicture(pic))
+                .setContentIntent(openPendingIntent)
+                .addAction(Notification.Action.Builder(
+                        Icon.createWithResource(this, R.drawable.ic_delete_grey_800_24dp),
+                        getString(R.string.screenshot_notification_action_delete),
+                        deleteIntent)
+                        .build())
+                .build()
+
+        notificationManager.notify(NOTIFICATION_ID_TAKE_SCREENSHOT, notif)
+
+        val filter = IntentFilter()
+        filter.addAction(ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE)
+        registerReceiver(receiver, filter)
     }
 
     override fun onBind(intent: Intent): IBinder? {
