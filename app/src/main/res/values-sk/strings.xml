@@ -17,9 +17,11 @@
 
     <!-- SettingsActivity -->    
     <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nemusí podporovať autorizáciu pomocou odtlačku prsta. Niektoré zariadenia majú senzor, ale neposkytujú štandardné API Androidu, tieto zariadenia nemusia byť schopné používať túto aplikáciu.</string>
+    <string name="msg_dialog_has_not_enrolled_fingerprints">Toto zariadenie nemá priradený odtlačok prsta. To može spôsobiť problémy s aplikáciou. Odporúčame pridať odtlačok v nastaveniach.</string>
     <string name="toast_root_access_failed">Nepodarilo sa získať root prístup</string>
     <string name="toast_xposed_version_mismatched">Xposed modul je aktivovaný, ale nesúhlasí s aktuálnou verziou aplikácie. Odporúčame reštartovať zariadenie pre obnovenie modulu</string>
     <string name="btn_do_not_detect_hardware_again">Nezisťovať znovu hardvér</string>
+    <string name="btn_do_not_check_fingerprints_again">Nabudúce už nekontrolovať</string>
     <string name="tv_ad_zone">Reklamy sú hlavný príjem pre tento open source projekt. Ak používate aplikáciu na blokovanie reklám, prosím, pridajte túto aplikáciu do výnimiek.</string>
 
     <!-- RequirePermissionActivity -->
