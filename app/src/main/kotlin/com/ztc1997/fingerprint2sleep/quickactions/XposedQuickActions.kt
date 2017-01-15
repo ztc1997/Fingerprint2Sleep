@@ -1,15 +1,20 @@
 package com.ztc1997.fingerprint2sleep.quickactions
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
+import android.content.ServiceConnection
+import android.os.*
 import android.view.KeyEvent
+import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
 import com.ztc1997.fingerprint2sleep.xposed.hook.SystemUIHooks
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.inputManager
 import org.jetbrains.anko.powerManager
+
 
 class XposedQuickActions(override val ctx: Context, override val dPreference: DPreference?, val loader: ClassLoader) : IQuickActions {
     val statusBar: Any? by lazy { ctx.getSystemService("statusbar") }
@@ -59,8 +64,71 @@ class XposedQuickActions(override val ctx: Context, override val dPreference: DP
         tryAndPrintStackTrace { XposedHelpers.callMethod(statusBar, "expandSettingsPanel") }
     }
 
+    private val mScreenshotLock = Object()
+    private var mScreenshotConnection: ServiceConnection? = null
     override fun actionTakeScreenshot() {
-        // TODO: Implement take screenshot for Xposed mode
+        val handler = XposedHelpers.getObjectField(FPQAModule.phoneWindowManager,
+                "mHandler") as Handler? ?: return
+        synchronized(mScreenshotLock) {
+            if (mScreenshotConnection != null) {
+                return
+            }
+            val cn = ComponentName("com.android.systemui",
+                    "com.android.systemui.screenshot.TakeScreenshotService")
+            val intent = Intent()
+            intent.component = cn
+            val conn = object : ServiceConnection {
+                override fun onServiceDisconnected(name: ComponentName?) {
+                }
+
+                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                    synchronized(mScreenshotLock) {
+                        if (mScreenshotConnection !== this) {
+                            return
+                        }
+                        val messenger = Messenger(service)
+                        val msg = Message.obtain(null, 1)
+                        val myConn = this
+
+                        val h = object : Handler(handler.looper) {
+                            override fun handleMessage(msg: Message) {
+                                synchronized(mScreenshotLock) {
+                                    if (mScreenshotConnection === myConn) {
+                                        ctx.unbindService(mScreenshotConnection)
+                                        mScreenshotConnection = null
+                                        handler.removeCallbacks(mScreenshotTimeout)
+                                    }
+                                }
+                            }
+                        }
+                        msg.replyTo = Messenger(h)
+                        msg.arg2 = 0
+                        msg.arg1 = msg.arg2
+                        h.postDelayed({
+                            try {
+                                messenger.send(msg)
+                            } catch (e: RemoteException) {
+                                XposedBridge.log(e)
+                            }
+                        }, 1000)
+                    }
+                }
+            }
+
+            if (ctx.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
+                mScreenshotConnection = conn
+                handler.postDelayed(mScreenshotTimeout, 10000)
+            }
+        }
+    }
+
+    private val mScreenshotTimeout = Runnable {
+        synchronized(mScreenshotLock) {
+            if (mScreenshotConnection != null) {
+                ctx.unbindService(mScreenshotConnection)
+                mScreenshotConnection = null
+            }
+        }
     }
 
     override fun goToSleep() {
