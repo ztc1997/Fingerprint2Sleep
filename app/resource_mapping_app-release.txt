@@ -33,8 +33,10 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_focused -> com.ztc1997.fingerprint2sleep.R.drawable.c6
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light -> com.ztc1997.fingerprint2sleep.R.drawable.a9
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_focused -> com.ztc1997.fingerprint2sleep.R.drawable.c_
+    com.ztc1997.fingerprint2sleep.R.drawable.ic_delete_grey_800_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.al
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.a_
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_36dp -> com.ztc1997.fingerprint2sleep.R.drawable.a
+    com.ztc1997.fingerprint2sleep.R.drawable.ic_photo_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.b4
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.bx
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.bz
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.c0
@@ -113,6 +115,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.layout.app_picker_preference -> com.ztc1997.fingerprint2sleep.R.layout.c
     com.ztc1997.fingerprint2sleep.R.xml.accessibility_service -> com.ztc1997.fingerprint2sleep.R.xml.a
     com.ztc1997.fingerprint2sleep.R.xml.device_admin -> com.ztc1997.fingerprint2sleep.R.xml.b
+    com.ztc1997.fingerprint2sleep.R.xml.file_paths -> com.ztc1997.fingerprint2sleep.R.xml.d
     com.ztc1997.fingerprint2sleep.R.xml.pref_settings -> com.ztc1997.fingerprint2sleep.R.xml.c
     com.ztc1997.fingerprint2sleep.R.raw.asl_20_full -> com.ztc1997.fingerprint2sleep.R.raw.a
     com.ztc1997.fingerprint2sleep.R.raw.asl_20_summary -> com.ztc1997.fingerprint2sleep.R.raw.b
@@ -221,7 +224,11 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.btn_matters_need_attention -> com.ztc1997.fingerprint2sleep.R.string.dl
     com.ztc1997.fingerprint2sleep.R.string.content_matters_need_attention -> com.ztc1997.fingerprint2sleep.R.string.dm
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_quick_action_launch_app -> com.ztc1997.fingerprint2sleep.R.string.ad
+    com.ztc1997.fingerprint2sleep.R.string.entries_pref_quick_action_take_screenshot -> com.ztc1997.fingerprint2sleep.R.string.e_
+    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_calling_hidden_api -> com.ztc1997.fingerprint2sleep.R.string.dt
     com.ztc1997.fingerprint2sleep.R.string.msg_dialog_device_does_not_support_fingerprint -> com.ztc1997.fingerprint2sleep.R.string.am
+    com.ztc1997.fingerprint2sleep.R.string.screenshot_notification_action_delete -> com.ztc1997.fingerprint2sleep.R.string.ea
+    com.ztc1997.fingerprint2sleep.R.string.screenshot_notification_content -> com.ztc1997.fingerprint2sleep.R.string.eb
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_action_fast_swipe -> com.ztc1997.fingerprint2sleep.R.string.e2
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_auto_retry -> com.ztc1997.fingerprint2sleep.R.string.k
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_black_list -> com.ztc1997.fingerprint2sleep.R.string.a3
@@ -250,7 +257,8 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.toast_xposed_version_mismatched -> com.ztc1997.fingerprint2sleep.R.string.i
     com.ztc1997.fingerprint2sleep.R.string.tv_ad_zone -> com.ztc1997.fingerprint2sleep.R.string.e0
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text_retry -> com.ztc1997.fingerprint2sleep.R.string.j
-    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_calling_hidden_api -> com.ztc1997.fingerprint2sleep.R.string.dt
+    com.ztc1997.fingerprint2sleep.R.string.btn_do_not_check_fingerprints_again -> com.ztc1997.fingerprint2sleep.R.string.ec
+    com.ztc1997.fingerprint2sleep.R.string.msg_dialog_has_not_enrolled_fingerprints -> com.ztc1997.fingerprint2sleep.R.string.ed
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
     com.ztc1997.fingerprint2sleep.R.string.btn_go_to_sleep -> com.ztc1997.fingerprint2sleep.R.string.e9
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu
@@ -259,7 +267,6 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_debug -> com.ztc1997.fingerprint2sleep.R.string.ax
     com.ztc1997.fingerprint2sleep.R.string.title_pref_notify_on_error -> com.ztc1997.fingerprint2sleep.R.string.b3
     com.ztc1997.fingerprint2sleep.R.string.notification_content_text_error -> com.ztc1997.fingerprint2sleep.R.string.ao
-    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_power_button -> com.ztc1997.fingerprint2sleep.R.string.b
     com.ztc1997.fingerprint2sleep.R.string.icon_picker_choose_icon_title -> com.ztc1997.fingerprint2sleep.R.string.bb
     com.ztc1997.fingerprint2sleep.R.string.shortcuts_icon_picker_alarm -> com.ztc1997.fingerprint2sleep.R.string.bc
     com.ztc1997.fingerprint2sleep.R.string.shortcuts_icon_picker_andy -> com.ztc1997.fingerprint2sleep.R.string.bd
@@ -324,6 +331,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_lock_screen_with_power_button_as_root -> com.ztc1997.fingerprint2sleep.R.string.ar
     com.ztc1997.fingerprint2sleep.R.string.title_pref_category_quick_action -> com.ztc1997.fingerprint2sleep.R.string.ay
     com.ztc1997.fingerprint2sleep.R.string.title_pref_lock_screen_with_power_button_as_root -> com.ztc1997.fingerprint2sleep.R.string.b2
+    com.ztc1997.fingerprint2sleep.R.string.entries_pref_screen_off_method_power_button -> com.ztc1997.fingerprint2sleep.R.string.b
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_non_xposed -> com.ztc1997.fingerprint2sleep.R.string.au
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_fingerprint_quick_action_xposed -> com.ztc1997.fingerprint2sleep.R.string.c3
     com.ztc1997.fingerprint2sleep.R.array.entries_pref_double_tap_interval -> com.ztc1997.fingerprint2sleep.R.array.g
