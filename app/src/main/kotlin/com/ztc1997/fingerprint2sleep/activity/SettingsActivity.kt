@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.preference.*
 import android.view.View
-import android.view.ViewGroup
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference
 import com.ceco.marshmallow.gravitybox.preference.AppPickerPreference.ShortcutHandler
 import com.google.android.gms.ads.AdListener
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import java.text.Collator
 import java.util.*
-
 
 class SettingsActivity : Activity() {
     companion object {
@@ -205,10 +203,10 @@ class SettingsActivity : Activity() {
     fun showAdBlockerDetected() {
         Logger.d("Ad blocker detected")
         tvAdZone.visibility = View.VISIBLE
-        tvAdZone.textSize = 25f
-        val tvlps = tvAdZone.layoutParams
-        tvlps.height = ViewGroup.LayoutParams.MATCH_PARENT
-        tvAdZone.layoutParams = tvlps
+        // tvAdZone.textSize = 25f
+        // val tvlps = tvAdZone.layoutParams
+        // tvlps.height = ViewGroup.LayoutParams.MATCH_PARENT
+        // tvAdZone.layoutParams = tvlps
     }
 
     class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
