@@ -10,6 +10,10 @@
     <string name="notification_content_text">Fingerprint Quick Action beží</string>
     <string name="notification_content_text_error">Overenie odtlačku prsta zlyhalo</string>
     <string name="toast_failed_to_collapse_panel">Nepodarilo sa rozbaliť panel</string>
+  
+    <!-- Screenshot -->
+    <string name="screenshot_notification_content">Snímka obrazovky bola uložená</string>
+    <string name="screenshot_notification_action_delete">Odstrániť</string>
 
     <!-- SettingsActivity -->    
     <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nemusí podporovať autorizáciu pomocou odtlačku prsta. Niektoré zariadenia majú senzor, ale neposkytujú štandardné API Androidu, tieto zariadenia nemusia byť schopné používať túto aplikáciu.</string>
@@ -91,6 +95,7 @@
     <string name="entries_pref_quick_action_expand_notifications_panel">Rozbaliť panel s upozorneniami</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">Prepnúť panel s upozorneniami</string>
     <string name="entries_pref_quick_action_expand_quick_settings">Rozbaliť panel s rýchlymi nastaveniami</string>
+    <string name="entries_pref_quick_action_take_screenshot">Vytvoriť snímku obrazovky</string>
     <string name="entries_pref_quick_action_launch_app">Spustiť aplikáciu alebo odkaz</string>
 
     <string name="title_pref_category_about">O aplikácii</string>
