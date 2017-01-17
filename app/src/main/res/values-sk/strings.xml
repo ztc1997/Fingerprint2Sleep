@@ -110,11 +110,11 @@
 
     <string name="title_matters_need_attention">Záležitosti vyžadujúce pozornosť</string>
     <string name="content_matters_need_attention">
-1. Ak iná aplikácia senzor, po nejakom čase, aplikácia prestane pracovať aby sa zabránilo konfliktom.\n\n
-2. Ak váš systém má funkciu čistenia pamäte alebo manažér aplikácii pri štarte, preosím, pridajte túto aplikáciu do výnimiek, inak aplikácia nemusí fungovať správne.\n\n
+1. Ak iná aplikácia používa senzor, po nejakom čase, aplikácia prestane pracovať aby sa zabránilo konfliktom.\n\n
+2. Ak váš systém má funkciu čistenia pamäte alebo manažér aplikácii pri štarte, prosím, pridajte túto aplikáciu do výnimiek, inak aplikácia nemusí fungovať správne.\n\n
 3. Vibrácia pri použití senzora je vytváraná systémom. Použitie neregistrovaného odtlačku opakovane, vedie k dočasnej nedostupnosti senzora, toto je systémové opatrenie, aplikácia to nemôže ovládať.\n\n
 4. Niektoré zariadenia majú senzor, ale výrobcovia neposkytujú štandardné API Androidu, takže aplikácia nemusí fungovať správne.\n\n
-5. Preklad poskytovaný dobrovoľníkmi môže byť chybný. Prosím, berte na vedomie.
+5. Preklad poskytovaný dobrovoľníkmi môže byť chybný. Prosím, berte to na vedomie.
         </string>
     <string name="btn_matters_need_attention">OK. Rozumiem.</string>
   
