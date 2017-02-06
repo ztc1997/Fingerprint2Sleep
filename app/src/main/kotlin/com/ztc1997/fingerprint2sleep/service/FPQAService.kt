@@ -4,10 +4,8 @@ import android.app.Activity
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.app.job.JobInfo
+import android.content.*
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.graphics.Point
@@ -31,6 +29,7 @@ import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
 import com.ztc1997.fingerprint2sleep.aidl.IFPQAService
 import com.ztc1997.fingerprint2sleep.app
 import com.ztc1997.fingerprint2sleep.defaultDPreference
+import com.ztc1997.fingerprint2sleep.extension.jobScheduler
 import com.ztc1997.fingerprint2sleep.extension.saveImage
 import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
@@ -192,7 +191,7 @@ class FPQAService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        stopFPQA()
+        stopFPQA(false)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -270,9 +269,16 @@ class FPQAService : Service() {
 
             Bus.observe<RestartScanningEvent>().subscribe { restartScanning() }
         }
+
+        val info = JobInfo.Builder(DaemonJobService.ID,
+                ComponentName(BuildConfig.APPLICATION_ID, DaemonJobService::class.java.name))
+                .setPersisted(true)
+                .setPeriodic(10 * 1000)
+                .build()
+        jobScheduler.schedule(info)
     }
 
-    fun stopFPQA() {
+    fun stopFPQA(prefChanged: Boolean = true) {
         if (isRunning) {
             isRunning = false
 
@@ -285,6 +291,8 @@ class FPQAService : Service() {
             stopForeground(true)
             stopSelf()
         }
+        if (prefChanged)
+            jobScheduler.cancel(DaemonJobService.ID)
     }
 
     fun onActivityChanged() {
@@ -371,7 +379,7 @@ class FPQAService : Service() {
                 raw.recycle()
             }
 
-            val formatter = SimpleDateFormat("yyyyMMdd-HHmmss")
+            val formatter = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
             val curDate = Date(System.currentTimeMillis())
             val timeStr = formatter.format(curDate)
             val path = File(DIR_SCREENSHOTS, "Screenshot_$timeStr.jpg")

@@ -1,5 +1,7 @@
 package com.ztc1997.fingerprint2sleep.extension
 
+import android.app.Activity
+import android.app.job.JobScheduler
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -21,3 +23,6 @@ fun Context.setScreenTimeOut(value: Int): Boolean {
 fun Context.getScreenTimeOut(): Int {
     return Settings.System.getInt(contentResolver, "screen_off_timeout")
 }
+
+val Context.jobScheduler: JobScheduler
+    get() = getSystemService(Activity.JOB_SCHEDULER_SERVICE) as JobScheduler

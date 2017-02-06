@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.StartFPQAActivity
+import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.defaultSharedPreferences
 
-class BootReceiver : BroadcastReceiver() {
+class StartFPQAReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        if (context.defaultSharedPreferences.getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
+        if (!FPQAService.isRunning && context.defaultSharedPreferences
+                .getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             StartFPQAActivity.startActivity(context)
     }
 }

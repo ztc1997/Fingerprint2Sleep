@@ -85,7 +85,7 @@ dependencies {
 
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
-    compile 'com.ztc1997.anycall:library:0.1.0'
+    compile 'com.ztc1997.anycall:library:0.1.2'
 }
 
 andResGuard {

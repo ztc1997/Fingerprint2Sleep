@@ -84,10 +84,12 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receiver.BootReceiver">
+        <receiver
+            android:name=".receiver.StartFPQAReceiver"
+            android:process=":bg">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
 
@@ -106,15 +108,15 @@
         </service>
 
         <service
-            android:name=".service.ScreenshotService"
-            android:enabled="true"
-            android:exported="false" />
+            android:name=".service.DaemonJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":bg" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
