@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fingerprint Ação Rápida</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Ação Rápida: Error\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Ação Rápida está executando</string>
+    <string name="notification_content_text_error">Error na autenticação por digital, tentaremos novamente na próxima vez que você ligar a tela.</string>
+    <string name="toast_failed_to_expend_notifications_panel">Falha ao expandir o painel de notificações</string>
+
+    <!-- SettingsActivity -->
+    <string name="explanation_device_admin">Fingerprint Ação Rápida precisa de permissões de administrador do dispositivo para funcionar</string>
+    <string name="msg_dialog_device_does_not_support_fingerprint">Dispositivo não suporta autenticação por digital</string>
+    <string name="toast_device_admin_failed">Falha ao ativar as permissões de administrador do dispositivo</string>
+    <string name="toast_root_access_failed">Não foi possível usar o acesso root</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Habilitar Fingerprint Ação Rápida</string>
+
+    <string name="title_pref_quick_action">Ação Rápida</string>
+    <string name="entries_pref_quick_action_expend_notifications_panel">Expandir Painel de Notificações</string>
+    <string name="entries_pref_quick_action_home">Home</string>
+    <string name="entries_pref_quick_action_sleep">Dormir</string>
+
+    <string name="title_pref_notify_on_error">Notificar em caso de erro</string>
+    <string name="summary_pref_notify_on_error">Exibe notificação de erro quando um problema ocorrer</string>
+
+    <string name="title_pref_foreground_service">Serviço em primeiro plano</string>
+    <string name="summary_pref_foreground_service">Usar serviço em primeiro plano para prevenir o aplicativo de ser fechado pelo sistema (será exibida uma notificação)</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Somente digitais cadastradas</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Se habilitada, a autenticação de digitais será cancelada após 4 tentativas falhas.</string>
+
+    <string name="title_pref_lock_screen_with_power_button_as_root">Solução alternativa para desligar a tela</string>
+    <string name="summary_pref_lock_screen_with_power_button_as_root">Requer acesso root. Desliga a tela simulando um click no botão de Power.</string>
+
+    <string name="title_pref_category_other">Outros</string>
+
+    <string name="title_pref_donate">Doar</string>
+    <string name="summary_pref_donate">Se você gostou do aplicativo, pode me pagar-me um café.</string>
+
+    <string name="title_pref_disable_ads">Desativar anúncios</string>
+    <string name="summary_pref_disable_ads">Assitir e pressionar os anúncios motiva os desenvolvedores a melhorar o aplicativo, mas se você estiver incomodado, você pode desativá-los.</string>
+
+    <!-- AdMob -->
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2250118750843932/8752209602</string>
+</resources>
