@@ -23,15 +23,15 @@ abstract class GestureAuthenticationCallback(val quickActions: IQuickActions) : 
         handleEvent(pendingEvent)
     }
 
-    open val doubleTapEnabled: Boolean get() = quickActions.dPreference?.run {
+    open val doubleTapEnabled: Boolean get() = quickActions.preference?.run {
         getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
     } ?: false
 
-    open val responseEnrolledFingerprintOnly: Boolean get() = quickActions.dPreference?.run {
+    open val responseEnrolledFingerprintOnly: Boolean get() = quickActions.preference?.run {
         getPrefBoolean(SettingsActivity.PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, false)
     } ?: false
 
-    open val doubleTapInterval: Long get() = quickActions.dPreference?.run {
+    open val doubleTapInterval: Long get() = quickActions.preference?.run {
         getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
     } ?: 500
 

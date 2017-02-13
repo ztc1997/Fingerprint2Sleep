@@ -1,6 +1,7 @@
 package com.ztc1997.fingerprint2sleep.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
@@ -27,7 +28,6 @@ import com.ztc1997.fingerprint2sleep.service.FPQAService
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.util.XposedUtils
 import com.ztc1997.fingerprint2sleep.util.isAdmobHostBanned
-import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import de.psdev.licensesdialog.LicensesDialog
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
@@ -36,15 +36,18 @@ import java.util.*
 
 class SettingsActivity : Activity() {
     companion object {
+        val ACTION_PREF_CHANGED = SettingsActivity::class.java.name + ".ACTION_PREF_CHANGED"
+
         private const val REQ_OBTAIN_SHORTCUT = 0
 
         const val PREF_ENABLE_FINGERPRINT_QUICK_ACTION = "pref_enable_fingerprint_quick_action"
+        const val PREF_BLACK_LIST = "pref_fpqa_black_list"
         const val PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY = "pref_response_enrolled_fingerprint_only"
         const val PREF_FORCE_NON_XPOSED_MODE = "pref_force_non_xposed_mode"
         const val PREF_NOTIFY_ON_ERROR = "pref_notify_on_error"
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_AUTO_RETRY = "pref_auto_retry"
-        const val PREF_BLACK_LIST = "pref_black_list"
+        const val PREF_AUTO_RETRY_BLACK_LIST = "pref_black_list"
         // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_CATEGORY_SINGLE_TAP = "pref_category_single_tap"
@@ -94,7 +97,7 @@ class SettingsActivity : Activity() {
                 PREF_ACTION_FAST_SWIPE_APP, PREF_ACTION_DOUBLE_TAP, PREF_ACTION_DOUBLE_TAP_APP,
                 PREF_DOUBLE_TAP_INTERVAL)
 
-        val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST)
+        val PREF_KEYS_STRING_SET = setOf(PREF_AUTO_RETRY_BLACK_LIST)
 
         val DELAY_RESTART_ACTIONS = setOf(VALUES_PREF_QUICK_ACTION_BACK,
                 VALUES_PREF_QUICK_ACTION_HOME, VALUES_PREF_QUICK_ACTION_POWER_DIALOG,
@@ -105,6 +108,12 @@ class SettingsActivity : Activity() {
 
         val XPOSED_MODULE_BLACKLIST = listOf("tw.fatminmin.xposed.minminguard",
                 "com.aviraxp.adblocker.continued", "pl.cinek.adblocker")
+
+        init {
+            XposedUtils.disableXposedModules { name ->
+                XPOSED_MODULE_BLACKLIST.any { name.startsWith(it) }
+            }
+        }
     }
 
     private var bgService: IFPQAService? = null
@@ -119,12 +128,6 @@ class SettingsActivity : Activity() {
 
             if (!iService.isRunning && defaultSharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
                 StartFPQAActivity.startActivity(ctx)
-        }
-    }
-
-    init {
-        XposedUtils.disableXposedModules { name ->
-            XPOSED_MODULE_BLACKLIST.any { name.startsWith(it) }
         }
     }
 
@@ -226,6 +229,7 @@ class SettingsActivity : Activity() {
 
         // val donate: Preference by lazy { findPreference(PREF_DONATE) }
         val FPQASwitch by lazy { findPreference(PREF_ENABLE_FINGERPRINT_QUICK_ACTION) as CheckBoxPreference }
+        val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
         val forceNonXposed by lazy { findPreference(PREF_FORCE_NON_XPOSED_MODE) as CheckBoxPreference }
         val nonXposedScreen by lazy { findPreference(PREF_SCREEN_NON_XPOSED_MODE) as PreferenceScreen }
 
@@ -243,7 +247,7 @@ class SettingsActivity : Activity() {
         val actionDoubleTapApp by lazy { findPreference(PREF_ACTION_DOUBLE_TAP_APP) as AppPickerPreference }
 
         val screenOffMethod by lazy { findPreference(PREF_SCREEN_OFF_METHOD) as ListPreference }
-        val blacklist by lazy { findPreference(PREF_BLACK_LIST) as MultiSelectListPreference }
+        val autoRetryBlacklist by lazy { findPreference(PREF_AUTO_RETRY_BLACK_LIST) as MultiSelectListPreference }
 
         val contact: Preference by lazy { findPreference(PREF_CONTACT_DEVELOPER) }
         val attention: Preference by lazy { findPreference(PREF_MATTERS_NEED_ATTENTION) }
@@ -255,9 +259,12 @@ class SettingsActivity : Activity() {
 
         private val loadAppsTask by lazy { LoadAppsTask() }
 
+        @SuppressLint("WorldReadableFiles")
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            addPreferencesFromResource(com.ztc1997.fingerprint2sleep.R.xml.pref_settings)
+
+            preferenceManager.sharedPreferencesMode = Context.MODE_WORLD_READABLE
+            addPreferencesFromResource(R.xml.pref_settings)
 
             AppPickerPreference.settingsFragment = this
 
@@ -337,16 +344,30 @@ class SettingsActivity : Activity() {
         }
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+            val intent = Intent(ACTION_PREF_CHANGED)
+            intent.putExtra("key", key)
+
             when (key) {
-                in PREF_KEYS_BOOLEAN ->
-                    defaultDPreference.setPrefBoolean(key, sharedPreferences.getBoolean(key, false))
+                in PREF_KEYS_BOOLEAN -> {
+                    val value = sharedPreferences.getBoolean(key, false)
+                    defaultDPreference.setPrefBoolean(key, value)
+                    intent.putExtra("value", value)
+                }
 
-                in PREF_KEYS_STRING ->
-                    defaultDPreference.setPrefString(key, sharedPreferences.getString(key, ""))
+                in PREF_KEYS_STRING -> {
+                    val value = sharedPreferences.getString(key, "")
+                    defaultDPreference.setPrefString(key, value)
+                    intent.putExtra("value", value)
+                }
 
-                in PREF_KEYS_STRING_SET ->
-                    defaultDPreference.setPrefStringSet(key, sharedPreferences.getStringSet(key, emptySet()))
+                in PREF_KEYS_STRING_SET -> {
+                    val value = sharedPreferences.getStringSet(key, emptySet())
+                    defaultDPreference.setPrefStringSet(key, value)
+                    intent.putExtra("value", value.toTypedArray())
+                }
             }
+
+            activity.sendBroadcast(intent)
 
             try {
                 activity.bgService?.onPrefChanged(key)
@@ -358,7 +379,6 @@ class SettingsActivity : Activity() {
                 PREF_ENABLE_FINGERPRINT_QUICK_ACTION -> {
                     if (XposedProbe.isModuleActivated() and
                             !sharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false))
-                        activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
                     else if (sharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
                         StartFPQAActivity.startActivity(ctx)
                 }
@@ -386,19 +406,11 @@ class SettingsActivity : Activity() {
                     updateActionDoubleTapAppVisibility(doubleTapAction)
                 }
 
-                PREF_ENABLE_DOUBLE_TAP ->
-                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_DOUBLE_TAP_PARAMS_CHANGED))
-
-                PREF_DOUBLE_TAP_INTERVAL ->
-                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_DOUBLE_TAP_PARAMS_CHANGED))
-
                 PREF_FORCE_NON_XPOSED_MODE -> {
                     val forceNonXposed = sharedPreferences.getBoolean(PREF_FORCE_NON_XPOSED_MODE, false)
 
                     nonXposedScreen.isEnabled = !XposedProbe.isModuleActivated() or
                             forceNonXposed
-
-                    activity.sendBroadcast(Intent(FingerprintServiceHooks.ACTION_ENABLED_STATE_CHANGED))
 
                     if (sharedPreferences.getBoolean(PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
                             forceNonXposed)
@@ -494,6 +506,7 @@ class SettingsActivity : Activity() {
 
         private inner class LoadAppsTask : AsyncTask<Unit, Unit, Pair<Array<CharSequence>, Array<CharSequence>>?>() {
             override fun onPreExecute() {
+                autoRetryBlacklist.isEnabled = false
                 blacklist.isEnabled = false
             }
 
@@ -533,6 +546,10 @@ class SettingsActivity : Activity() {
 
             override fun onPostExecute(result: Pair<Array<CharSequence>, Array<CharSequence>>?) {
                 if (result == null) return
+
+                autoRetryBlacklist.entries = result.first
+                autoRetryBlacklist.entryValues = result.second
+                autoRetryBlacklist.isEnabled = true
 
                 blacklist.entries = result.first
                 blacklist.entryValues = result.second

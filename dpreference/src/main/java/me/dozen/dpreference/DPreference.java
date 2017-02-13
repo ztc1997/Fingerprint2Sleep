@@ -3,12 +3,14 @@ package me.dozen.dpreference;
 
 import android.content.Context;
 
+import com.ztc1997.fingerprint2sleep.base.IPreference;
+
 import java.util.Set;
 
 /**
  * Created by wangyida on 15-4-9.
  */
-public class DPreference {
+public class DPreference implements IPreference {
 
     private Context mContext;
 

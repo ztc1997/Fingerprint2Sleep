@@ -14,25 +14,17 @@ import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.XposedQuickActions
 import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedBridge
-import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
 import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
+import com.ztc1997.fingerprint2sleep.xposed.impl.PreferenceImpl
+import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
-import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.fingerprintManager
 import java.util.concurrent.TimeUnit
 
 object FingerprintServiceHooks : IHooks {
     val ACTION_START_SCANNING = FingerprintServiceHooks::class.java.name + ".ACTION_START_SCANNING"
-    val ACTION_ENABLED_STATE_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_ENABLED_STATE_CHANGED"
-    val ACTION_DOUBLE_TAP_PARAMS_CHANGED = FingerprintServiceHooks::class.java.name + ".ACTION_DOUBLE_TAP_PARAMS_CHANGED"
 
     class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
-        override var doubleTapInterval =
-                dPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
-
-        override var doubleTapEnabled =
-                dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
-
         override fun restartScanning(action: String?) {
         }
     }
@@ -41,10 +33,11 @@ object FingerprintServiceHooks : IHooks {
     private var cancellationSignal: CancellationSignal? = null
     private lateinit var context: Context
     private lateinit var quickActions: IQuickActions
-    private lateinit var dPreference: DPreference
+    private lateinit var preference: PreferenceImpl
     private val callback by lazy { Callback(quickActions) }
 
     private var forceAccessOnce = false
+    private var currPackageName = ""
 
     override fun doHook(loader: ClassLoader) {
         CLASS_FINGERPRINT_SERVICE = XposedHelpers.findClass(
@@ -56,9 +49,12 @@ object FingerprintServiceHooks : IHooks {
 
                 context = XposedHelpers.getObjectField(fingerprintService, "mContext") as Context
 
-                dPreference = DPreference(context, BuildConfig.APPLICATION_ID + "_preferences")
+                preference = PreferenceImpl(XSharedPreferences(BuildConfig.APPLICATION_ID).apply {
+                    makeWorldReadable()
+                    reload()
+                })
 
-                quickActions = XposedQuickActions(context, dPreference, loader)
+                quickActions = XposedQuickActions(context, preference, loader)
 
                 Bus.observe<StartScanningEvent>()
                         .throttleLast(100, TimeUnit.MILLISECONDS)
@@ -66,26 +62,36 @@ object FingerprintServiceHooks : IHooks {
 
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
-                        if (intent?.action in
-                                arrayOf(ACTION_START_SCANNING, ACTION_ENABLED_STATE_CHANGED, Intent.ACTION_USER_PRESENT)) {
-                            if (dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
-                                    !dPreference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
+                        if (intent == null) return
+                        val checkAndStartScanning = {
+                            if (preference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
+                                    !preference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
                                 Bus.send(StartScanningEvent)
                             else if (!(cancellationSignal?.isCanceled ?: true))
                                 cancellationSignal?.cancel()
-                        } else if (intent?.action == ACTION_DOUBLE_TAP_PARAMS_CHANGED) {
-                            callback.doubleTapEnabled =
-                                    dPreference.getPrefBoolean(SettingsActivity.PREF_ENABLE_DOUBLE_TAP, false)
-                            callback.doubleTapInterval =
-                                    dPreference.getPrefString(SettingsActivity.PREF_DOUBLE_TAP_INTERVAL, "500").toLong()
+                        }
+
+                        if (intent.action in
+                                arrayOf(ACTION_START_SCANNING, Intent.ACTION_USER_PRESENT)) {
+                            checkAndStartScanning()
+                        } else if (intent.action == SettingsActivity.ACTION_PREF_CHANGED) {
+
+                            val key = intent.getStringExtra("key")
+                            if (key != null) {
+                                preference.update(intent)
+
+                                if (key == SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION)
+                                    checkAndStartScanning()
+
+                            }
+
                         }
                     }
                 }
 
                 val intentFilter = IntentFilter()
-                intentFilter.addAction(ACTION_ENABLED_STATE_CHANGED)
+                intentFilter.addAction(SettingsActivity.ACTION_PREF_CHANGED)
                 intentFilter.addAction(ACTION_START_SCANNING)
-                intentFilter.addAction(ACTION_DOUBLE_TAP_PARAMS_CHANGED)
                 intentFilter.addAction(Intent.ACTION_USER_PRESENT)
 
                 context.registerReceiver(receiver, intentFilter)
@@ -95,18 +101,7 @@ object FingerprintServiceHooks : IHooks {
         }
 
         tryAndPrintStackTrace {
-            KXposedHelpers.findAndHookMethod(CLASS_FINGERPRINT_SERVICE!!, "canUseFingerprint",
-                    String::class.java, Boolean::class.java) {
-                beforeHookedMethod {
-                    if (forceAccessOnce && it.args[0] == "android")
-                        it.result = true
-                }
-            }
-        }
-
-        tryAndPrintStackTrace {
-            KXposedHelpers.findAndHookMethod(CLASS_FINGERPRINT_SERVICE!!, "canUseFingerprint",
-                    String::class.java) {
+            KXposedBridge.hookAllMethods(CLASS_FINGERPRINT_SERVICE!!, "canUseFingerprint") {
                 beforeHookedMethod {
                     if (forceAccessOnce && it.args[0] == "android")
                         it.result = true
@@ -141,5 +136,17 @@ object FingerprintServiceHooks : IHooks {
 
         return arrayOf("mAuthClient", "mEnrollClient", "mRemoveClient", "mCurrentClient", "mPendingClient")
                 .any { hasFieldAndNonNull(fingerprintService, it) }
+    }
+
+    fun onActivityChanged(packageName: String) {
+        currPackageName = packageName
+        val blacklist = preference.getPrefStringSet(SettingsActivity.PREF_BLACK_LIST, null) ?: return
+        if (packageName in blacklist) {
+            if (!(cancellationSignal?.isCanceled ?: true))
+                cancellationSignal?.cancel()
+        } else if (cancellationSignal?.isCanceled ?: true) {
+            Bus.send(StartScanningEvent)
+        }
+
     }
 }

@@ -4,6 +4,12 @@
         android:key="pref_enable_fingerprint_quick_action"
         android:title="@string/title_pref_enable_fingerprint_quick_action" />
 
+    <MultiSelectListPreference
+        android:dependency="pref_enable_fingerprint_quick_action"
+        android:key="pref_fpqa_black_list"
+        android:summary="@string/summary_pref_black_list"
+        android:title="@string/title_pref_black_list" />
+
     <CheckBoxPreference
         android:dependency="pref_enable_fingerprint_quick_action"
         android:enabled="false"
@@ -38,8 +44,8 @@
             <MultiSelectListPreference
                 android:dependency="pref_auto_retry"
                 android:key="pref_black_list"
-                android:summary="@string/summary_pref_black_list"
-                android:title="@string/title_pref_black_list" />
+                android:summary="@string/summary_pref_auto_retry_black_list"
+                android:title="@string/title_pref_auto_retry_black_list" />
 
         </PreferenceCategory>
 

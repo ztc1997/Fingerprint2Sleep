@@ -5,6 +5,7 @@ import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
 import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
+import com.ztc1997.fingerprint2sleep.xposed.hook.ApplicationThreadProxyHooks
 import com.ztc1997.fingerprint2sleep.xposed.hook.AuthenticationCallbackHooks
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import com.ztc1997.fingerprint2sleep.xposed.hook.SystemUIHooks
@@ -38,6 +39,10 @@ class FPQAModule : IXposedHookLoadPackage {
                         "android.view.WindowManagerPolicy.WindowManagerFuncs") {
                     afterHookedMethod { phoneWindowManager = it.thisObject }
                 }
+            }
+
+            tryAndPrintStackTrace {
+                ApplicationThreadProxyHooks.doHook(lpp.classLoader)
             }
 
         } else if (lpp.packageName == "com.android.systemui" && lpp.processName == "com.android.systemui") {

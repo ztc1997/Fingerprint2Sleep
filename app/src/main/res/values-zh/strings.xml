@@ -36,6 +36,9 @@
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">启用指纹快捷操作</string>
 
+    <string name="title_pref_black_list">黑名单</string>
+    <string name="summary_pref_black_list">被加入黑名单的应用在前台运行时，指纹快捷操作将暂时停用。</string>
+
     <string name="title_pref_response_enrolled_fingerprint_only">仅响应已注册的指纹</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">如果启用，4次失败的尝试后指纹认证将被取消</string>
 
@@ -58,8 +61,8 @@
     <string name="title_pref_auto_retry">自动重试</string>
     <string name="summary_pref_auto_retry">在适当的时候自动重试。关闭后，仍会在屏幕解锁时重试，您还可以通过点击通知重试。</string>
 
-    <string name="title_pref_black_list">黑名单</string>
-    <string name="summary_pref_black_list">被加入黑名单的应用在前台运行时，将不会自动重试，可防止冲突。</string>
+    <string name="title_pref_auto_retry_black_list">自动重试黑名单</string>
+    <string name="summary_pref_auto_retry_black_list">被加入黑名单的应用在前台运行时，将不会自动重试，可防止冲突。</string>
 
     <string name="title_pref_category_single_tap">单击</string>
 

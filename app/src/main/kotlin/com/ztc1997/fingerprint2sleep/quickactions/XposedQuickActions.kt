@@ -6,17 +6,17 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
 import android.view.KeyEvent
+import com.ztc1997.fingerprint2sleep.base.IPreference
 import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
 import com.ztc1997.fingerprint2sleep.xposed.hook.SystemUIHooks
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
-import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.inputManager
 import org.jetbrains.anko.powerManager
 
 
-class XposedQuickActions(override val ctx: Context, override val dPreference: DPreference?, val loader: ClassLoader) : IQuickActions {
+class XposedQuickActions(override val ctx: Context, override val preference: IPreference?, val loader: ClassLoader) : IQuickActions {
     val statusBar: Any? by lazy { ctx.getSystemService("statusbar") }
     val LOCAL_SERVICES_CLASS: Class<*> by lazy { XposedHelpers.findClass("com.android.server.LocalServices", loader) }
     val windowManagerService: Any? by lazy {

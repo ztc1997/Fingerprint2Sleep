@@ -60,7 +60,7 @@
     <string name="summary_pref_auto_retry">Automatisch zur passenden Zeit erneut probieren. When it is turned off, it will still retry when the screen is unlocked, you can also retry by clicking the notification.</string>
 
     <string name="title_pref_black_list">Schwarze Liste</string>
-    <string name="summary_pref_black_list">Nicht automatisch neu probieren, wenn Apps aus der schwarzen Liste im Vordergrund laufen um Konflikte zu vermeiden.</string>
+    <string name="summary_pref_auto_retry_black_list">Nicht automatisch neu probieren, wenn Apps aus der schwarzen Liste im Vordergrund laufen um Konflikte zu vermeiden.</string>
 
     <string name="title_pref_category_single_tap">Einzelberührung</string>
 

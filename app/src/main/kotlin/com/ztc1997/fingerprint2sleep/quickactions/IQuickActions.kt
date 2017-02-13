@@ -4,16 +4,15 @@ import android.content.Context
 import android.content.Intent
 import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
+import com.ztc1997.fingerprint2sleep.base.IPreference
 import com.ztc1997.fingerprint2sleep.extra.GestureAuthenticationCallback.EventType
-
-import me.dozen.dpreference.DPreference
 
 @Suppress("NON_EXHAUSTIVE_WHEN")
 interface IQuickActions {
 
     val ctx: Context
 
-    val dPreference: DPreference?
+    val preference: IPreference?
 
     fun collapsePanels()
 
@@ -38,7 +37,7 @@ interface IQuickActions {
     fun goToSleep()
 
     fun performQuickAction(type: EventType): String {
-        dPreference?.let {
+        preference?.let {
             val key = when (type) {
                 EventType.SingleTap -> SettingsActivity.PREF_ACTION_SINGLE_TAP
                 EventType.FastSwipe -> SettingsActivity.PREF_ACTION_FAST_SWIPE
@@ -93,7 +92,7 @@ interface IQuickActions {
     }
 
     private fun launchAppOrShortcut(type: EventType) {
-        dPreference?.let {
+        preference?.let {
             when (type) {
                 EventType.SingleTap -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_SINGLE_TAP_APP, ""))
                 EventType.FastSwipe -> launchIntentUri(it.getPrefString(SettingsActivity.PREF_ACTION_FAST_SWIPE_APP, ""))

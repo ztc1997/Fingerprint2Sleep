@@ -56,7 +56,7 @@
     <string name="summary_pref_auto_retry">Uygun zamanda otomatik olarak tekrar dene. Kapalıyken, ekran kilidi açıldığında hala denemeye devam edecektir, bildirime tıklayarak da deneyebilirsiniz.</string>
     
         <string name="title_pref_black_list">Kara liste</string>
-    <string name="summary_pref_black_list">Kara listeye alınmış ön planda çalışan uygulamalar, çakışmaları önlemek için otomatik olarak tekrar denenmez.</string>
+    <string name="summary_pref_auto_retry_black_list">Kara listeye alınmış ön planda çalışan uygulamalar, çakışmaları önlemek için otomatik olarak tekrar denenmez.</string>
     
     <string name="title_pref_category_single_tap">Tek dokunma</string>
 

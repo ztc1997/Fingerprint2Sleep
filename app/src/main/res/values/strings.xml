@@ -37,6 +37,9 @@
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Enable Fingerprint Quick Action</string>
 
+    <string name="title_pref_black_list">Blacklist</string>
+    <string name="summary_pref_black_list">When blacklisted apps running in foreground Fingerprint Quick Action will temporarily disable.</string>
+
     <string name="title_pref_response_enrolled_fingerprint_only">Respond to enrolled fingerprints only</string>
     <string name="summary_pref_response_enrolled_fingerprint_only">If enabled, fingerprint authentication will cancel after 4 failed attempts</string>
 
@@ -59,8 +62,8 @@
     <string name="title_pref_auto_retry">Auto retry</string>
     <string name="summary_pref_auto_retry">Automatically retry at the appropriate time. When it is turned off, it will still retry when the screen is unlocked, you can also retry by clicking the notification.</string>
 
-    <string name="title_pref_black_list">Blacklist</string>
-    <string name="summary_pref_black_list">When blacklisted apps running in foreground will not automatically retry to prevent conflicts.</string>
+    <string name="title_pref_auto_retry_black_list">Auto retry blacklist</string>
+    <string name="summary_pref_auto_retry_black_list">When blacklisted apps running in foreground will not automatically retry to prevent conflicts.</string>
 
     <string name="title_pref_category_single_tap">Single tap</string>
 

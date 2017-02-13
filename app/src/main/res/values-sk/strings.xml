@@ -60,7 +60,7 @@
     <string name="summary_pref_auto_retry">Automaticky opakovať vo vhodnom čase. Ak je zakázané, bude stále opakovať, keď je obrazovka odomknutá, môžete tiež opakovať kliknutím na upozornenie.</string>
 
     <string name="title_pref_black_list">Čierna listina</string>
-    <string name="summary_pref_black_list">Ak je aplikácia z čiernej listiny spustená, nebude sa pokúšať o automatické opakovanie pre zabránenie konfliktom.</string>
+    <string name="summary_pref_auto_retry_black_list">Ak je aplikácia z čiernej listiny spustená, nebude sa pokúšať o automatické opakovanie pre zabránenie konfliktom.</string>
 
     <string name="title_pref_category_single_tap">Priloženie</string>
 

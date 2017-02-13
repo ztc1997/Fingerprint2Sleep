@@ -11,11 +11,11 @@ import com.ztc1997.fingerprint2sleep.activity.RequireAdminActivity
 import com.ztc1997.fingerprint2sleep.activity.ScreenshotActivity
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.activity.ShortenTimeOutActivity
+import com.ztc1997.fingerprint2sleep.base.IPreference
 import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
-import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.devicePolicyManager
 import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
@@ -23,7 +23,7 @@ import org.jetbrains.anko.toast
 class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
     val anycall by lazy { Anycall(ctx) }
 
-    override val dPreference: DPreference
+    override val preference: IPreference
         get() = ctx.defaultDPreference
 
     override fun collapsePanels() {
