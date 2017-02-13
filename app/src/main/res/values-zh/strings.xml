@@ -13,6 +13,7 @@
     <!-- Screenshot -->
     <string name="screenshot_notification_content">截屏已保存</string>
     <string name="screenshot_notification_action_delete">删除</string>
+    <string name="screenshot_notification_action_share">分享</string>
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">此设备可能不支持指纹认证。部分设备虽然有指纹传感器，但未提供 Android 标准 API，这些设备可能无法使用本应用。</string>

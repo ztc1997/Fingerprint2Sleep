@@ -403,24 +403,35 @@ class FPQAService : Service() {
                 PendingIntent.FLAG_UPDATE_CURRENT)
 
         val openIntent = Intent(Intent.ACTION_VIEW)
+        val shareIntent = Intent(Intent.ACTION_SEND)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             openIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            val contentUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID +
+            shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            val uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID +
                     ".fileProvider", path)
-            openIntent.setDataAndType(contentUri, "image/*")
+            openIntent.setDataAndType(uri, "image/*")
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            shareIntent.type = "image/*"
         } else {
-            openIntent.setDataAndType(Uri.fromFile(path), "image/*")
+            val uri = Uri.fromFile(path)
+            openIntent.setDataAndType(uri, "image/*")
             openIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            shareIntent.type = "image/*"
+            shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
         val openPendingIntent = PendingIntent.getActivity(this, NOTIFICATION_INTENT_TAKE_SCREENSHOT_OPEN,
                 openIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val sharePendingIntent = PendingIntent.getActivity(this, NOTIFICATION_INTENT_TAKE_SCREENSHOT_OPEN,
+                shareIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val notif = Notification.Builder(this)
                 .setAutoCancel(true)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentTitle(getString(R.string.screenshot_notification_content))
+                .setContentText(getString(R.string.screenshot_notification_content))
                 .setSmallIcon(R.drawable.ic_photo_white_24dp)
                 .setLargeIcon(pic)
                 .setStyle(Notification.BigPictureStyle()
@@ -430,6 +441,11 @@ class FPQAService : Service() {
                         Icon.createWithResource(this, R.drawable.ic_delete_grey_800_24dp),
                         getString(R.string.screenshot_notification_action_delete),
                         deleteIntent)
+                        .build())
+                .addAction(Notification.Action.Builder(
+                        Icon.createWithResource(this, R.drawable.ic_share_grey_800_24dp),
+                        getString(R.string.screenshot_notification_action_share),
+                        sharePendingIntent)
                         .build())
                 .build()
 

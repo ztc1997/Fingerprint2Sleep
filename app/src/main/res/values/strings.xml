@@ -14,6 +14,7 @@
     <!-- Screenshot -->
     <string name="screenshot_notification_content">Screenshot saved</string>
     <string name="screenshot_notification_action_delete">Delete</string>
+    <string name="screenshot_notification_action_share">Share</string>
 
     <!-- SettingsActivity -->
     <string name="msg_dialog_device_does_not_support_fingerprint">This device may not support fingerprint authorization. Some devices have a fingerprint sensor, but do not provide Android standard API, these devices may not be able to use this application.</string>
