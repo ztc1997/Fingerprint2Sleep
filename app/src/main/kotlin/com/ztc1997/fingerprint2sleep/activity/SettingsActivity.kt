@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.*
@@ -154,8 +155,15 @@ class SettingsActivity : Activity() {
             }
         }
 
+        var hasEnrolledFingerprints = true
+        try {
+            hasEnrolledFingerprints = fingerprintManager.hasEnrolledFingerprints()
+        } catch(e: Exception) {
+            e.printStackTrace()
+        }
+
         if (defaultDPreference.getPrefInt(PREF_DO_NOT_CHECK_FINGERPRINTS_AGAIN, -1) < 18 &&
-                !fingerprintManager.hasEnrolledFingerprints()) {
+                !hasEnrolledFingerprints) {
             alert(R.string.msg_dialog_has_not_enrolled_fingerprints) {
                 negativeButton(R.string.btn_do_not_check_fingerprints_again) {
                     defaultDPreference.setPrefInt(PREF_DO_NOT_CHECK_FINGERPRINTS_AGAIN, BuildConfig.VERSION_CODE)
@@ -263,7 +271,9 @@ class SettingsActivity : Activity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            preferenceManager.sharedPreferencesMode = Context.MODE_WORLD_READABLE
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+                preferenceManager.sharedPreferencesMode = Context.MODE_WORLD_READABLE
+
             addPreferencesFromResource(R.xml.pref_settings)
 
             AppPickerPreference.settingsFragment = this
