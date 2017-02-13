@@ -4,9 +4,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.base.IPreference
+import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import java.util.*
 
 class PreferenceImpl(val prefs: SharedPreferences) : IPreference {
+    init {
+        FPQAModule.log(prefs.all)
+    }
+
     private val strings: MutableMap<String, String?> = HashMap()
     private val booleans: MutableMap<String, Boolean> = HashMap()
     private val stringSets: MutableMap<String, MutableSet<String>?> = HashMap()

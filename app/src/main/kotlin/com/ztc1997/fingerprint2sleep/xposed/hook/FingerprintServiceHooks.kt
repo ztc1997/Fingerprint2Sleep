@@ -22,7 +22,6 @@ import org.jetbrains.anko.fingerprintManager
 import java.util.concurrent.TimeUnit
 
 object FingerprintServiceHooks : IHooks {
-    val ACTION_START_SCANNING = FingerprintServiceHooks::class.java.name + ".ACTION_START_SCANNING"
 
     class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
         override fun restartScanning(action: String?) {
@@ -63,16 +62,8 @@ object FingerprintServiceHooks : IHooks {
                 val receiver = object : BroadcastReceiver() {
                     override fun onReceive(ctx: Context, intent: Intent?) {
                         if (intent == null) return
-                        val checkAndStartScanning = {
-                            if (preference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
-                                    !preference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
-                                Bus.send(StartScanningEvent)
-                            else if (!(cancellationSignal?.isCanceled ?: true))
-                                cancellationSignal?.cancel()
-                        }
 
-                        if (intent.action in
-                                arrayOf(ACTION_START_SCANNING, Intent.ACTION_USER_PRESENT)) {
+                        if (intent.action == Intent.ACTION_USER_PRESENT) {
                             checkAndStartScanning()
                         } else if (intent.action == SettingsActivity.ACTION_PREF_CHANGED) {
 
@@ -91,7 +82,6 @@ object FingerprintServiceHooks : IHooks {
 
                 val intentFilter = IntentFilter()
                 intentFilter.addAction(SettingsActivity.ACTION_PREF_CHANGED)
-                intentFilter.addAction(ACTION_START_SCANNING)
                 intentFilter.addAction(Intent.ACTION_USER_PRESENT)
 
                 context.registerReceiver(receiver, intentFilter)
@@ -109,7 +99,22 @@ object FingerprintServiceHooks : IHooks {
             }
         }
 
+        tryAndPrintStackTrace {
+            KXposedBridge.hookAllMethods("com.android.server.fingerprint.FingerprintService${'$'}ClientMonitor",
+                    loader, "destroy") {
+                afterHookedMethod { checkAndStartScanning() }
+            }
+        }
+
         FPQAModule.log("fingerprintServiceHooks")
+    }
+
+    fun checkAndStartScanning() {
+        if (preference.getPrefBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false) and
+                !preference.getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
+            Bus.send(StartScanningEvent)
+        else if (!(cancellationSignal?.isCanceled ?: true))
+            cancellationSignal?.cancel()
     }
 
     fun startScanning(context: Context, fingerprintService: Any) {

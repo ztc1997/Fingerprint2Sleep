@@ -6,7 +6,6 @@ import com.ztc1997.fingerprint2sleep.util.XposedProbe
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
 import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
 import com.ztc1997.fingerprint2sleep.xposed.hook.ApplicationThreadProxyHooks
-import com.ztc1997.fingerprint2sleep.xposed.hook.AuthenticationCallbackHooks
 import com.ztc1997.fingerprint2sleep.xposed.hook.FingerprintServiceHooks
 import com.ztc1997.fingerprint2sleep.xposed.hook.SystemUIHooks
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -54,7 +53,5 @@ class FPQAModule : IXposedHookLoadPackage {
                         XC_MethodReplacement.returnConstant(BuildConfig.VERSION_CODE))
             }
         }
-
-        tryAndPrintStackTrace { AuthenticationCallbackHooks.doHook(lpp.classLoader) }
     }
 }
