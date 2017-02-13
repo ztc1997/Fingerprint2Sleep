@@ -37,6 +37,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.a_
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_36dp -> com.ztc1997.fingerprint2sleep.R.drawable.a
     com.ztc1997.fingerprint2sleep.R.drawable.ic_photo_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.b4
+    com.ztc1997.fingerprint2sleep.R.drawable.ic_share_grey_800_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.b5
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.bx
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.bz
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.c0
@@ -218,7 +219,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.screenshot_notification_content -> com.ztc1997.fingerprint2sleep.R.string.eb
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_action_fast_swipe -> com.ztc1997.fingerprint2sleep.R.string.e2
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_auto_retry -> com.ztc1997.fingerprint2sleep.R.string.k
-    com.ztc1997.fingerprint2sleep.R.string.summary_pref_black_list -> com.ztc1997.fingerprint2sleep.R.string.a3
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_auto_retry_black_list -> com.ztc1997.fingerprint2sleep.R.string.ee
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_contact_developer -> com.ztc1997.fingerprint2sleep.R.string.e3
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_donate_purchased -> com.ztc1997.fingerprint2sleep.R.string.g
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_enable_double_tap -> com.ztc1997.fingerprint2sleep.R.string.dv
@@ -259,6 +260,9 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.app_picker_shortcut_null_intent -> com.ztc1997.fingerprint2sleep.R.string.s
     com.ztc1997.fingerprint2sleep.R.string.app_picker_shortcuts -> com.ztc1997.fingerprint2sleep.R.string.ac
     com.ztc1997.fingerprint2sleep.R.string.content_matters_need_attention -> com.ztc1997.fingerprint2sleep.R.string.dm
+    com.ztc1997.fingerprint2sleep.R.string.screenshot_notification_action_share -> com.ztc1997.fingerprint2sleep.R.string.ef
+    com.ztc1997.fingerprint2sleep.R.string.summary_pref_black_list -> com.ztc1997.fingerprint2sleep.R.string.a3
+    com.ztc1997.fingerprint2sleep.R.string.title_pref_auto_retry_black_list -> com.ztc1997.fingerprint2sleep.R.string.eg
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
     com.ztc1997.fingerprint2sleep.R.string.btn_go_to_sleep -> com.ztc1997.fingerprint2sleep.R.string.e9
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu

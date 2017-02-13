@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 25
-        versionName "0.11.2"
+        versionCode 26
+        versionName "0.12.0"
     }
 
     signingConfigs {
@@ -85,7 +85,7 @@ dependencies {
 
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
-    compile 'com.ztc1997.anycall:library:0.1.2'
+    compile 'com.ztc1997.anycall:library:0.2.2'
 }
 
 andResGuard {

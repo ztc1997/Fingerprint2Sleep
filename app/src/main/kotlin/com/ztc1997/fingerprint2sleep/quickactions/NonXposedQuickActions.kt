@@ -100,7 +100,7 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
                         SystemClock.uptimeMillis(), Anycall.CallMethodResultListener { resultCode, reply ->
                     if (resultCode != 0) ctx.onUiThread { toast(R.string.toast_root_access_failed) }
                     try {
-                        reply.readException()
+                        reply?.readException()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
