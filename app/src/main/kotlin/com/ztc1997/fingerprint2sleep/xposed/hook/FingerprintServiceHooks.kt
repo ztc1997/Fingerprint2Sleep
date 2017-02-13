@@ -19,6 +19,7 @@ import com.ztc1997.fingerprint2sleep.xposed.impl.PreferenceImpl
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
 import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.powerManager
 import java.util.concurrent.TimeUnit
 
 object FingerprintServiceHooks : IHooks {
@@ -119,6 +120,10 @@ object FingerprintServiceHooks : IHooks {
 
     fun startScanning(context: Context, fingerprintService: Any) {
         FPQAModule.log("startScanning invoke")
+
+        if (!context.powerManager.isInteractive) return
+        val blacklist = preference.getPrefStringSet(SettingsActivity.PREF_BLACK_LIST, null)
+        if (blacklist != null && currPackageName in blacklist) return
 
         if (!hasClientMonitor(fingerprintService)) {
             cancellationSignal = CancellationSignal()
