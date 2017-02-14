@@ -14,6 +14,7 @@
     <!-- Screenshot -->
     <string name="screenshot_notification_content">Snímka obrazovky bola uložená</string>
     <string name="screenshot_notification_action_delete">Odstrániť</string>
+    <string name="screenshot_notification_action_share">Zdieľať</string>
 
     <!-- SettingsActivity -->    
     <string name="msg_dialog_device_does_not_support_fingerprint">Toto zariadenie nemusí podporovať autorizáciu pomocou odtlačku prsta. Niektoré zariadenia majú senzor, ale neposkytujú štandardné API Androidu, tieto zariadenia nemusia byť schopné používať túto aplikáciu.</string>
