@@ -343,7 +343,7 @@ class FPQAService : Service() {
 
     fun checkAndStartRoot() {
         quickActions.anycall.startShell {
-            if (!it) onUiThread { toast(R.string.toast_root_access_failed) }
+            if (!it) runOnUiThread { toast(R.string.toast_root_access_failed) }
         }
     }
 

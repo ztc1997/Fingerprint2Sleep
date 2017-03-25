@@ -23,7 +23,6 @@ import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.RestartScanningDelayedEvent
 import kotlinx.android.synthetic.main.activity_shorten_time_out.view.*
 import org.jetbrains.anko.fingerprintManager
-import org.jetbrains.anko.onUiThread
 import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 
@@ -152,7 +151,7 @@ class ShortenTimeOutActivity : Activity() {
         Bus.observe<RestartScanningEvent>()
                 .throttleLast(100, TimeUnit.MILLISECONDS)
                 .subscribe {
-                    onUiThread { view?.tv?.setText(R.string.tv_unlock_via_fingerprint) }
+                    runOnUiThread { view?.tv?.setText(R.string.tv_unlock_via_fingerprint) }
                     fingerprintManager.authenticate(null, null, 0, authenticationCallback, null)
                 }
     }

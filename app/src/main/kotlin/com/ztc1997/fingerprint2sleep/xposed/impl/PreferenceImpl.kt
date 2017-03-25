@@ -44,6 +44,9 @@ class PreferenceImpl(val prefs: SharedPreferences) : IPreference {
         return prefs.getStringSet(key, defaultValue)
     }
 
+    operator infix fun contains(key: String)
+            = (key in strings) or (key in booleans) or (key in stringSets) or (key in prefs)
+
     fun update(intent: Intent) {
         if (intent.action != SettingsActivity.ACTION_PREF_CHANGED)
             return

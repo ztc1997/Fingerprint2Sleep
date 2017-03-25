@@ -17,7 +17,7 @@ import com.ztc1997.fingerprint2sleep.extra.PerformGlobalActionEvent
 import com.ztc1997.fingerprint2sleep.receiver.AdminReceiver
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import org.jetbrains.anko.devicePolicyManager
-import org.jetbrains.anko.onUiThread
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 
 class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
@@ -98,7 +98,7 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
             if (it)
                 anycall.callMethod("android.os.IPowerManager", Context.POWER_SERVICE, "goToSleep",
                         SystemClock.uptimeMillis(), Anycall.CallMethodResultListener { resultCode, reply ->
-                    if (resultCode != 0) ctx.onUiThread { toast(R.string.toast_root_access_failed) }
+                    if (resultCode != 0) ctx.runOnUiThread { toast(R.string.toast_root_access_failed) }
                     try {
                         reply?.readException()
                     } catch (e: Exception) {
@@ -108,7 +108,7 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
                     true
                 })
             else
-                ctx.onUiThread { toast(R.string.toast_root_access_failed) }
+                ctx.runOnUiThread { toast(R.string.toast_root_access_failed) }
         }
 
     }

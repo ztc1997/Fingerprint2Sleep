@@ -34,7 +34,7 @@ class RequireAccessibilityActivity : Activity() {
                 startActivityForResult(intent, REQUEST_CODE_REQUIRE_ACCESSIBILITY)
             }
 
-            onCancel { finishWithoutAnim() }
+            onCancelled { finishWithoutAnim() }
             show()
         }
     }

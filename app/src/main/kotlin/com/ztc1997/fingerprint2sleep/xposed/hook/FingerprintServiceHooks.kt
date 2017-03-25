@@ -18,6 +18,7 @@ import com.ztc1997.fingerprint2sleep.xposed.extention.tryAndPrintStackTrace
 import com.ztc1997.fingerprint2sleep.xposed.impl.PreferenceImpl
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
+import me.dozen.dpreference.DPreference
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.powerManager
 import java.util.concurrent.TimeUnit
@@ -64,19 +65,36 @@ object FingerprintServiceHooks : IHooks {
                     override fun onReceive(ctx: Context, intent: Intent?) {
                         if (intent == null) return
 
-                        if (intent.action == Intent.ACTION_USER_PRESENT) {
-                            checkAndStartScanning()
-                        } else if (intent.action == SettingsActivity.ACTION_PREF_CHANGED) {
+                        when (intent.action) {
+                            Intent.ACTION_USER_PRESENT -> checkAndStartScanning()
 
-                            val key = intent.getStringExtra("key")
-                            if (key != null) {
-                                preference.update(intent)
+                            SettingsActivity.ACTION_PREF_CHANGED -> {
 
-                                if (key == SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION)
-                                    checkAndStartScanning()
+                                val key = intent.getStringExtra("key")
+                                if (key != null) {
+                                    preference.update(intent)
+
+                                    if (key == SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION)
+                                        checkAndStartScanning()
+                                }
 
                             }
 
+                            Intent.ACTION_BOOT_COMPLETED -> {
+                                val prefs = DPreference(ctx, BuildConfig.APPLICATION_ID + "_preferences")
+                                SettingsActivity.PREF_KEYS_BOOLEAN.forEach {
+                                    if (it in preference) return@forEach
+                                    preference.setPrefBoolean(it, prefs.getPrefBoolean(it, false))
+                                }
+                                SettingsActivity.PREF_KEYS_STRING.forEach {
+                                    if (it in preference) return@forEach
+                                    preference.setPrefString(it, prefs.getPrefString(it, ""))
+                                }
+                                SettingsActivity.PREF_KEYS_STRING_SET.forEach {
+                                    if (it in preference) return@forEach
+                                    preference.setPrefStringSet(it, prefs.getPrefStringSet(it, null))
+                                }
+                            }
                         }
                     }
                 }
@@ -84,6 +102,8 @@ object FingerprintServiceHooks : IHooks {
                 val intentFilter = IntentFilter()
                 intentFilter.addAction(SettingsActivity.ACTION_PREF_CHANGED)
                 intentFilter.addAction(Intent.ACTION_USER_PRESENT)
+                if (SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION !in preference.prefs)
+                    intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED)
 
                 context.registerReceiver(receiver, intentFilter)
 

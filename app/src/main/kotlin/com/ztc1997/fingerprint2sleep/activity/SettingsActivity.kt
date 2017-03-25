@@ -137,7 +137,7 @@ class SettingsActivity : Activity() {
 
         setContentView(R.layout.activity_settings)
 
-        async() {
+        doAsync {
             if (isAdmobHostBanned/* && !isFinishing*/) {
                 uiThread { showAdBlockerDetected() }
                 FirebaseAnalytics.getInstance(app).logEvent("AdmobHostBanned", null)
