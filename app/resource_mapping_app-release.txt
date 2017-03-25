@@ -27,90 +27,30 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.attr.scopeUris -> com.ztc1997.fingerprint2sleep.R.attr.ep
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark -> com.ztc1997.fingerprint2sleep.R.drawable.a6
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_focused -> com.ztc1997.fingerprint2sleep.R.drawable.by
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.bz
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.b6
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light -> com.ztc1997.fingerprint2sleep.R.drawable.a7
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_focused -> com.ztc1997.fingerprint2sleep.R.drawable.c2
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_normal -> com.ztc1997.fingerprint2sleep.R.drawable.c3
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark -> com.ztc1997.fingerprint2sleep.R.drawable.a8
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_focused -> com.ztc1997.fingerprint2sleep.R.drawable.c6
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.c7
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.b7
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light -> com.ztc1997.fingerprint2sleep.R.drawable.a9
     com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_focused -> com.ztc1997.fingerprint2sleep.R.drawable.c_
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_normal -> com.ztc1997.fingerprint2sleep.R.drawable.ca
     com.ztc1997.fingerprint2sleep.R.drawable.ic_delete_grey_800_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.al
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.a_
     com.ztc1997.fingerprint2sleep.R.drawable.ic_fingerprint_white_36dp -> com.ztc1997.fingerprint2sleep.R.drawable.a
     com.ztc1997.fingerprint2sleep.R.drawable.ic_photo_white_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.b4
     com.ztc1997.fingerprint2sleep.R.drawable.ic_share_grey_800_24dp -> com.ztc1997.fingerprint2sleep.R.drawable.b5
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.bx
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.bz
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.c0
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.c1
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_normal -> com.ztc1997.fingerprint2sleep.R.drawable.c3
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.c4
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.c5
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_normal -> com.ztc1997.fingerprint2sleep.R.drawable.c7
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.c8
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_disabled -> com.ztc1997.fingerprint2sleep.R.drawable.c9
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_normal -> com.ztc1997.fingerprint2sleep.R.drawable.ca
-    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_pressed -> com.ztc1997.fingerprint2sleep.R.drawable.cb
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_dark_normal_background -> com.ztc1997.fingerprint2sleep.R.drawable.b8
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_icon_light_normal_background -> com.ztc1997.fingerprint2sleep.R.drawable.b9
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_dark_normal_background -> com.ztc1997.fingerprint2sleep.R.drawable.b_
+    com.ztc1997.fingerprint2sleep.R.drawable.common_google_signin_btn_text_light_normal_background -> com.ztc1997.fingerprint2sleep.R.drawable.ba
+    com.ztc1997.fingerprint2sleep.R.drawable.googleg_disabled_color_18 -> com.ztc1997.fingerprint2sleep.R.drawable.bb
+    com.ztc1997.fingerprint2sleep.R.drawable.googleg_standard_color_18 -> com.ztc1997.fingerprint2sleep.R.drawable.bc
     com.ztc1997.fingerprint2sleep.R.drawable.common_full_open_on_phone -> com.ztc1997.fingerprint2sleep.R.drawable.bw
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_alarm -> com.ztc1997.fingerprint2sleep.R.drawable.b
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_andy -> com.ztc1997.fingerprint2sleep.R.drawable.c
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_battery -> com.ztc1997.fingerprint2sleep.R.drawable.d
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_browser -> com.ztc1997.fingerprint2sleep.R.drawable.e
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_calculator -> com.ztc1997.fingerprint2sleep.R.drawable.f
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_calendar -> com.ztc1997.fingerprint2sleep.R.drawable.g
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_camera -> com.ztc1997.fingerprint2sleep.R.drawable.h
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_chrome -> com.ztc1997.fingerprint2sleep.R.drawable.i
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_cloud -> com.ztc1997.fingerprint2sleep.R.drawable.j
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_contact -> com.ztc1997.fingerprint2sleep.R.drawable.k
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_directdial -> com.ztc1997.fingerprint2sleep.R.drawable.l
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_directmessage -> com.ztc1997.fingerprint2sleep.R.drawable.m
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_drive -> com.ztc1997.fingerprint2sleep.R.drawable.n
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_dropbox -> com.ztc1997.fingerprint2sleep.R.drawable.o
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_email -> com.ztc1997.fingerprint2sleep.R.drawable.p
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_email2 -> com.ztc1997.fingerprint2sleep.R.drawable.q
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_evernote -> com.ztc1997.fingerprint2sleep.R.drawable.r
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_facebook -> com.ztc1997.fingerprint2sleep.R.drawable.s
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_favorite -> com.ztc1997.fingerprint2sleep.R.drawable.t
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_file_browser -> com.ztc1997.fingerprint2sleep.R.drawable.u
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_file_browser2 -> com.ztc1997.fingerprint2sleep.R.drawable.v
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_fitness -> com.ztc1997.fingerprint2sleep.R.drawable.w
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_gallery -> com.ztc1997.fingerprint2sleep.R.drawable.x
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_gear -> com.ztc1997.fingerprint2sleep.R.drawable.y
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_google_small -> com.ztc1997.fingerprint2sleep.R.drawable.z
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_gplus -> com.ztc1997.fingerprint2sleep.R.drawable.a0
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_gtalk -> com.ztc1997.fingerprint2sleep.R.drawable.a1
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_help -> com.ztc1997.fingerprint2sleep.R.drawable.a2
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_joystick -> com.ztc1997.fingerprint2sleep.R.drawable.a3
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_key -> com.ztc1997.fingerprint2sleep.R.drawable.a4
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_laptop -> com.ztc1997.fingerprint2sleep.R.drawable.a5
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_luggage -> com.ztc1997.fingerprint2sleep.R.drawable.aa
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_maps -> com.ztc1997.fingerprint2sleep.R.drawable.ab
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_market -> com.ztc1997.fingerprint2sleep.R.drawable.ac
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_movie -> com.ztc1997.fingerprint2sleep.R.drawable.ad
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_music -> com.ztc1997.fingerprint2sleep.R.drawable.ae
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_nav -> com.ztc1997.fingerprint2sleep.R.drawable.af
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_notes -> com.ztc1997.fingerprint2sleep.R.drawable.ag
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_package -> com.ztc1997.fingerprint2sleep.R.drawable.ah
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_phone -> com.ztc1997.fingerprint2sleep.R.drawable.ai
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_pinterest -> com.ztc1997.fingerprint2sleep.R.drawable.aj
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_play -> com.ztc1997.fingerprint2sleep.R.drawable.ak
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_pocket -> com.ztc1997.fingerprint2sleep.R.drawable.am
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_quicksettings -> com.ztc1997.fingerprint2sleep.R.drawable.an
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_rss -> com.ztc1997.fingerprint2sleep.R.drawable.ao
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_sdcard -> com.ztc1997.fingerprint2sleep.R.drawable.ap
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_search -> com.ztc1997.fingerprint2sleep.R.drawable.aq
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_skype -> com.ztc1997.fingerprint2sleep.R.drawable.ar
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_sms -> com.ztc1997.fingerprint2sleep.R.drawable.as
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_snapchat -> com.ztc1997.fingerprint2sleep.R.drawable.at
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_spotify -> com.ztc1997.fingerprint2sleep.R.drawable.au
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_tapatalk -> com.ztc1997.fingerprint2sleep.R.drawable.av
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_tasks -> com.ztc1997.fingerprint2sleep.R.drawable.aw
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_terminal -> com.ztc1997.fingerprint2sleep.R.drawable.ax
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_transit -> com.ztc1997.fingerprint2sleep.R.drawable.ay
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_tv -> com.ztc1997.fingerprint2sleep.R.drawable.az
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_twitter -> com.ztc1997.fingerprint2sleep.R.drawable.b0
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_unlock -> com.ztc1997.fingerprint2sleep.R.drawable.b1
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_viber -> com.ztc1997.fingerprint2sleep.R.drawable.b2
-    com.ztc1997.fingerprint2sleep.R.drawable.ic_shortcut_whatsapp -> com.ztc1997.fingerprint2sleep.R.drawable.b3
     com.ztc1997.fingerprint2sleep.R.layout.activity_settings -> com.ztc1997.fingerprint2sleep.R.layout.a0
     com.ztc1997.fingerprint2sleep.R.layout.activity_shorten_time_out -> com.ztc1997.fingerprint2sleep.R.layout.a
     com.ztc1997.fingerprint2sleep.R.layout.app_picker_preference -> com.ztc1997.fingerprint2sleep.R.layout.c
@@ -359,6 +299,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.color.common_google_signin_btn_text_light_pressed -> com.ztc1997.fingerprint2sleep.R.color.a3
     com.ztc1997.fingerprint2sleep.R.color.common_google_signin_btn_text_dark -> com.ztc1997.fingerprint2sleep.R.color.bf
     com.ztc1997.fingerprint2sleep.R.color.common_google_signin_btn_text_light -> com.ztc1997.fingerprint2sleep.R.color.bg
+    com.ztc1997.fingerprint2sleep.R.color.common_google_signin_btn_tint -> com.ztc1997.fingerprint2sleep.R.color.a
     com.ztc1997.fingerprint2sleep.R.id.crash_reporting_present -> com.ztc1997.fingerprint2sleep.R.id.e
     com.ztc1997.fingerprint2sleep.R.id.adjust_height -> com.ztc1997.fingerprint2sleep.R.id.a4
     com.ztc1997.fingerprint2sleep.R.id.adjust_width -> com.ztc1997.fingerprint2sleep.R.id.a5
