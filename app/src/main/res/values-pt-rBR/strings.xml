@@ -1,39 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Ações rápidas através de toques/deslizes no leitor de impressão digital. Ativando o modo modulo Xposed, ficará mais estável.</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Erro\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action está rodando</string>
-    <string name="notification_content_text_error">Erro na autenticação de impressão digital, será tentado novamente em breve</string>
-    <string name="toast_failed_to_collapse_panel">Falha ao fechar os paineis</string>
+    <string name="notification_content_text_retry">Clique aqui para tentar novamente.</string>
+    <string name="toast_failed_to_collapse_panel">Falha ao recolher os paineis</string>
+
+    <!-- Screenshot -->
+    <string name="screenshot_notification_content">Captura de tela salva</string>
+    <string name="screenshot_notification_action_delete">Deletar</string>
+    <string name="screenshot_notification_action_share">Compartilhar</string>
 
     <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Este  pode não suportar autorização por impressão digital. Alguns dispositivos possuem um leitor de impressão digital, mas não fornecem a API padrão do Android. Nesses dispositivos, pode não ser possível o uso desse aplicativo.</string>
+    <string name="msg_dialog_has_not_enrolled_fingerprints">O dispositivo ainda não possui impressão digital cadastrada. Isso pode causar problemas com o aplicativo. É recomendado que cadastre uma impressão digital nas configurações do dispositivo</string>
     <string name="toast_root_access_failed">Não foi possível obter acesso root</string>
+    <string name="toast_xposed_version_mismatched">O módulo Xposed está ativado, mas não corresponde à versão atual do programa. É recomendado reiniciar para atualizar o módulo.</string>
+    <string name="btn_do_not_detect_hardware_again">Não detectar hardware novamente</string>
+    <string name="btn_do_not_check_fingerprints_again">Não verifique na próxima vez</string>
+    <string name="tv_ad_zone">Os anúncios são a principal fonte receita deste projeto de código aberto. Se você utiliza aplicativos para bloquear anúncios, por favor, adicione esse aplicativo a lista branca.</string>
 
     <!-- RequirePermissionActivity -->
-    <string name="explanation_device_admin">Hibernação de fispositivo precisa ativar um administrador de dispositivo para funcionar</string>
+    <string name="explanation_device_admin">Hibernação de dispositivo precisa ativar um administrador de dispositivo para funcionar</string>
     <string name="description_accessibility">Fingerprint Quick Action precisa de Acessibilidade para detectar trocas de interface e realizar algumas ações</string>
     <string name="toast_device_admin_failed">Falha ao ativar o administrador de dispositivo</string>
     <string name="toast_accessibility_failed">Falha ao ligar a Acessibilidade</string>
 
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">Desbloquear através de impressão digital</string>
+    <string name="toast_window_overlay_permission_failed">Não foi possível obter permissão de sobreposição de janela</string>
+
     <!-- Preferences -->
     <string name="title_pref_enable_fingerprint_quick_action">Ativar Fingerprint Quick Action</string>
 
-    <string name="title_pref_foreground_service">Serviço em primeiro plano</string>
-    <string name="summary_pref_foreground_service">Usar serviço em primeiro plano para evitar que seja finalizado pelo sistema (irá mostrar uma notificação persistente)</string>
+    <string name="title_pref_black_list">Lista Negra</string>
+    <string name="summary_pref_black_list">Quando aplicativos da lista negra estão executando em primeiro plano, este aplicativo ficará temporariamente desativado.</string>
 
     <string name="title_pref_response_enrolled_fingerprint_only">Responder apenas às impressões digitais cadastradas</string>
-    <string name="summary_pref_response_enrolled_fingerprint_only">Se ativado, a autenticação de impressão digital será cancelada depois de 4 tentativas falhadas</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Se ativado, a autenticação de impressão digital será cancelada após 4 tentativas falhadas</string>
 
-    <string name="title_pref_lock_screen_with_power_button_as_root">Alternativa para desbloquear com impressão digital</string>
-    <string name="summary_pref_lock_screen_with_power_button_as_root">Exige root. Desliga a tela (simulando um pressionamento do botão de ligar/desligar).</string>
+    <string name="title_pref_force_non_xposed_mode">Forçar modo non-Xposed</string>
+    <string name="summary_pref_screen_xposed_mode_inactivated">O módulo Xposed não está ativado</string>
+    <string name="summary_pref_screen_xposed_mode_activated">O módulo Xposed está ativado</string>
 
-    <string name="title_pref_category_quick_action">Ação Rápida</string>
+    <string name="title_pref_screen_non_xposed_mode">Configurações modo non-Xposed</string>
 
-    <string name="title_pref_action_single_tap">Toque único</string>
+    <string name="title_pref_screen_xposed_mode">Configurações modo Xposed</string>
 
-    <string name="title_pref_action_fast_swipe">Deslize rápido</string>
+    <string name="title_pref_foreground_service">Serviço em primeiro plano</string>
+    <string name="summary_pref_foreground_service">Usar serviço em primeiro plano para evitar que o aplicativo seja finalizado pelo sistema (irá mostrar uma notificação persistente)</string>
+
+    <string name="title_pref_screen_off_method">Tela apagada</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">Diminuir o tempo limite (recomendado)</string>
+    <string name="entries_pref_screen_off_method_device_admin">Administrador do dispositivo (desbloquear através da impressão digital pode não funcionar)</string>
+    <string name="entries_pref_screen_off_method_calling_hidden_api">Chamando API oculta (ROOT)</string>
+
+    <string name="title_pref_auto_retry">Tentar novamente automaticamente</string>
+    <string name="summary_pref_auto_retry">Repetir automaticamente no momento adequado. Quando desligado, continuará tentando quando a tela estiver desbloqueada, você também pode tentar novamente clicando na notificação.</string>
+
+    <string name="title_pref_auto_retry_black_list">Tentar novamente lista negra automaticamente</string>
+    <string name="summary_pref_auto_retry_black_list">Quando os aplicativos da lista negra em execução em primeiro plano não tentarão novamente automaticamente para evitar conflitos.</string>
+
+    <string name="title_pref_category_single_tap">Toque único</string>
+
+    <string name="title_pref_action_single_tap">Ação toque único</string>
+
+    <string name="title_pref_action_single_tap_app">Toque único aplicativo ou atalho</string>
+
+    <string name="title_pref_category_fast_swipe">Deslize rápido &amp; Toque rápido (Experimental)</string>
+
+    <string name="title_pref_action_fast_swipe">Deslize rápido &amp; Ação toque rápido</string>
+
+    <string name="summary_pref_action_fast_swipe">Deslize rápido &amp; A detecção do toque rápido é dependente do hardware e pode não estar disponível em todos os dispositivoss.</string>
+
+    <string name="title_pref_action_fast_swipe_app">Deslize rápido aplicativo ou atalho</string>
+
+    <string name="title_pref_category_double_tap">Toque duplo (Experimental)</string>
+
+    <string name="title_pref_enable_double_tap">Ativar toque duplo</string>
+    <string name="summary_pref_enable_double_tap">A ativação do toque duplo resulta em um atraso maior para outras ações. Toque duplo no hardware possui certos requisitos, não necessariamente em todos os dispositivos funciona corretamente.</string>
+
+    <string name="title_pref_double_tap_interval">Intervalo de tempo toque duplo</string>
+
+    <string name="title_pref_action_double_tap">Ação toque duplo</string>
+
+    <string name="title_pref_action_double_tap_app">Toque duplo aplicativo ou atalho</string>
 
     <string name="entries_pref_quick_action_none">Nada</string>
     <string name="entries_pref_quick_action_sleep">Sleep</string>
@@ -45,15 +101,109 @@
     <string name="entries_pref_quick_action_expand_notifications_panel">Expandir painel de notificações</string>
     <string name="entries_pref_quick_action_toggle_notifications_panel">Alternar painel de notificações</string>
     <string name="entries_pref_quick_action_expand_quick_settings">Expandir configurações rápidas</string>
+    <string name="entries_pref_quick_action_take_screenshot">Captura de tela</string>
+    <string name="entries_pref_quick_action_launch_app">Iniciar aplicativo ou atalho</string>
 
     <string name="title_pref_category_about">Sobre</string>
 
+    <string name="title_pref_contact_developer">Entre em contato com o desenvolvedor</string>
+    <string name="summary_pref_contact_developer">Se você encontrar problemas, por favor, entre em contato. Mande feedback através do GitHub, não recebo mais através de email.</string>
+
+    <string name="title_rate">Me avalie</string>
+    <string name="summary_rate">Ficarei feliz se você me der 5 estrelas</string>
+
+    <string name="title_matters_need_attention">Questões que precisam de atenção</string>
+    <string name="content_matters_need_attention">
+1. Quando outros aplicativos usam sensores de impressão digital e, após um período de tempo, o aplicativo suspenderá o trabalho para evitar conflitos.\n\n
+2. Se o seu sistema possui limpeza de memória, ou autostart manager, por favor, adicione esse aplicativo a lista branca, caso contrário, esse aplicativo não irá funcionar corretamente.\n\n
+3. A vibração quando o leitor é tocado é emitido pelo sistema. O uso repetido de impressões digitais não cadastradas causará uma indisponibilidade temporária do leitor de impressão digital, isso é uma medida de segurança do sistema e o aplicativo não pode controlar.\n\n
+4. Alguns dispositivos possuem um leitor de impressão digital, mas o fabricante não fornece a API padrão do Android. Nesses dispositivos, pode não ser possível o uso desse aplicativo corretamente.\n\n
+5. A tradução fornecida pelo voluntário pode ser imperfeita. Por favor, entenda.
+        </string>
+    <string name="btn_matters_need_attention">Entendi</string>
+
+    <string name="title_source_code">Código fonte</string>
+    <string name="summary_source_code" translatable="false">https://github.com/ztc1997/Fingerprint2Sleep</string>
+
     <string name="title_pref_donate">Doar</string>
-    <string name="summary_pref_donate">Se você gostou desse aplicativo, pagar um café para mim.</string>
+    <string name="title_pref_donate_purchased">Doado</string>
+    <string name="summary_pref_donate">Apoie o desenvolvedor e remova os anúncios</string>
+    <string name="summary_pref_donate_purchased">Obrigado pela sua doação!</string>
 
-    <string name="title_pref_category_debug">Debug</string>
+    <!-- Icon picker -->
+    <string name="icon_picker_choose_icon_title">Choose icon</string>
+    <string name="shortcuts_icon_picker_alarm">Alarme</string>
+    <string name="shortcuts_icon_picker_andy">Andy</string>
+    <string name="shortcuts_icon_picker_battery">Bateria/string>
+    <string name="shortcuts_icon_picker_browser">Navegador</string>
+    <string name="shortcuts_icon_picker_calendar">Calendário</string>
+    <string name="shortcuts_icon_picker_camera">Camera</string>
+    <string name="shortcuts_icon_picker_cloud">Nuvem</string>
+    <string name="shortcuts_icon_picker_contact">Contato</string>
+    <string name="shortcuts_icon_picker_directdial">Ligação Direta</string>
+    <string name="shortcuts_icon_picker_directmessage">Mensagem Direta</string>
+    <string name="shortcuts_icon_picker_drive">Drive</string>
+    <string name="shortcuts_icon_picker_dropbox">Dropbox</string>
+    <string name="shortcuts_icon_picker_email">Email</string>
+    <string name="shortcuts_icon_picker_email2">Email Alternativo</string>
+    <string name="shortcuts_icon_picker_evernote">Evernote</string>
+    <string name="shortcuts_icon_picker_facebook">Facebook</string>
+    <string name="shortcuts_icon_picker_favorite">Favorito</string>
+    <string name="shortcuts_icon_picker_file_browser">Navegador de Arquivo</string>
+    <string name="shortcuts_icon_picker_file_browser2">Navegador de Arquivo Alternativo</string>
+    <string name="shortcuts_icon_picker_fitness">Fitness</string>
+    <string name="shortcuts_icon_picker_gallery">Galeria</string>
+    <string name="shortcuts_icon_picker_gears">Gears</string>
+    <string name="shortcuts_icon_picker_google_small">Google</string>
+    <string name="shortcuts_icon_picker_gplus">Google Plus</string>
+    <string name="shortcuts_icon_picker_gtalk">Hangouts</string>
+    <string name="shortcuts_icon_picker_help">Ajuda</string>
+    <string name="shortcuts_icon_picker_joystick">Controle</string>
+    <string name="shortcuts_icon_picker_key">Chaves/Contas</string>
+    <string name="shortcuts_icon_picker_laptop">Laptop</string>
+    <string name="shortcuts_icon_picker_notes">Notas</string>
+    <string name="shortcuts_icon_picker_luggage">Viagem</string>
+    <string name="shortcuts_icon_picker_maps">Mapas</string>
+    <string name="shortcuts_icon_picker_market">Mercado</string>
+    <string name="shortcuts_icon_picker_movie">Filmes</string>
+    <string name="shortcuts_icon_picker_music">Música</string>
+    <string name="shortcuts_icon_picker_nav">Navegação</string>
+    <string name="shortcuts_icon_picker_phone">Telefone</string>
+    <string name="shortcuts_icon_picker_package">Pacote</string>
+    <string name="shortcuts_icon_picker_pinterest">Pinterest</string>
+    <string name="shortcuts_icon_picker_play">Play</string>
+    <string name="shortcuts_icon_picker_pocket">Pocket</string>
+    <string name="shortcuts_icon_picker_quicksettings">Configurações Rápidas</string>
+    <string name="shortcuts_icon_picker_rss">RSS Feed</string>
+    <string name="shortcuts_icon_picker_sdcard">SDCard</string>
+    <string name="shortcuts_icon_picker_search">Pesquisar</string>
+    <string name="shortcuts_icon_picker_sms">SMS</string>
+    <string name="shortcuts_icon_picker_tasks">Tarefas</string>
+    <string name="shortcuts_icon_picker_terminal">Terminal</string>
+    <string name="shortcuts_icon_picker_transit">Trânsito</string>
+    <string name="shortcuts_icon_picker_tv">TV</string>
+    <string name="shortcuts_icon_picker_twitter">Twitter</string>
+    <string name="shortcuts_icon_picker_unlock">Desbloquear</string>
+    <string name="shortcuts_icon_picker_viber">Viber</string>
+    <string name="shortcuts_icon_picker_skype">Skype</string>
+    <string name="shortcuts_icon_picker_calculator">Calculadora</string>
+    <string name="shortcuts_icon_picker_snapchat">Snapchat</string>
+    <string name="shortcuts_icon_picker_spotify">Spotify</string>
+    <string name="shortcuts_icon_picker_tapatalk">Tapatalk</string>
+    <string name="shortcuts_icon_picker_whatsapp">Whatsapp</string>
+    <string name="shortcuts_icon_picker_chrome">Chrome</string>
 
-    <string name="title_pref_notify_on_error">Notificar em caso de erro</string>
-    <string name="summary_pref_notify_on_error">Mostrar na tela uma mensagem em caso de erro de autenticação de impressão digital</string>
+    <!-- AppPickerPreference -->
+    <string name="app_picker_search">Pesquisar</string>
+    <string name="app_picker_none">(Nenhum)</string>
+
+    <!-- AppPicker: icon pick cancelled -->
+    <string name="app_picker_icon_pick_cancelled">Seleção de ícone cancelada por aplicativo de destino</string>
+
+    <!-- AppPickerPreference: shortcut support -->
+    <string name="app_picker_applications">Aplicativos</string>
+    <string name="app_picker_shortcuts">Atalhos</string>
+    <string name="app_picker_shortcut_null_intent">Impossível criar atalho porque atividade não retornou objetivo de atalho(shortcut intent)</string>
+    <string name="app_picker_shortcut_cancelled">Criação de atalho cancelada pelo aplicativo de destino</string>
 
 </resources>
