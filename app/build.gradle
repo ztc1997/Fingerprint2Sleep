@@ -9,8 +9,8 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 27
-        versionName "0.12.1"
+        versionCode 28
+        versionName "0.12.2"
     }
 
     signingConfigs {

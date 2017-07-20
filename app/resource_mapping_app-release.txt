@@ -86,7 +86,6 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.raw.notices -> com.ztc1997.fingerprint2sleep.R.raw.z
     com.ztc1997.fingerprint2sleep.R.raw.sil_ofl_11_full -> com.ztc1997.fingerprint2sleep.R.raw.a0
     com.ztc1997.fingerprint2sleep.R.raw.sil_ofl_11_summary -> com.ztc1997.fingerprint2sleep.R.raw.a1
-    com.ztc1997.fingerprint2sleep.R.string.accept -> com.ztc1997.fingerprint2sleep.R.string.bl
     com.ztc1997.fingerprint2sleep.R.string.common_google_play_services_enable_button -> com.ztc1997.fingerprint2sleep.R.string.t
     com.ztc1997.fingerprint2sleep.R.string.common_google_play_services_enable_text -> com.ztc1997.fingerprint2sleep.R.string.u
     com.ztc1997.fingerprint2sleep.R.string.common_google_play_services_enable_title -> com.ztc1997.fingerprint2sleep.R.string.v
@@ -104,15 +103,12 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.common_open_on_phone -> com.ztc1997.fingerprint2sleep.R.string.a_
     com.ztc1997.fingerprint2sleep.R.string.common_signin_button_text -> com.ztc1997.fingerprint2sleep.R.string.aa
     com.ztc1997.fingerprint2sleep.R.string.common_signin_button_text_long -> com.ztc1997.fingerprint2sleep.R.string.ab
-    com.ztc1997.fingerprint2sleep.R.string.create_calendar_message -> com.ztc1997.fingerprint2sleep.R.string.bn
-    com.ztc1997.fingerprint2sleep.R.string.create_calendar_title -> com.ztc1997.fingerprint2sleep.R.string.bo
-    com.ztc1997.fingerprint2sleep.R.string.debug_menu_ad_information -> com.ztc1997.fingerprint2sleep.R.string.bp
-    com.ztc1997.fingerprint2sleep.R.string.debug_menu_creative_preview -> com.ztc1997.fingerprint2sleep.R.string.bq
-    com.ztc1997.fingerprint2sleep.R.string.debug_menu_title -> com.ztc1997.fingerprint2sleep.R.string.br
-    com.ztc1997.fingerprint2sleep.R.string.debug_menu_troubleshooting -> com.ztc1997.fingerprint2sleep.R.string.bs
-    com.ztc1997.fingerprint2sleep.R.string.decline -> com.ztc1997.fingerprint2sleep.R.string.bt
-    com.ztc1997.fingerprint2sleep.R.string.store_picture_message -> com.ztc1997.fingerprint2sleep.R.string.bv
-    com.ztc1997.fingerprint2sleep.R.string.store_picture_title -> com.ztc1997.fingerprint2sleep.R.string.bw
+    com.ztc1997.fingerprint2sleep.R.string.s1 -> com.ztc1997.fingerprint2sleep.R.string.eh
+    com.ztc1997.fingerprint2sleep.R.string.s2 -> com.ztc1997.fingerprint2sleep.R.string.ei
+    com.ztc1997.fingerprint2sleep.R.string.s3 -> com.ztc1997.fingerprint2sleep.R.string.ej
+    com.ztc1997.fingerprint2sleep.R.string.s4 -> com.ztc1997.fingerprint2sleep.R.string.ek
+    com.ztc1997.fingerprint2sleep.R.string.s5 -> com.ztc1997.fingerprint2sleep.R.string.el
+    com.ztc1997.fingerprint2sleep.R.string.s6 -> com.ztc1997.fingerprint2sleep.R.string.em
     com.ztc1997.fingerprint2sleep.R.string.app_name -> com.ztc1997.fingerprint2sleep.R.string.ae
     com.ztc1997.fingerprint2sleep.R.string.description_accessibility -> com.ztc1997.fingerprint2sleep.R.string.af
     com.ztc1997.fingerprint2sleep.R.string.entries_pref_quick_action_back -> com.ztc1997.fingerprint2sleep.R.string.bx
