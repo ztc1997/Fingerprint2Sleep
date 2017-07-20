@@ -35,6 +35,7 @@ import com.ztc1997.fingerprint2sleep.extension.setScreenTimeOut
 import com.ztc1997.fingerprint2sleep.extra.*
 import com.ztc1997.fingerprint2sleep.quickactions.IQuickActions
 import com.ztc1997.fingerprint2sleep.quickactions.NonXposedQuickActions
+import com.ztc1997.fingerprint2sleep.receiver.StartFPQAReceiver
 import org.jetbrains.anko.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -202,7 +203,8 @@ class FPQAService : Service() {
 
             restartScanning()
 
-            if (!FPQAAccessibilityService.isRunning)
+            if (!FPQAAccessibilityService.isRunning
+                    && System.currentTimeMillis() > StartFPQAReceiver.CHECK_ACCESSIBILITY_AFTER)
                 RequireAccessibilityActivity.startActivity(this)
 
             if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
