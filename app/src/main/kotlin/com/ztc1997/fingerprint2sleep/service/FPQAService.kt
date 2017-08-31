@@ -146,7 +146,7 @@ class FPQAService : Service() {
                     val path = intent.getSerializableExtra("path") as File
                     path.delete()
                     MediaScannerConnection.scanFile(context, arrayOf(path.path), null, null)
-                } catch(e: Exception) {
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
@@ -204,7 +204,9 @@ class FPQAService : Service() {
             restartScanning()
 
             if (!FPQAAccessibilityService.isRunning
-                    && System.currentTimeMillis() > StartFPQAReceiver.CHECK_ACCESSIBILITY_AFTER)
+                    && System.currentTimeMillis() > StartFPQAReceiver.CHECK_ACCESSIBILITY_AFTER
+                    && defaultDPreference.getPrefInt(RequireAccessibilityActivity
+                    .PREF_DO_NOT_CHECK_ACCESSIBILITY_AGAIN, -1) < 29)
                 RequireAccessibilityActivity.startActivity(this)
 
             if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,

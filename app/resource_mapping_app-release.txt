@@ -200,6 +200,7 @@ res id mapping:
     com.ztc1997.fingerprint2sleep.R.string.summary_pref_black_list -> com.ztc1997.fingerprint2sleep.R.string.a3
     com.ztc1997.fingerprint2sleep.R.string.title_pref_auto_retry_black_list -> com.ztc1997.fingerprint2sleep.R.string.eg
     com.ztc1997.fingerprint2sleep.R.string.banner_ad_unit_id -> com.ztc1997.fingerprint2sleep.R.string.bm
+    com.ztc1997.fingerprint2sleep.R.string.btn_do_not_check_accessibility_again -> com.ztc1997.fingerprint2sleep.R.string.bl
     com.ztc1997.fingerprint2sleep.R.string.btn_go_to_sleep -> com.ztc1997.fingerprint2sleep.R.string.e9
     com.ztc1997.fingerprint2sleep.R.string.google_storage_bucket -> com.ztc1997.fingerprint2sleep.R.string.bu
     com.ztc1997.fingerprint2sleep.R.string.notices_default_style -> com.ztc1997.fingerprint2sleep.R.string.du

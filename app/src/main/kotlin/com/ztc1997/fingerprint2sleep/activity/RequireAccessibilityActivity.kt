@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
+import com.ztc1997.fingerprint2sleep.defaultDPreference
 import com.ztc1997.fingerprint2sleep.extension.finishWithoutAnim
 import com.ztc1997.fingerprint2sleep.service.FPQAAccessibilityService
 import com.ztc1997.fingerprint2sleep.service.FPQAService
@@ -16,6 +18,7 @@ import org.jetbrains.anko.toast
 class RequireAccessibilityActivity : Activity() {
     companion object {
         const val REQUEST_CODE_REQUIRE_ACCESSIBILITY = 0
+        const val PREF_DO_NOT_CHECK_ACCESSIBILITY_AGAIN = "pref_do_not_check_accessibility_again"
 
         fun startActivity(context: Context) {
             val startIntent = Intent(context, RequireAccessibilityActivity::class.java)
@@ -32,6 +35,10 @@ class RequireAccessibilityActivity : Activity() {
             positiveButton(android.R.string.ok) {
                 val intent = Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 startActivityForResult(intent, REQUEST_CODE_REQUIRE_ACCESSIBILITY)
+            }
+
+            negativeButton(R.string.btn_do_not_check_accessibility_again) {
+                defaultDPreference.setPrefInt(PREF_DO_NOT_CHECK_ACCESSIBILITY_AGAIN, BuildConfig.VERSION_CODE)
             }
 
             onCancelled { finishWithoutAnim() }

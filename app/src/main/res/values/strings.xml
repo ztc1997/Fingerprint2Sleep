@@ -25,11 +25,12 @@
     <string name="btn_do_not_check_fingerprints_again">Do not check next time</string>
     <string name="tv_ad_zone">Ads is the main revenue of this open source project. If you use the ad blocking tool, whitelist this app please.</string>
 
-    <!-- RequirePermissionActivity -->
+    <!-- RequireAccessibilityActivity -->
     <string name="explanation_device_admin">Sleep device needs to activate a device administrator to work</string>
     <string name="description_accessibility">Fingerprint Quick Action needs Accessibility to detect interface switching and perform some action</string>
     <string name="toast_device_admin_failed">Failed to activate a device administrator</string>
     <string name="toast_accessibility_failed">Failed to turn on Accessibility</string>
+    <string name="btn_do_not_check_accessibility_again">Do not check next time</string>
 
     <!-- SleepTimeOutActivity -->
     <string name="tv_unlock_via_fingerprint">Unlock via Fingerprint</string>

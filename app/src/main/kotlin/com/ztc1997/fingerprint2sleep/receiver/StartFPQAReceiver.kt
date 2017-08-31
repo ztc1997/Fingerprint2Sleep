@@ -19,6 +19,6 @@ class StartFPQAReceiver : BroadcastReceiver() {
                 .getBoolean(SettingsActivity.PREF_ENABLE_FINGERPRINT_QUICK_ACTION, false))
             StartFPQAActivity.startActivity(context)
 
-        CHECK_ACCESSIBILITY_AFTER = System.currentTimeMillis() + 10000
+        CHECK_ACCESSIBILITY_AFTER = System.currentTimeMillis() + 60000
     }
 }
