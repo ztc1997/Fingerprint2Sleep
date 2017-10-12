@@ -9,20 +9,18 @@ import android.provider.Settings
 import com.ztc1997.fingerprint2sleep.BuildConfig
 
 fun Context.setScreenTimeOut(value: Int): Boolean {
-    try {
+    return try {
         Settings.System.putInt(contentResolver, "screen_off_timeout", value)
-        return true
+        true
     } catch(e: SecurityException) {
         val intent = Intent("android.settings.action.MANAGE_WRITE_SETTINGS")
         intent.data = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
         startActivity(intent)
-        return false
+        false
     }
 }
 
-fun Context.getScreenTimeOut(): Int {
-    return Settings.System.getInt(contentResolver, "screen_off_timeout")
-}
+fun Context.getScreenTimeOut(): Int = Settings.System.getInt(contentResolver, "screen_off_timeout")
 
 val Context.jobScheduler: JobScheduler
     get() = getSystemService(Activity.JOB_SCHEDULER_SERVICE) as JobScheduler

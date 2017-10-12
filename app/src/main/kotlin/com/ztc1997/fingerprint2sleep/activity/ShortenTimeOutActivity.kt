@@ -7,12 +7,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ERROR
+import android.view.WindowManager.LayoutParams.*
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
 import com.ztc1997.fingerprint2sleep.R
@@ -42,7 +43,7 @@ class ShortenTimeOutActivity : Activity() {
         }
     }
 
-    val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
+    private val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
             finishWithoutAnim()
@@ -60,7 +61,7 @@ class ShortenTimeOutActivity : Activity() {
         }
     }
 
-    val screenOffReceiver = object : BroadcastReceiver() {
+    private val screenOffReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             finishWithoutAnim()
         }
@@ -115,7 +116,7 @@ class ShortenTimeOutActivity : Activity() {
     }
 
 
-    fun addOverlayToWindows() {
+    private fun addOverlayToWindows() {
         if (viewAdded) return
 
         val screenTimeOut = getScreenTimeOut()
@@ -129,8 +130,10 @@ class ShortenTimeOutActivity : Activity() {
 
         val params = WindowManager.LayoutParams()
         with(params) {
-            flags = 1808
-            type = TYPE_SYSTEM_ERROR
+            flags = FLAG_NOT_TOUCHABLE or FLAG_LAYOUT_IN_SCREEN or FLAG_LAYOUT_NO_LIMITS or
+                    FLAG_FULLSCREEN
+            type = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) TYPE_SYSTEM_ERROR else
+                TYPE_APPLICATION_OVERLAY
             gravity = Gravity.TOP
             width = -1
             height = -1
