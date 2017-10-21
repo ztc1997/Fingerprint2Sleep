@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">指纹快捷操作</string>
 
-    <string name="xposed_description">通过点击/轻扫指纹传感器执行快捷操作。激活 Xposed 模块将更加稳定。</string>
+    <string name="xposed_description">通过点击/轻扫指纹传感器执行快捷操作。激活 Xposed 模块将更加稳定。(目前不支持 Nougat+)</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">指纹快捷操作：错误\n%1$s</string>

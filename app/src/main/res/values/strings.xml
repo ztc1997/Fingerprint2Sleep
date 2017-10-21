@@ -3,7 +3,7 @@
 
     <string name="app_name">Fingerprint Quick Action</string>
 
-    <string name="xposed_description">Perform quick actions via tap/swipe on fingerprint sensor. Activating the Xposed module mode will be more stable.</string>
+    <string name="xposed_description">Perform quick actions via tap/swipe on fingerprint sensor. Activating the Xposed module mode will be more stable.(Currently does not support Nougat+)</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
