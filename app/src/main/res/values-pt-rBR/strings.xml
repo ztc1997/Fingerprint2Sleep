@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">Fingerprint Quick Action</string>
-
-    <string name="xposed_description">Ações rápidas através de toques/deslizes no leitor de impressão digital. Ativando o modo modulo Xposed, ficará mais estável.</string>
+    
+    <string name="xposed_description">Realize ações rápidas através de toque/deslize no leitor de impressão digital. Ativando o módulo Xposed, ficará mais estável. (Não suportado por aparelhos com Nougat+)</string>
 
     <!-- FPQAService -->
     <string name="toast_notify_on_error">Fingerprint Quick Action: Erro\n%1$s</string>
@@ -131,7 +131,7 @@
     <string name="summary_pref_donate_purchased">Obrigado pela sua doação!</string>
 
     <!-- Icon picker -->
-    <string name="icon_picker_choose_icon_title">Choose icon</string>
+    <!--<string name="icon_picker_choose_icon_title">Choose icon</string>
     <string name="shortcuts_icon_picker_alarm">Alarme</string>
     <string name="shortcuts_icon_picker_andy">Andy</string>
     <string name="shortcuts_icon_picker_battery">Bateria</string>
@@ -191,7 +191,7 @@
     <string name="shortcuts_icon_picker_spotify">Spotify</string>
     <string name="shortcuts_icon_picker_tapatalk">Tapatalk</string>
     <string name="shortcuts_icon_picker_whatsapp">Whatsapp</string>
-    <string name="shortcuts_icon_picker_chrome">Chrome</string>
+    <string name="shortcuts_icon_picker_chrome">Chrome</string>-->
 
     <!-- AppPickerPreference -->
     <string name="app_picker_search">Pesquisar</string>
