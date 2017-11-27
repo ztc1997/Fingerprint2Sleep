@@ -1,6 +1,7 @@
 package com.ztc1997.fingerprint2sleep.quickactions
 
 import android.accessibilityservice.AccessibilityService
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.os.SystemClock
@@ -26,6 +27,9 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
     override val preference: IPreference
         get() = ctx.defaultDPreference
 
+    override var flashState: Boolean = false
+
+    @SuppressLint("WrongConstant", "PrivateApi")
     override fun collapsePanels() {
         try {
             val service = ctx.getSystemService("statusbar")
@@ -93,7 +97,7 @@ class NonXposedQuickActions(override val ctx: Context) : IQuickActions {
         }
     }
 
-    fun callSystemGoToSleep() {
+    private fun callSystemGoToSleep() {
         anycall.startShell {
             if (it)
                 anycall.callMethod("android.os.IPowerManager", Context.POWER_SERVICE, "goToSleep",

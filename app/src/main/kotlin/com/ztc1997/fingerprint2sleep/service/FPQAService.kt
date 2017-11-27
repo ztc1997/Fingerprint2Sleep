@@ -77,14 +77,12 @@ class FPQAService : Service() {
 
         var isRunning = false
             private set
-
-        var flashState = false
     }
 
-    val torchCallback = object : CameraManager.TorchCallback() {
+    private val torchCallback = object : CameraManager.TorchCallback() {
         override fun onTorchModeChanged(cameraId: String?, enabled: Boolean) {
             super.onTorchModeChanged(cameraId, enabled)
-            flashState = enabled
+            quickActions.flashState = enabled
         }
     }
 

@@ -1,9 +1,11 @@
 package com.ztc1997.fingerprint2sleep.xposed.hook
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.hardware.camera2.CameraManager
 import android.os.CancellationSignal
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
@@ -19,10 +21,12 @@ import com.ztc1997.fingerprint2sleep.xposed.impl.PreferenceImpl
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
 import me.dozen.dpreference.DPreference
+import org.jetbrains.anko.cameraManager
 import org.jetbrains.anko.fingerprintManager
 import org.jetbrains.anko.powerManager
 import java.util.concurrent.TimeUnit
 
+@SuppressLint("StaticFieldLeak")
 object FingerprintServiceHooks : IHooks {
 
     class Callback(quickActions: IQuickActions) : GestureAuthenticationCallback(quickActions) {
@@ -106,6 +110,14 @@ object FingerprintServiceHooks : IHooks {
                     intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED)
 
                 context.registerReceiver(receiver, intentFilter)
+
+                val torchCallback = object : CameraManager.TorchCallback() {
+                    override fun onTorchModeChanged(cameraId: String?, enabled: Boolean) {
+                        super.onTorchModeChanged(cameraId, enabled)
+                        quickActions.flashState = enabled
+                    }
+                }
+                context.cameraManager.registerTorchCallback(torchCallback, null)
 
                 FPQAModule.log("CLASS_FINGERPRINT_SERVICE Constructor")
             }

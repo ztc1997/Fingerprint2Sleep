@@ -1,5 +1,6 @@
 package com.ztc1997.fingerprint2sleep.quickactions
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -16,17 +17,19 @@ import org.jetbrains.anko.inputManager
 import org.jetbrains.anko.powerManager
 
 
+@SuppressLint("WrongConstant")
 class XposedQuickActions(override val ctx: Context, override val preference: IPreference?, val loader: ClassLoader) : IQuickActions {
-    val statusBar: Any? by lazy { ctx.getSystemService("statusbar") }
-    val LOCAL_SERVICES_CLASS: Class<*> by lazy { XposedHelpers.findClass("com.android.server.LocalServices", loader) }
-    val windowManagerService: Any? by lazy {
+    private val statusBar: Any? by lazy { ctx.getSystemService("statusbar") }
+    private val LOCAL_SERVICES_CLASS: Class<*> by lazy { XposedHelpers.findClass("com.android.server.LocalServices", loader) }
+    private val windowManagerService: Any? by lazy {
         val WINDOW_MANAGER_INTERNAL_CLASS = XposedHelpers.findClass("android.view.WindowManagerInternal", loader)
         XposedHelpers.callStaticMethod(LOCAL_SERVICES_CLASS, "getService", WINDOW_MANAGER_INTERNAL_CLASS)
     }
-    val statusBarService: Any? by lazy {
+    private val statusBarService: Any? by lazy {
         val STATUS_BAR_MANAGER_INTERNAL_CLASS = XposedHelpers.findClass("com.android.server.statusbar.StatusBarManagerInternal", loader)
         XposedHelpers.callStaticMethod(LOCAL_SERVICES_CLASS, "getService", STATUS_BAR_MANAGER_INTERNAL_CLASS)
     }
+    override var flashState: Boolean = false
 
     override fun collapsePanels() {
         tryAndPrintStackTrace { XposedHelpers.callMethod(statusBar, "collapsePanels") }

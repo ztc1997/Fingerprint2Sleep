@@ -6,7 +6,6 @@ import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.base.IPreference
 import com.ztc1997.fingerprint2sleep.extra.GestureAuthenticationCallback.EventType
-import com.ztc1997.fingerprint2sleep.service.FPQAService
 import org.jetbrains.anko.cameraManager
 
 @Suppress("NON_EXHAUSTIVE_WHEN")
@@ -15,6 +14,8 @@ interface IQuickActions {
     val ctx: Context
 
     val preference: IPreference?
+
+    var flashState: Boolean
 
     fun collapsePanels()
 
@@ -39,7 +40,7 @@ interface IQuickActions {
     fun goToSleep()
 
     fun actionFlash() {
-        if (FPQAService.flashState) {
+        if (flashState) {
             try {
                 ctx.cameraManager.setTorchMode("0", false)
             } catch (e: Exception) {

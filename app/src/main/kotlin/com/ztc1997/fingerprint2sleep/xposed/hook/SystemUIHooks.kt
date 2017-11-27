@@ -1,5 +1,6 @@
 package com.ztc1997.fingerprint2sleep.xposed.hook
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import com.ztc1997.fingerprint2sleep.xposed.FPQAModule
 import com.ztc1997.fingerprint2sleep.xposed.extention.KXposedHelpers
 import de.robv.android.xposed.XposedHelpers
 
+@SuppressLint("StaticFieldLeak")
 object SystemUIHooks : IHooks {
     val ACTION_TOGGLE_NOTIFICATION_PANEL = SystemUIHooks::class.java.name + "ACTION_TOGGLE_NOTIFICATION_PANEL"
 
@@ -38,7 +40,7 @@ object SystemUIHooks : IHooks {
         }
     }
 
-    val notificationPanelViewActionReceiver = object : BroadcastReceiver() {
+    private val notificationPanelViewActionReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             val mExpandedVisible = XposedHelpers.getBooleanField(phoneStatusBar, "mExpandedVisible")
             FPQAModule.log("mExpandedVisible = $mExpandedVisible")

@@ -9,14 +9,14 @@ android {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
         targetSdkVersion Integer.parseInt("$targetSdkVer")
-        versionCode 32
-        versionName "0.14.0"
+        versionCode 33
+        versionName "0.14.1"
     }
 
     signingConfigs {
         release {
-            def File signingConfFile = file("../signing.properties")
-            def Properties signingConf = new Properties()
+            File signingConfFile = file("../signing.properties")
+            Properties signingConf = new Properties()
             signingConf.load(new FileInputStream(signingConfFile))
 
             storeFile file(signingConf['storeFile'])
