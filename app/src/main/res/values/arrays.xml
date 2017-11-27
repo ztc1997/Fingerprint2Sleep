@@ -12,6 +12,7 @@
         <item>@string/entries_pref_quick_action_toggle_notifications_panel</item>
         <item>@string/entries_pref_quick_action_expand_quick_settings</item>
         <item>@string/entries_pref_quick_action_take_screenshot</item>
+        <item>@string/entries_pref_quick_action_flashlight</item>
         <item>@string/entries_pref_quick_action_launch_app</item>
     </string-array>
     <string-array name="values_pref_quick_action" translatable="false">
@@ -26,6 +27,7 @@
         <item>toggle_notifications_panel</item>
         <item>expand_quick_settings</item>
         <item>take_screenshot</item>
+        <item>flashlight</item>
         <item>launch_app</item>
     </string-array>
 

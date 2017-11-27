@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.graphics.drawable.Icon
+import android.hardware.camera2.CameraManager
 import android.hardware.display.DisplayManager
 import android.media.ImageReader
 import android.media.MediaScannerConnection
@@ -76,6 +77,15 @@ class FPQAService : Service() {
 
         var isRunning = false
             private set
+
+        var flashState = false
+    }
+
+    val torchCallback = object : CameraManager.TorchCallback() {
+        override fun onTorchModeChanged(cameraId: String?, enabled: Boolean) {
+            super.onTorchModeChanged(cameraId, enabled)
+            flashState = enabled
+        }
     }
 
     // var delayIsScanning = false
@@ -187,12 +197,15 @@ class FPQAService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+
+        cameraManager.registerTorchCallback(torchCallback, null)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         stopFPQA(false)
+        cameraManager.unregisterTorchCallback(torchCallback)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

@@ -103,6 +103,7 @@
     <string name="entries_pref_quick_action_toggle_notifications_panel">Toggle notifications panel</string>
     <string name="entries_pref_quick_action_expand_quick_settings">Expand quick settings</string>
     <string name="entries_pref_quick_action_take_screenshot">Take screenshot</string>
+    <string name="entries_pref_quick_action_flashlight">Flashlight</string>
     <string name="entries_pref_quick_action_launch_app">Launch app or shortcut</string>
 
     <string name="title_pref_category_about">About</string>

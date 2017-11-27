@@ -6,6 +6,8 @@ import com.orhanobut.logger.Logger
 import com.ztc1997.fingerprint2sleep.activity.SettingsActivity
 import com.ztc1997.fingerprint2sleep.base.IPreference
 import com.ztc1997.fingerprint2sleep.extra.GestureAuthenticationCallback.EventType
+import com.ztc1997.fingerprint2sleep.service.FPQAService
+import org.jetbrains.anko.cameraManager
 
 @Suppress("NON_EXHAUSTIVE_WHEN")
 interface IQuickActions {
@@ -35,6 +37,22 @@ interface IQuickActions {
     fun actionTakeScreenshot()
 
     fun goToSleep()
+
+    fun actionFlash() {
+        if (FPQAService.flashState) {
+            try {
+                ctx.cameraManager.setTorchMode("0", false)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            try {
+                ctx.cameraManager.setTorchMode("0", true)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
     fun performQuickAction(type: EventType): String {
         preference?.let {
@@ -88,6 +106,8 @@ interface IQuickActions {
                 actionTakeScreenshot()
 
             SettingsActivity.VALUES_PREF_QUICK_ACTION_LAUNCH_APP -> launchAppOrShortcut(type)
+
+            SettingsActivity.VALUES_PREF_QUICK_ACTION_FLASHLIGHT -> actionFlash()
         }
     }
 

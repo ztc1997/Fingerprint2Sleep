@@ -83,6 +83,7 @@ class SettingsActivity : Activity() {
         const val VALUES_PREF_QUICK_ACTION_EXPAND_QUICK_SETTINGS = "expand_quick_settings"
         const val VALUES_PREF_QUICK_ACTION_TAKE_SCREENSHOT = "take_screenshot"
         const val VALUES_PREF_QUICK_ACTION_LAUNCH_APP = "launch_app"
+        const val VALUES_PREF_QUICK_ACTION_FLASHLIGHT = "flashlight"
 
         const val VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT = "shorten_timeout"
         const val VALUES_PREF_SCREEN_OFF_METHOD_DEVICE_ADMIN = "device_admin"
