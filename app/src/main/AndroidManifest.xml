@@ -59,6 +59,7 @@
         <activity
             android:name=".activity.ShortenTimeOutActivity"
             android:launchMode="singleInstance"
+            android:process=":bg"
             android:theme="@style/AppTheme.Translucent" />
 
         <activity

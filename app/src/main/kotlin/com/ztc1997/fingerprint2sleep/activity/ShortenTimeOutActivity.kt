@@ -67,11 +67,17 @@ class ShortenTimeOutActivity : Activity() {
         }
     }
 
-    var viewAdded = false
-    var view: View? = null
+    private var viewAdded = false
+    private var view: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        window.decorView.systemUiVisibility = flags
+
         if (Settings.canDrawOverlays(this)) {
             addOverlayToWindows()
         } else {
