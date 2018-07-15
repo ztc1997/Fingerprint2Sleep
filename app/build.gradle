@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'AndResGuard'
 
 android {
-    compileSdkVersion Integer.parseInt("$compileSdkVer")
-    buildToolsVersion "$buildToolsVer"
+    compileSdkVersion Integer.parseInt("$sdkVer")
 
     defaultConfig {
         applicationId "com.ztc1997.fingerprint2sleep"
         minSdkVersion 23
-        targetSdkVersion Integer.parseInt("$targetSdkVer")
+        targetSdkVersion Integer.parseInt("$sdkVer")
         versionCode 34
         versionName "0.14.2"
     }
@@ -56,36 +55,36 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
 
-    compile project(':dpreference')
+    implementation project(':dpreference')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
     // DSL
-    compile "org.jetbrains.anko:anko-sdk23:$ankoVersion"
+    implementation "org.jetbrains.anko:anko-sdk23:$ankoVersion"
 
     // Firebase
-    compile "com.google.firebase:firebase-core:$firebaseVersion"
-    compile "com.google.firebase:firebase-crash:$firebaseVersion"
-    compile "com.google.firebase:firebase-ads:$firebaseVersion"
+    implementation "com.google.firebase:firebase-core:$firebaseVersion"
+    implementation "com.google.firebase:firebase-crash:$firebaseVersion"
+    implementation "com.google.firebase:firebase-ads:15.0.1"
 
-    compile 'com.eightbitlab:rxbus:1.0.2'
+    implementation 'com.eightbitlab:rxbus:1.0.2'
 
-    compile 'com.orhanobut:logger:1.15'
+    implementation 'com.orhanobut:logger:1.15'
 
-    compile 'eu.chainfire:libsuperuser:1.0.0.201608240809'
+    implementation 'eu.chainfire:libsuperuser:1.0.0.201608240809'
 
-    provided 'de.robv.android.xposed:api:82'
+    api 'de.robv.android.xposed:api:82'
 
-    compile('de.psdev.licensesdialog:licensesdialog:1.8.1') {
+    implementation('de.psdev.licensesdialog:licensesdialog:1.8.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
-    compile 'com.ztc1997.anycall:library:0.2.2'
+    implementation 'com.ztc1997.anycall:library:0.2.2'
 }
 
 andResGuard {

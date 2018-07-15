@@ -1,12 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion Integer.parseInt("$compileSdkVer")
-    buildToolsVersion "$buildToolsVer"
+    compileSdkVersion Integer.parseInt("$sdkVer")
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion Integer.parseInt("$targetSdkVer")
+        targetSdkVersion Integer.parseInt("$sdkVer")
         versionCode 1
         versionName "1.0"
     }
@@ -19,9 +18,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile "com.android.support:support-annotations:$supportLibVersion"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:support-annotations:$supportLibVersion"
 
-    compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
 }
