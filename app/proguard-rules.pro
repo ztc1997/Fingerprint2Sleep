@@ -46,3 +46,5 @@
 
 -keep class com.android.vending.billing.**
 -keep public class com.android.vending.licensing.ILicensingService
+
+-keep class com.google.android.gms.internal.** { *; }

@@ -99,6 +99,8 @@ class FPQAService : Service() {
             else
                 Bus.send(IsScanningChangedEvent(value))
         }
+        get() = field and (!defaultDPreference.getPrefBoolean(SettingsActivity.PREF_AGGRESSIVE_RETRY,
+                false) or (System.currentTimeMillis() - lastRestartTime < 20 * 1000))
 
     var isError = false
         set(value) {
@@ -116,6 +118,10 @@ class FPQAService : Service() {
     var lastClassName = ""
 
     var errorPkgName = ""
+
+    var lastRestartTime = 0L
+
+    var isStarting = false
 
     var cancellationSignal = CancellationSignal()
 
@@ -237,8 +243,11 @@ class FPQAService : Service() {
         if (cancellationSignal.isCanceled) cancellationSignal = CancellationSignal()
 
         if (!isScanning) {
+            isStarting = true
             fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
+            isStarting = false
             isScanning = true
+            lastRestartTime = System.currentTimeMillis()
         }
 
         Bus.send(FinishStartFPQAActivityEvent)
@@ -502,6 +511,9 @@ class FPQAService : Service() {
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
             super.onAuthenticationError(errorCode, errString)
+
+            if (isStarting) return
+
             if (defaultDPreference.getPrefBoolean(SettingsActivity.PREF_NOTIFY_ON_ERROR, false))
                 errString?.let { toast(getString(R.string.toast_notify_on_error, it)) }
 

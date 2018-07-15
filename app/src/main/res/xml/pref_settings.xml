@@ -33,6 +33,11 @@
             android:key="pref_screen_off_method"
             android:title="@string/title_pref_screen_off_method" />
 
+        <CheckBoxPreference
+            android:key="pref_notify_on_error"
+            android:summary="@string/summary_pref_notify_on_error"
+            android:title="@string/title_pref_notify_on_error" />
+
         <PreferenceCategory android:title="@string/title_pref_auto_retry">
 
             <CheckBoxPreference
@@ -46,6 +51,11 @@
                 android:key="pref_black_list"
                 android:summary="@string/summary_pref_auto_retry_black_list"
                 android:title="@string/title_pref_auto_retry_black_list" />
+
+            <CheckBoxPreference
+                android:key="pref_aggressive_retry"
+                android:summary="@string/summary_pref_aggressive_retry"
+                android:title="@string/title_pref_aggressive_retry" />
 
         </PreferenceCategory>
 

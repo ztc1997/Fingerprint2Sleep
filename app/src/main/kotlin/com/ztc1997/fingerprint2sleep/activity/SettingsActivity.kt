@@ -49,6 +49,7 @@ class SettingsActivity : Activity() {
         const val PREF_FOREGROUND_SERVICE = "pref_foreground_service"
         const val PREF_AUTO_RETRY = "pref_auto_retry"
         const val PREF_AUTO_RETRY_BLACK_LIST = "pref_black_list"
+        const val PREF_AGGRESSIVE_RETRY = "pref_aggressive_retry"
         // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_CATEGORY_SINGLE_TAP = "pref_category_single_tap"
@@ -92,7 +93,7 @@ class SettingsActivity : Activity() {
         val PREF_KEYS_BOOLEAN = setOf(PREF_ENABLE_FINGERPRINT_QUICK_ACTION,
                 PREF_RESPONSE_ENROLLED_FINGERPRINT_ONLY, PREF_NOTIFY_ON_ERROR,
                 PREF_FOREGROUND_SERVICE, PREF_AUTO_RETRY, PREF_FORCE_NON_XPOSED_MODE,
-                PREF_ENABLE_DOUBLE_TAP)
+                PREF_ENABLE_DOUBLE_TAP, PREF_AGGRESSIVE_RETRY)
 
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
@@ -159,7 +160,7 @@ class SettingsActivity : Activity() {
         var hasEnrolledFingerprints = true
         try {
             hasEnrolledFingerprints = fingerprintManager.hasEnrolledFingerprints()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -439,14 +440,11 @@ class SettingsActivity : Activity() {
             }
         }
 
-        private fun updateActionSingleTapAppVisibility(value: String)
-                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionSingleTapApp, categorySingleTap)
+        private fun updateActionSingleTapAppVisibility(value: String) = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionSingleTapApp, categorySingleTap)
 
-        private fun updateActionFastSwipeAppVisibility(value: String)
-                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionFastSwipeApp, categoryFastSwipe)
+        private fun updateActionFastSwipeAppVisibility(value: String) = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionFastSwipeApp, categoryFastSwipe)
 
-        private fun updateActionDoubleTapAppVisibility(value: String)
-                = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionDoubleTapApp, categoryDoubleTap)
+        private fun updateActionDoubleTapAppVisibility(value: String) = updateActionVisibility(value == VALUES_PREF_QUICK_ACTION_LAUNCH_APP, actionDoubleTapApp, categoryDoubleTap)
 
 
         private fun updateActionVisibility(visibility: Boolean, preference: Preference, parent: PreferenceGroup) {
@@ -534,8 +532,7 @@ class SettingsActivity : Activity() {
 
                 val comparator = object : Comparator<Array<String>> {
                     val collator = Collator.getInstance()
-                    override fun compare(o1: Array<String>, o2: Array<String>)
-                            = collator.compare(o1[1], o2[1])
+                    override fun compare(o1: Array<String>, o2: Array<String>) = collator.compare(o1[1], o2[1])
                 }
                 sortedApps.sortWith(comparator)
 

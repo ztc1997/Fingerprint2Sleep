@@ -68,6 +68,9 @@
     <string name="title_pref_auto_retry_black_list">Auto retry blacklist</string>
     <string name="summary_pref_auto_retry_black_list">When blacklisted apps running in foreground will not automatically retry to prevent conflicts.</string>
 
+    <string name="title_pref_aggressive_retry">Aggressive retry</string>
+    <string name="summary_pref_aggressive_retry">If it is often not work inexplicable, please try this</string>
+
     <string name="title_pref_category_single_tap">Single tap</string>
 
     <string name="title_pref_action_single_tap">Single tap action</string>
