@@ -1,12 +1,11 @@
 package com.ztc1997.fingerprint2sleep.service
 
-import android.app.Activity
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.Service
+import android.annotation.TargetApi
+import android.app.*
 import android.app.job.JobInfo
 import android.content.*
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.graphics.drawable.Icon
@@ -19,6 +18,7 @@ import android.os.Build
 import android.os.CancellationSignal
 import android.os.Environment
 import android.os.IBinder
+import android.support.v4.app.NotificationCompat
 import android.support.v4.content.FileProvider
 import com.eightbitlab.rxbus.Bus
 import com.ztc1997.fingerprint2sleep.BuildConfig
@@ -54,6 +54,9 @@ class FPQAService : Service() {
         private const val NOTIFICATION_INTENT_FPQA_CONTENT = 0
         private const val NOTIFICATION_INTENT_TAKE_SCREENSHOT_DELETE = 1
         private const val NOTIFICATION_INTENT_TAKE_SCREENSHOT_OPEN = 2
+
+
+        const val NOTIFICATION_CHANNEL_ID = "FPQA_BG_CHANNEL_ID"
 
         private val ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE = FPQAService::class.java.name +
                 ".intent.ACTION_TAKE_SCREENSHOT_NOTIFICATION_DELETE"
@@ -177,7 +180,7 @@ class FPQAService : Service() {
 
                 SettingsActivity.PREF_FORCE_NON_XPOSED_MODE ->
                     if (!defaultDPreference
-                            .getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
+                                    .getPrefBoolean(SettingsActivity.PREF_FORCE_NON_XPOSED_MODE, false))
                         stopFPQA()
 
                 SettingsActivity.PREF_ENABLE_DOUBLE_TAP ->
@@ -217,11 +220,11 @@ class FPQAService : Service() {
             if (!FPQAAccessibilityService.isRunning
                     && System.currentTimeMillis() > StartFPQAReceiver.CHECK_ACCESSIBILITY_AFTER
                     && defaultDPreference.getPrefInt(RequireAccessibilityActivity
-                    .PREF_DO_NOT_CHECK_ACCESSIBILITY_AGAIN, -1) < 29)
+                            .PREF_DO_NOT_CHECK_ACCESSIBILITY_AGAIN, -1) < 29)
                 RequireAccessibilityActivity.startActivity(this)
 
             if (defaultDPreference.getPrefString(SettingsActivity.PREF_SCREEN_OFF_METHOD,
-                    SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
+                            SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_SHORTEN_TIMEOUT) ==
                     SettingsActivity.VALUES_PREF_SCREEN_OFF_METHOD_POWER_BUTTON)
                 checkAndStartRoot()
         }
@@ -322,6 +325,8 @@ class FPQAService : Service() {
     fun startForegroundIfSet() {
         if (isRunning && defaultDPreference.getPrefBoolean(SettingsActivity.PREF_FOREGROUND_SERVICE, false)) {
 
+            createNotificationChannel()
+
             val notification = if (isError)
                 generateNotification(getString(R.string.notification_content_text_retry) + errString, true)
             else generateNotification(R.string.notification_content_text)
@@ -345,7 +350,7 @@ class FPQAService : Service() {
                     NOTIFICATION_INTENT_FPQA_CONTENT, Intent(app, SettingsActivity::class.java),
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val notification = Notification.Builder(applicationContext)
+        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_fingerprint_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(text)
@@ -354,6 +359,16 @@ class FPQAService : Service() {
                 .build()
 
         return notification
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+        val channelName = getString(R.string.notification_name)
+        val chan = NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                channelName, NotificationManager.IMPORTANCE_NONE)
+        chan.lightColor = Color.DKGRAY
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        notificationManager.createNotificationChannel(chan)
     }
 
     fun checkAndStartRoot() {

@@ -9,6 +9,7 @@
     <string name="toast_notify_on_error">Fingerprint Quick Action: Error\n%1$s</string>
     <string name="notification_content_text">Fingerprint Quick Action is running</string>
     <string name="notification_content_text_retry">Click here to retry. </string>
+    <string name="notification_name">Background Service</string>
     <string name="toast_failed_to_collapse_panel">Failed to collapse the panels</string>
 
     <!-- Screenshot -->
