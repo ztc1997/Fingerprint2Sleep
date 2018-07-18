@@ -334,7 +334,7 @@ class FPQAService : Service() {
     fun startForegroundIfSet() {
         if (isRunning && defaultDPreference.getPrefBoolean(SettingsActivity.PREF_FOREGROUND_SERVICE, false)) {
 
-            createNotificationChannel()
+            configuration(fromSdk = Build.VERSION_CODES.O) { createNotificationChannel() }
 
             val notification = if (isError)
                 generateNotification(getString(R.string.notification_content_text_retry) + errString, true)
