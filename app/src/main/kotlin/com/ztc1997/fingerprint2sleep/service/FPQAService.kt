@@ -14,10 +14,7 @@ import android.hardware.display.DisplayManager
 import android.media.ImageReader
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
-import android.os.CancellationSignal
-import android.os.Environment
-import android.os.IBinder
+import android.os.*
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.FileProvider
 import com.eightbitlab.rxbus.Bus
@@ -100,7 +97,8 @@ class FPQAService : Service() {
                 Bus.send(IsScanningChangedEvent(value))
         }
         get() = field and (!defaultDPreference.getPrefBoolean(SettingsActivity.PREF_AGGRESSIVE_RETRY,
-                false) or (System.currentTimeMillis() - lastRestartTime < 20 * 1000))
+                false) or (System.currentTimeMillis() - lastRestartTime < defaultDPreference
+                .getPrefString(SettingsActivity.PREF_AGGRESSIVE_RETRY_INTERVAL, "20000").toInt()))
 
     var isError = false
         set(value) {
@@ -128,6 +126,8 @@ class FPQAService : Service() {
     val quickActions = NonXposedQuickActions(ctx)
 
     val authenticationCallback by lazy { Callback(quickActions) }
+
+    val handler = Handler()
 
     val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -245,7 +245,7 @@ class FPQAService : Service() {
         if (!isScanning) {
             isStarting = true
             fingerprintManager.authenticate(null, cancellationSignal, 0, authenticationCallback, null)
-            isStarting = false
+            handler.postDelayed({ isStarting = false }, 100)
             isScanning = true
             lastRestartTime = System.currentTimeMillis()
         }

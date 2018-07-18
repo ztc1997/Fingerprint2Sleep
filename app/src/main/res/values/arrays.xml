@@ -54,4 +54,16 @@
         <item>500</item>
         <item>750</item>
     </string-array>
+
+    <string-array name="entries_pref_aggressive_retry_interval" translatable="false">
+        <item>10s</item>
+        <item>20s</item>
+        <item>30s</item>
+    </string-array>
+
+    <string-array name="values_pref_aggressive_retry_interval" translatable="false">
+        <item>10000</item>
+        <item>20000</item>
+        <item>30000</item>
+    </string-array>
 </resources>

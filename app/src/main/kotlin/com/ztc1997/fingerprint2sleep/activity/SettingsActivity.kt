@@ -50,6 +50,7 @@ class SettingsActivity : Activity() {
         const val PREF_AUTO_RETRY = "pref_auto_retry"
         const val PREF_AUTO_RETRY_BLACK_LIST = "pref_black_list"
         const val PREF_AGGRESSIVE_RETRY = "pref_aggressive_retry"
+        const val PREF_AGGRESSIVE_RETRY_INTERVAL = "pref_aggressive_retry_interval"
         // const val PREF_DONATE = "pref_donate"
         const val PREF_SCREEN_OFF_METHOD = "pref_screen_off_method"
         const val PREF_CATEGORY_SINGLE_TAP = "pref_category_single_tap"
@@ -98,7 +99,7 @@ class SettingsActivity : Activity() {
         val PREF_KEYS_STRING = setOf(PREF_ACTION_SINGLE_TAP, PREF_ACTION_FAST_SWIPE,
                 PREF_SCREEN_OFF_METHOD, PREF_ACTION_SINGLE_TAP_APP,
                 PREF_ACTION_FAST_SWIPE_APP, PREF_ACTION_DOUBLE_TAP, PREF_ACTION_DOUBLE_TAP_APP,
-                PREF_DOUBLE_TAP_INTERVAL)
+                PREF_DOUBLE_TAP_INTERVAL, PREF_AGGRESSIVE_RETRY_INTERVAL)
 
         val PREF_KEYS_STRING_SET = setOf(PREF_BLACK_LIST, PREF_AUTO_RETRY_BLACK_LIST)
 
@@ -253,6 +254,7 @@ class SettingsActivity : Activity() {
 
         val categoryDoubleTap by lazy { findPreference(PREF_CATEGORY_DOUBLE_TAP) as PreferenceCategory }
         val doubleTapInterval by lazy { findPreference(PREF_DOUBLE_TAP_INTERVAL) as ListPreference }
+        val aggressiveRetryInterval by lazy { findPreference(PREF_AGGRESSIVE_RETRY_INTERVAL) as ListPreference }
         val actionDoubleTap by lazy { findPreference(PREF_ACTION_DOUBLE_TAP) as ListPreference }
         val actionDoubleTapApp by lazy { findPreference(PREF_ACTION_DOUBLE_TAP_APP) as AppPickerPreference }
 
@@ -264,7 +266,7 @@ class SettingsActivity : Activity() {
         val licenses: Preference by lazy { findPreference(PREF_LICENSES) }
 
         val listPreferences by lazy {
-            arrayOf(actionSingleTap, doubleTapInterval, actionDoubleTap, screenOffMethod)
+            arrayOf(actionSingleTap, doubleTapInterval, aggressiveRetryInterval, actionDoubleTap, screenOffMethod)
         }
 
         private val loadAppsTask by lazy { LoadAppsTask() }

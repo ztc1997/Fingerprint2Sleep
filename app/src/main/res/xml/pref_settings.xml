@@ -57,6 +57,14 @@
                 android:summary="@string/summary_pref_aggressive_retry"
                 android:title="@string/title_pref_aggressive_retry" />
 
+            <ListPreference
+                android:defaultValue="20000"
+                android:dependency="pref_aggressive_retry"
+                android:entries="@array/entries_pref_aggressive_retry_interval"
+                android:entryValues="@array/values_pref_aggressive_retry_interval"
+                android:key="pref_aggressive_retry_interval"
+                android:title="@string/title_pref_aggressive_retry_interval" />
+
         </PreferenceCategory>
 
     </PreferenceScreen>
