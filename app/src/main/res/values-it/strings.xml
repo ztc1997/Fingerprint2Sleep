@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="app_name">Fingerprint Quick Action</string>
+
+    <string name="xposed_description">Esegue azioni veloci (gestures) con un tocco o trascinamento sul sensore di impronte. L\'attivazione del modulo Xposed rende l\'app più stabile. (Nougat+ non supportato al momento)</string>
+
+    <!-- FPQAService -->
+    <string name="toast_notify_on_error">Fingerprint Quick Action: Errore\n%1$s</string>
+    <string name="notification_content_text">Fingerprint Quick Action è in esecuzione</string>
+    <string name="notification_content_text_retry">Tocca qui per riprovare. </string>
+    <string name="notification_name">Servizio in Background</string>
+    <string name="toast_failed_to_collapse_panel">Impossibile comprimere i pannelli</string>
+
+    <!-- Screenshot -->
+    <string name="screenshot_notification_content">Screenshot salvato</string>
+    <string name="screenshot_notification_action_delete">Cancella</string>
+    <string name="screenshot_notification_action_share">Condividi</string>
+
+    <!-- SettingsActivity -->
+    <string name="msg_dialog_device_does_not_support_fingerprint">Questo dispositivo potrebbe non supportare l\'autorizzazione del sensore di impronte. Alcuni dispositivi hanno questo sensore, ma non forniscono le API standard Android: questa applicazione potrebbe non funzionare sui suddetti dispositivi.</string>
+    <string name="msg_dialog_has_not_enrolled_fingerprints">Nessuna impronta registrata sul dispositivo. Questo potrebbe causare errori nell\'utilizzo dell\'applicazione: è consigliabile registrare un\'impronta nelle impostazioni del dispositivo.</string>
+    <string name="toast_root_access_failed">Errore nell\'acquisizione dei privilegi di root</string>
+    <string name="toast_xposed_version_mismatched">Il modulo Xposed è attivo, ma non corrisponde alla versione corrente dell\'app. SI consiglia di riavviare per ricaricare il modulo</string>
+    <string name="btn_do_not_detect_hardware_again">Non controllare l\'hardware la prossima volta</string>
+    <string name="btn_do_not_check_fingerprints_again">Non controllare la prossima volta</string>
+    <string name="tv_ad_zone">La pubblicità è l\'unico guadagno di questo progetto Open Source. Nel caso tu usassi un tool per il blocco delle pubblicità, ti pregherei di escluderci dal blocco.</string>
+
+    <!-- RequireAccessibilityActivity -->
+    <string name="explanation_device_admin">L\'applicazione necessita di essere amministratore del dispositivo per funzionare correttamente quando il dispositivo è bloccato</string>
+    <string name="description_accessibility">Fingerprint Quick Action necessita dei permessi di Accessibilità per rilevare il cambio di interfaccia ed eseguire delle azioni</string>
+    <string name="toast_device_admin_failed">Errore nell\'attivazione di un amministratore del dispositivo</string>
+    <string name="toast_accessibility_failed">Errore nell\'avvio del servizio di Accessibilità</string>
+    <string name="btn_do_not_check_accessibility_again">Non controllare la prossima volta</string>
+
+    <!-- SleepTimeOutActivity -->
+    <string name="tv_unlock_via_fingerprint">Sblocco con l\'impronta</string>
+    <string name="toast_window_overlay_permission_failed">Impossibile acquisire il permesso di sovrapposizione delle finestre</string>
+
+    <!-- Preferences -->
+    <string name="title_pref_enable_fingerprint_quick_action">Attiva Fingerprint Quick Action</string>
+
+    <string name="title_pref_black_list">Blacklist</string>
+    <string name="summary_pref_black_list">Quando un\'app presente nella Blacklist viene eseguita in primo piano, Fingerprint Quick Action si disabiliterà temporaneamente.</string>
+
+    <string name="title_pref_response_enrolled_fingerprint_only">Considera solo le impronte registrate sul dispositivo</string>
+    <string name="summary_pref_response_enrolled_fingerprint_only">Se attivo, l\'autenticazione dell'impronta verrà annullata dopo 4 tentativi falliti</string>
+
+    <string name="title_pref_force_non_xposed_mode">Forza la modalità non-Xposed</string>
+    <string name="summary_pref_screen_xposed_mode_inactivated">Il modulo Xposed non è attivo</string>
+    <string name="summary_pref_screen_xposed_mode_activated">Il modulo Xposed è attivo</string>
+
+    <string name="title_pref_screen_non_xposed_mode">Impostazioni modalità non-Xposed</string>
+
+    <string name="title_pref_screen_xposed_mode">Impostazioni modalità Xposed</string>
+
+    <string name="title_pref_foreground_service">Servizio in primo piano</string>
+    <string name="summary_pref_foreground_service">Usa un servizio in primo piano per evitare che Fingerprint Quick Action sia chiuso dal sistema (questo mostrerà una notifica persistente)</string>
+
+    <string name="title_pref_screen_off_method">Metodo a schermo spento</string>
+    <string name="entries_pref_screen_off_method_shorten_timeout">Timeout ridotto (Raccomandato)</string>
+    <string name="entries_pref_screen_off_method_device_admin">Amministratore del dispositivo (Potrebbe impedire il funzionamento dello sblocco con impronta)</string>
+    <string name="entries_pref_screen_off_method_calling_hidden_api">Chiamata ad API nascoste (ROOT)</string>
+
+    <string name="title_pref_auto_retry">Riprova automaticamente</string>
+    <string name="summary_pref_auto_retry">Riprova automaticamente nel momento appropiato. Quando quest\'opzione è disattivata, l\'applicazione riproverà quando lo schermo è sbloccato, si può anche riprovare con un tocco sulla notifica.</string>
+
+    <string name="title_pref_auto_retry_black_list">Riprova automaticamente blacklist</string>
+    <string name="summary_pref_auto_retry_black_list">Quando un\'app presente nella Blacklist viene eseguita in primo piano, questa applicazione non riproverà automaticamente per evitare conflitti</string>
+
+    <string name="title_pref_aggressive_retry">Riprova aggressivamente</string>
+    <string name="summary_pref_aggressive_retry">Se l\'app inspiegabilmente non dovesse funzionare, prova questo</string>
+
+    <string name="title_pref_aggressive_retry_interval">Riprova aggressivamente con questo intervallo</string>
+
+    <string name="title_pref_category_single_tap">Tocco singolo</string>
+
+    <string name="title_pref_action_single_tap">Azione al tocco singolo</string>
+
+    <string name="title_pref_action_single_tap_app">App o scorciatoia al tocco singolo</string>
+
+    <string name="title_pref_category_fast_swipe">Scorrimento rapido &amp; Tocco veloce (Sperimentale)</string>
+
+    <string name="title_pref_action_fast_swipe">Azione allo Scorrimento rapido &amp; Tocco veloce</string>
+
+    <string name="summary_pref_action_fast_swipe">La rilevazione dello Scorrimento rapido &amp; Tocco veloce dipende dall\'hardware e potrebbe non essere disponibile su tutti i dispositivi.</string>
+
+    <string name="title_pref_action_fast_swipe_app">App o scorciatoia allo Scorrimento rapido</string>
+
+    <string name="title_pref_category_double_tap">Doppio tocco (Sperimentale)</string>
+
+    <string name="title_pref_enable_double_tap">Attiva doppio tocco</string>
+    <string name="summary_pref_enable_double_tap">L\'attivazione del doppio tocco causa un ritardo più alto nelle altre azioni. Il doppio tocco necessita di certe caratteristiche hardware e non funziona necessariamente bene in tutti i dispositivi.</string>
+
+    <string name="title_pref_double_tap_interval">Intervallo del doppio tocco</string>
+
+    <string name="title_pref_action_double_tap">Azione al doppio tocco</string>
+
+    <string name="title_pref_action_double_tap_app">App o scorciatoia al doppio tocco</string>
+
+    <string name="entries_pref_quick_action_none">Nessuna</string>
+    <string name="entries_pref_quick_action_sleep">Blocco dispositivo</string>
+    <string name="entries_pref_quick_action_back">Indietro</string>
+    <string name="entries_pref_quick_action_home">Torna alla home</string>
+    <string name="entries_pref_quick_action_recents">Mostra applicazioni recenti</string>
+    <string name="entries_pref_quick_action_power_dialog">Mostra il menù di spegnimento</string>
+    <string name="entries_pref_quick_action_toggle_split_screen">Attiva/Disattiva split screen</string>
+    <string name="entries_pref_quick_action_expand_notifications_panel">Espandi il pannello delle notifiche</string>
+    <string name="entries_pref_quick_action_toggle_notifications_panel">Attiva/Disattiva il pannello delle notifiche</string>
+    <string name="entries_pref_quick_action_expand_quick_settings">Espandi le impostazioni rapide</string>
+    <string name="entries_pref_quick_action_take_screenshot">Screenshot</string>
+    <string name="entries_pref_quick_action_flashlight">Torcia</string>
+    <string name="entries_pref_quick_action_launch_app">Avvia app o scorciatoia</string>
+
+    <string name="title_pref_category_about">Informazioni</string>
+
+    <string name="title_pref_contact_developer">Contatta lo sviluppatore</string>
+    <string name="summary_pref_contact_developer">Se trovi un problema, contattami. Invia segnalazioni errori attraverso GitHub issues, non ricevo più feedback tramite email.</string>
+
+    <string name="title_rate">Valutami</string>
+    <string name="summary_rate">Sarei felice se mi dessi 5 stelle</string>
+
+    <string name="title_matters_need_attention">Questioni che richiedono attenzione</string>
+    <string name="content_matters_need_attention">
+1. Quando altre applicazioni usano il sensore di impronte, e dopo un periodo di tempo, l\'applicazione sospenderà il suo funzionamento per evitare conflitti.\n\n
+2. Se il tuo dispositivo utilizza un pulitore di memoria, o qualcosa che controlli l'apertura automatica delle app, aggiungi quest\'app alle eccezioni, o non funzionerà correttamente.\n\n
+3. La vibrazione che si verifica quando il sensore è utilizzato è emessa dal sistema: l\'utilizzo ripetuto di impronte non registrate, porta ad un blocco temporaneo del sensore: questa è una misura di sicurezza del sistema e l\'applicazione non la può controllare.\n\n
+4. Alcuni dispositivi hanno un sensore di impronte, ma il costruttore non fornisce le API ufficiali android per il sensore, quindi l\'applicazione potrebbe non funzionare correttamente\n\n
+5. La traduzione eseguita dai volontari potrebbe essere errata. Ti prego di comprendere.
+        </string>
+    <string name="btn_matters_need_attention">OK. Ho capito.</string>
+
+    <string name="title_source_code">Codice sorgente</string>
+    <string name="summary_source_code" translatable="false">https://github.com/ztc1997/Fingerprint2Sleep</string>
+
+    <string name="title_pref_donate">Dona</string>
+    <string name="title_pref_donate_purchased">Donato</string>
+    <string name="summary_pref_donate">Supporta lo sviluppatore e rimuovi le pubblicità</string>
+    <string name="summary_pref_donate_purchased">Grazie mille per la tua donazione</string>
+
+    <!-- Icon picker -->
+    <!--<string name="icon_picker_choose_icon_title">Choose icon</string>
+    <string name="shortcuts_icon_picker_alarm">Alarm</string>
+    <string name="shortcuts_icon_picker_andy">Andy</string>
+    <string name="shortcuts_icon_picker_battery">Battery</string>
+    <string name="shortcuts_icon_picker_browser">Browser</string>
+    <string name="shortcuts_icon_picker_calendar">Calendar</string>
+    <string name="shortcuts_icon_picker_camera">Camera</string>
+    <string name="shortcuts_icon_picker_cloud">Cloud</string>
+    <string name="shortcuts_icon_picker_contact">Contact</string>
+    <string name="shortcuts_icon_picker_directdial">Direct Dial</string>
+    <string name="shortcuts_icon_picker_directmessage">Direct Message</string>
+    <string name="shortcuts_icon_picker_drive">Drive</string>
+    <string name="shortcuts_icon_picker_dropbox">Dropbox</string>
+    <string name="shortcuts_icon_picker_email">Email</string>
+    <string name="shortcuts_icon_picker_email2">Email Alternate</string>
+    <string name="shortcuts_icon_picker_evernote">Evernote</string>
+    <string name="shortcuts_icon_picker_facebook">Facebook</string>
+    <string name="shortcuts_icon_picker_favorite">Favorite</string>
+    <string name="shortcuts_icon_picker_file_browser">File Browser</string>
+    <string name="shortcuts_icon_picker_file_browser2">File Browser Alternate</string>
+    <string name="shortcuts_icon_picker_fitness">Fitness</string>
+    <string name="shortcuts_icon_picker_gallery">Gallery</string>
+    <string name="shortcuts_icon_picker_gears">Gears</string>
+    <string name="shortcuts_icon_picker_google_small">Google</string>
+    <string name="shortcuts_icon_picker_gplus">Google Plus</string>
+    <string name="shortcuts_icon_picker_gtalk">Hangouts</string>
+    <string name="shortcuts_icon_picker_help">Help</string>
+    <string name="shortcuts_icon_picker_joystick">Joystick</string>
+    <string name="shortcuts_icon_picker_key">Keys/Accounts</string>
+    <string name="shortcuts_icon_picker_laptop">Laptop</string>
+    <string name="shortcuts_icon_picker_notes">Notes</string>
+    <string name="shortcuts_icon_picker_luggage">Travel</string>
+    <string name="shortcuts_icon_picker_maps">Maps</string>
+    <string name="shortcuts_icon_picker_market">Market</string>
+    <string name="shortcuts_icon_picker_movie">Movies</string>
+    <string name="shortcuts_icon_picker_music">Music</string>
+    <string name="shortcuts_icon_picker_nav">Navigation</string>
+    <string name="shortcuts_icon_picker_phone">Phone</string>
+    <string name="shortcuts_icon_picker_package">Package</string>
+    <string name="shortcuts_icon_picker_pinterest">Pinterest</string>
+    <string name="shortcuts_icon_picker_play">Play</string>
+    <string name="shortcuts_icon_picker_pocket">Pocket</string>
+    <string name="shortcuts_icon_picker_quicksettings">Quick Settings</string>
+    <string name="shortcuts_icon_picker_rss">RSS Feed</string>
+    <string name="shortcuts_icon_picker_sdcard">SDCard</string>
+    <string name="shortcuts_icon_picker_search">Search</string>
+    <string name="shortcuts_icon_picker_sms">Messaging</string>
+    <string name="shortcuts_icon_picker_tasks">Tasks</string>
+    <string name="shortcuts_icon_picker_terminal">Terminal</string>
+    <string name="shortcuts_icon_picker_transit">Transit</string>
+    <string name="shortcuts_icon_picker_tv">TV</string>
+    <string name="shortcuts_icon_picker_twitter">Twitter</string>
+    <string name="shortcuts_icon_picker_unlock">Unlock</string>
+    <string name="shortcuts_icon_picker_viber">Viber</string>
+    <string name="shortcuts_icon_picker_skype">Skype</string>
+    <string name="shortcuts_icon_picker_calculator">Calculator</string>
+    <string name="shortcuts_icon_picker_snapchat">Snapchat</string>
+    <string name="shortcuts_icon_picker_spotify">Spotify</string>
+    <string name="shortcuts_icon_picker_tapatalk">Tapatalk</string>
+    <string name="shortcuts_icon_picker_whatsapp">Whatsapp</string>
+    <string name="shortcuts_icon_picker_chrome">Chrome</string>-->
+
+    <!-- AppPickerPreference -->
+    <string name="app_picker_search">Cerca</string>
+    <string name="app_picker_none">(Nessuno)</string>
+
+    <!-- AppPicker: icon pick cancelled -->
+    <string name="app_picker_icon_pick_cancelled">Scelta dell\'icona cancellata dall\'app selezionata</string>
+
+    <!-- AppPickerPreference: shortcut support -->
+    <string name="app_picker_applications">Applicazioni</string>
+    <string name="app_picker_shortcuts">Scorciatoie</string>
+    <string name="app_picker_shortcut_null_intent">Impossibile creare una scorciatoia eseguibile in quanto l\'attività non ha restituito una scelta rapida</string>
+    <string name="app_picker_shortcut_cancelled">Creazione della scorciatoia cancellata dall\'app selezionata</string>
+
+</resources>
